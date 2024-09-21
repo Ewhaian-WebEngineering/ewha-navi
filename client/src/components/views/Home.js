@@ -1,6 +1,6 @@
 function Home() {
     return (<div>
-        홈페이지
+        이화내비이화내비
     </div>)
 }
 export default Home;
