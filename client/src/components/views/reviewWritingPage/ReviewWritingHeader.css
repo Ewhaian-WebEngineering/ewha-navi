@@ -1,0 +1,43 @@
+
+.header-bar{
+    position: sticky;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    height: 7vh;
+    background-color: #FFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 20px;
+
+    max-width: 390px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index : 100;
+}
+.gobackbtn{
+    width: 8px;
+    padding: 0;
+    margin: 0;
+    
+    
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.review-bar-name{
+    font-size: 15px;
+    color: #0F3D2B;
+    font-family: "Pretendard-Bold";
+    font-weight: 700;
+    font-style: normal;
+    font-size: 19px;
+    line-height: 23px;
+
+}
+
+.resize-div{
+}
