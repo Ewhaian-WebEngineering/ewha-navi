@@ -8,7 +8,7 @@ import Test from "./components/views/test/test";
 function App() {
   return (
     <div className="App">
-      <GlobalStyle />
+      <GlobalStyle /> 
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home />} />
