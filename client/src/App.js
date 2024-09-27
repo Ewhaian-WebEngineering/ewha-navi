@@ -4,6 +4,7 @@ import Home from "./components/views/Home";
 import Search from "./components/views/Search/index";
 import ReviewWritingPage from "./components/views/reviewWritingPage/ReviewWriting";
 import Test from "./components/views/test/test";
+import PathList from "./components/views/PathListPage/PathList";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/review-write" element={<ReviewWritingPage />} />
           <Route exact path="/test" element={<Test />} />
+          <Route exact path="/list" element={<PathList />} />
         </Routes>
       </BrowserRouter>
     </div>
