@@ -5,6 +5,8 @@ import Search from "./components/views/Search/index";
 import ReviewWritingPage from "./components/views/reviewWritingPage/ReviewWriting";
 import Test from "./components/views/test/test";
 
+import Shuttle from "./components/views/Shuttle/Shuttle";
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +17,9 @@ function App() {
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/review-write" element={<ReviewWritingPage />} />
           <Route exact path="/test" element={<Test />} />
+
+          <Route exact path="/shuttle" element={<Shuttle />} />
+
         </Routes>
       </BrowserRouter>
     </div>
