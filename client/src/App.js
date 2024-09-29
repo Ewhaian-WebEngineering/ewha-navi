@@ -8,6 +8,7 @@ import PathList from "./components/views/PathListPage/PathList";
 import PathMap from "./components/views/PathListPage/PathMap";
 import Shuttle from "./components/views/Shuttle/Shuttle";
 
+
 function App() {
   return (
     <div className="App">
@@ -21,9 +22,7 @@ function App() {
 
 
           <Route exact path="/shuttle" element={<Shuttle />} />
-
-
-          <Route exact path="/list" element={<PathList />} />
+          <Route exact path="/path-list" element={<PathList />} />
           <Route exact path="/path-map" element={<PathMap />} />
 
         </Routes>

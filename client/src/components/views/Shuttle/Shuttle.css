@@ -1,0 +1,142 @@
+.shuttle-container {
+    background-color: #0F3D2B; 
+    color: #2b3d33;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.shuttle-title {
+    text-align: center;
+    font-size: 1.8em;
+    color: #ffffff; 
+    font-weight: bold;
+}
+
+/* 드롭다운 버튼 스타일 */
+.dropdown-container {
+    position: relative;
+    margin: 15px 0;
+    background-color: #ffffff; 
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.departure-button {
+    background-color: #ffffff; 
+    color: #2b3d33;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: left;
+    font-size: 1em;
+}
+
+.departure-button:after {
+    content: "▼";
+    float: right;
+}
+
+.departure-dropdown {
+    background-color: #ffffff;
+    position: absolute;
+    width: 100%;
+    border-radius: 10px;
+    top: 45px;
+    left: 0;
+    z-index: 10;
+    display: none;
+}
+
+.departure-dropdown.open {
+    display: block;
+}
+
+.departure-dropdown div {
+    padding: 10px 20px;
+    color: #2b3d33;
+    cursor: pointer;
+}
+
+.departure-dropdown div:hover {
+    background-color: #d0e8dc;
+}
+
+.direction-toggle {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.direction-toggle button {
+    background-color: #ffffff; /* 토글 버튼 배경 흰색으로 변경한것 */
+    color: #2b3d33;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.direction-toggle button.active {
+    background-color: #a3c9b9;
+    font-weight: bold;
+}
+
+.route-info {
+    background-color: #ffffff; 
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.route p {
+    margin: 5px 0;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.bus-timetable {
+    margin-top: 20px;
+}
+
+.route-table {
+    background-color: #ffffff; /* 시간표 박스 흰색으로 변경하기 */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.route-table h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2b3d33;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    background-color: #ffffff; /* 테이블도 흰색으로 */
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #d0e8dc;
+}
+
+th {
+    background-color: #a3c9b9;
+    color: white;
+}
+
+td {
+    background-color: #ffffff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f5f7f6;
+}
