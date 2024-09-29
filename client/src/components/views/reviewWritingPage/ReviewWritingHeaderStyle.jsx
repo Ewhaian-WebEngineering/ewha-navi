@@ -1,6 +1,7 @@
+import styled from "styled-components";
 
-.header-bar{
-    position: sticky;
+export const HeaderBar = styled.div`
+position: sticky;
     bottom: 0;
     top: 0;
     right: 0;
@@ -15,20 +16,21 @@
     margin-left: auto;
     margin-right: auto;
     z-index : 100;
-}
-.gobackbtn{
+`;
+export const GoBackBtn = styled.div`
     width: 8px;
     padding: 0;
     margin: 0;
-    
-    
-}
-
-.cursor{
     cursor: pointer;
-}
+`; 
 
-.review-bar-name{
+export const EmptyBox = styled.div`
+    width: 8px;
+    padding: 0;
+    margin: 0;
+`;
+
+export const ReviewBarName = styled.div`
     font-size: 15px;
     color: #0F3D2B;
     font-family: "Pretendard-Bold";
@@ -36,8 +38,5 @@
     font-style: normal;
     font-size: 19px;
     line-height: 23px;
+`;
 
-}
-
-.resize-div{
-}

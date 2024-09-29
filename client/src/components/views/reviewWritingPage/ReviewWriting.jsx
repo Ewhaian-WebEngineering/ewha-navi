@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import ReviewWritingHeader from "./ReviewWritingHeader";
 import ReviewRoadImgIntro from "./ReviewRoadImgIntro";
 import MakeReviewStar from "./MakeReveiwStar";
-import "./ReviewWriting.css";
+import {ReviewContainer, ReviewForm, ReviewWriteBox, ReviewHr, WriteInputBox, WriteUploadBtn} from "./ReviewWritingStyle";
+import ReviewDataBox from "./ReviewDataBox";
 
 // 지름길 리뷰 페이지입니다.
 const ReviewWriting = ()=>{
@@ -31,18 +32,31 @@ const ReviewWriting = ()=>{
         <ReviewRoadImgIntro 
         roadName = {roadName} 
         building= {building} rating={ratingAverage}/>
-        <div className="review-container">
+        <ReviewContainer>
             <div className="review-writing-box">
                 <MakeReviewStar onChangeReviewNum={onChangeReviewNum}/>
-                <div className="review-write-box">
-                    <form><input className="write-input-box" placeholder="  해당 길에 관해 자유롭게 적어보세요."/>
-                    <button className="write-upload-btn">리뷰 등록</button>
-                    </form>
-                </div>
-                <hr className="review-hr" />
+                <ReviewWriteBox>
+                    <ReviewForm><WriteInputBox placeholder="  해당 길에 관해 자유롭게 적어보세요."/>
+                    <WriteUploadBtn>리뷰 등록</WriteUploadBtn>
+                    </ReviewForm>
+                </ReviewWriteBox>
+                <ReviewHr />
+            </div>
+            <div>
+                <ReviewDataBox
+                    ratingData={4}
+                    textData="나중에 데이터가 들어가면 map 통해서 구현할 내용입니다!!!!"
+                >
+                </ReviewDataBox>
+
+                <ReviewDataBox
+                    ratingData={4}
+                    textData="나중에 데이터가 들어가면 map 통해서 구현할 내용입니다!!!!"
+                >
+                </ReviewDataBox>
             </div>
             
-        </div>
+        </ReviewContainer>
         </>
     )
 }
