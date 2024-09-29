@@ -5,8 +5,9 @@ import Search from "./components/views/Search/index";
 import ReviewWritingPage from "./components/views/reviewWritingPage/ReviewWriting";
 import Test from "./components/views/test/test";
 import PathList from "./components/views/PathListPage/PathList";
-
+import PathMap from "./components/views/PathListPage/PathMap";
 import Shuttle from "./components/views/Shuttle/Shuttle";
+
 
 function App() {
   return (
@@ -21,9 +22,8 @@ function App() {
 
 
           <Route exact path="/shuttle" element={<Shuttle />} />
-
-
-          <Route exact path="/list" element={<PathList />} />
+          <Route exact path="/path-list" element={<PathList />} />
+          <Route exact path="/path-map" element={<PathMap />} />
 
         </Routes>
       </BrowserRouter>
