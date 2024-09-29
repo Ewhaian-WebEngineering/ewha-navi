@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BigEmptyStarIcon from "../../utils/icons/BigEmptyStarIcon.svg";
 import BigFullStarIcon from "../../utils/icons/BigFullStarIcon.svg";
 
-import "./MakeReviewStar.css";
+import styled from "styled-components";
 const MakeReviewStar = ({onChangeReviewNum})=>{
     const [clicked, setClicked] = useState([false, false, false, false, false]);
 
@@ -21,14 +21,23 @@ const MakeReviewStar = ({onChangeReviewNum})=>{
     onChangeReviewNum(clickedStarNum);
 
     return <>
-    <div className="rating-select-box">
+    <RatingSelectBox>
     {array.map((index) => (
-            <img className= "star-img" key={index} 
+            <StarImg key={index} 
             onClick={()=> starScore(index)} 
             src={clicked[index] ? BigFullStarIcon : BigEmptyStarIcon} />
         ))}
-    </div>
+    </RatingSelectBox>
     </>
 }
+
+const RatingSelectBox = styled.div`
+    margin-top: 15px;
+`;
+
+const StarImg = styled.img`
+    cursor : pointer;
+`;
+
 
 export default MakeReviewStar;

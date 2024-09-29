@@ -1,7 +1,6 @@
+import styled from "styled-components";
 
-
-
-.review-container{
+export const ReviewContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,29 +9,26 @@
     height: 100dvh;
     margin-left: auto;
     margin-right: auto;
-}
+`;
 
-.review-write-box{
+export const ReviewWriteBox = styled.div`
     display: flex;
     flex-direction: row;
-    
-    
     margin-top: 10px;
+`;
 
-}
-.write-input-box{
+export const WriteInputBox = styled.input`
     font-family: "Pretendard";
     width: 246px;
     height: 40px;
-    
-}
-form{
+`;
+
+export const ReviewForm = styled.form`
     display: flex;
     justify-content: center;
-}
+`;
 
-.write-upload-btn{
-    font-family: "Pretendard";
+export const WriteUploadBtn = styled.button`
     color: #FFFF;
     width: 84px;
     height: 40px;
@@ -41,12 +37,10 @@ form{
     background: linear-gradient(360deg, #116846 0%, #358868 100%);
     border-radius: 0px 4px 4px 0px;
     border: 0;
-}
+`;
 
-.review-hr{
+export const ReviewHr = styled.hr`
     margin-top : 20px;
     border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-
+`;
 
