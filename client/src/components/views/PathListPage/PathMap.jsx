@@ -62,8 +62,8 @@ const ListButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; 
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
   padding: 5px 20px; 
   border-radius: 20px;
   cursor: pointer;
@@ -77,8 +77,8 @@ const ViewButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; 
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; 
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
   padding: 5px 20px; 
   border-radius: 20px;
   cursor: pointer;
