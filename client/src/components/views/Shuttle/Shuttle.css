@@ -1,5 +1,5 @@
 .shuttle-container {
-    background-color: #0F3D2B; /* 전체 배경 색상을 초록색으로 변경 */
+    background-color: #0F3D2B; 
     color: #2b3d33;
     padding: 20px;
     border-radius: 10px;
@@ -11,7 +11,7 @@
 .shuttle-title {
     text-align: center;
     font-size: 1.8em;
-    color: #ffffff; /* 제목 색상을 흰색으로 */
+    color: #ffffff; 
     font-weight: bold;
 }
 
@@ -19,13 +19,13 @@
 .dropdown-container {
     position: relative;
     margin: 15px 0;
-    background-color: #ffffff; /* 안쪽 박스 배경을 흰색으로 */
+    background-color: #ffffff; 
     border-radius: 10px;
     padding: 10px;
 }
 
 .departure-button {
-    background-color: #ffffff; /* 버튼 배경 흰색으로 변경 */
+    background-color: #ffffff; 
     color: #2b3d33;
     border: none;
     padding: 10px 20px;
@@ -41,7 +41,7 @@
 }
 
 .departure-dropdown {
-    background-color: #ffffff; /* 드롭다운 배경을 흰색으로 */
+    background-color: #ffffff;
     position: absolute;
     width: 100%;
     border-radius: 10px;
@@ -72,7 +72,7 @@
 }
 
 .direction-toggle button {
-    background-color: #ffffff; /* 토글 버튼 배경 흰색으로 변경 */
+    background-color: #ffffff; /* 토글 버튼 배경 흰색으로 변경한것 */
     color: #2b3d33;
     border: none;
     padding: 10px 20px;
@@ -86,7 +86,7 @@
 }
 
 .route-info {
-    background-color: #ffffff; /* 노선 정보 박스 흰색으로 변경 */
+    background-color: #ffffff; 
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -103,7 +103,7 @@
 }
 
 .route-table {
-    background-color: #ffffff; /* 시간표 박스 흰색으로 변경 */
+    background-color: #ffffff; /* 시간표 박스 흰색으로 변경하기 */
     padding: 10px;
     border-radius: 10px;
 }
