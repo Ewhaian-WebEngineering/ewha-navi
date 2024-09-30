@@ -11,9 +11,19 @@
 .shuttle-title {
     text-align: center;
     font-size: 1.8em;
-    color: #ffffff; 
+    color: yellow; 
     font-weight: bold;
 }
+
+/* notice 노란색글씨   */
+.notice{
+    color:yellow;
+  
+    margin:10px 0;
+}
+
+
+
 
 /* 드롭다운 버튼 스타일 */
 .dropdown-container {
