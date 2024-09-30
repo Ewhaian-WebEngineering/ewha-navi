@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Shuttle.css'; // 스타일을 위한 CSS 파일
+import './Shuttle.css'; 
 
 const Shuttle = () => {
   const [isUpward, setIsUpward] = useState(true); // 상행/하행 토글 상태 관리
@@ -17,48 +17,171 @@ const Shuttle = () => {
 
   const shuttleRoutes = {
     정문: [
-      { route: '연구협력관 노선', time: '07:50-21:00', interval: '배차간격: 5-10분' },
-      { route: '한우리집 노선', time: '08:25-16:05', interval: '배차간격: 20분' },
+      { route: '연구협력관 노선(상행기준)', time: '07:50-21:00', interval: '배차간격: 5-10분' },
+      { route: '한우리집 노선(상행기준)', time: '08:25-16:05', interval: '배차간격: 20분' },
     ],
     포관: [
-      { route: '연구협력관 노선', time: '07:00-21:00', interval: '배차간격: 7-15분' },
-      { route: '한우리집 노선', time: '08:00-15:30', interval: '배차간격: 20분' },
+      { route: '연구협력관 노선(상행기준)', time: '07:52-19:02', interval: '배차간격: 5-10분' },
+      { route: '한우리집 노선(상행기준)', time: '08:27-16:07', interval: '배차간격: 20분' },
     ],
     공대삼거리: [
-      { route: '연구협력관 노선', time: '07:20-21:30', interval: '배차간격: 10분' },
-      { route: '한우리집 노선', time: '08:30-16:10', interval: '배차간격: 25분' },
+      { route: '연구협력관 노선(상행기준)', time: '07:54-19:04', interval: '배차간격: 5-10분' },
+      { route: '한우리집 노선(상행기준)', time: '08:29-16:09', interval: '배차간격: 20분' },
     ],
     한우리집: [
-      { route: '연구협력관 노선', time: '07:55-21:10', interval: '배차간격: 15분' },
-      { route: '한우리집 노선', time: '08:30-15:45', interval: '배차간격: 20분' },
+      { route: '연구협력관 노선(상행기준)', time: '07:55-21:10', interval: '배차간격: 15분' },
+      { route: '한우리집 노선(상행기준)', time: '08:30-15:45', interval: '배차간격: 20분' },
+    ],
+    기숙사삼거리: [
+      { route: '연구협력관 노선(상행기준)', time: '08:01-19:11', interval: '배차간격: 5-10분' }
     ],
   };
 
-  // 세분화된 시간표 데이터
-  const busTimetable = [
-    {
-      route: '연구협력관',
-      timeRanges: [
-        { range: '08:03~11:13', times: '03,08,13,23,28,33,43,48,53' },
-        { range: '11:23~12:13', times: '03,13,23,33,43,53' },
-        { range: '12:14~13:12', times: '점심시간 운휴' },
-        { range: '13:13~15:53', times: '03,13,23,33,43,53' },
-        { range: '16:03~19:13', times: '03,08,13,23,28,33,43,48,53' }
+  // 각 출발지에 따른 상행/하행 시간표 
+  const timetableData = {
+    정문: {
+      upward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '07:50~11:00', times: '00, 10, 15, 20, 30, 35, 40, 50, 55' },
+            { range: '11:10~11:50', times: '00, 10, 20, 30, 40, 50' },
+            { range: '11:51~12:59', times: '점심시간 운휴' },
+            { range: '13:00~15:40', times: '00, 10, 20, 30, 40, 50' },
+            { range: '15:50~21:00', times: '00, 10, 15, 20, 30, 35, 40, 50, 55' },
+          ]
+        },
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:25~10:45', times: '05, 25, 45' },
+            { range: '11:05~13:20', times: '점심시간 운휴' },
+            { range: '13:25~16:05', times: '05, 25, 45' }
+          ]
+        }
+      ],
+      downward: [], // 하행은 없는듯
+    },
+    포관: {
+      upward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '07:52~11:52', times: '02, 12, 17, 22, 32, 37, 42, 52, 57' },
+            { range: '11:12~11:52', times: '02, 12, 22, 32, 42, 52' },
+            { range: '11:53~13:01', times: '점심시간 운휴' },
+            { range: '13:02~15:42', times: '02, 12, 17, 22, 32, 42, 52' },
+            { range: '15:52~19:02', times: '02, 12, 17, 22, 32, 37, 42, 52, 57' }
+          ]
+        },
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:27~10:47', times: '07, 27, 47' },
+            { range: '11:05~13:20', times: '점심시간 운휴' },
+            { range: '13:27~16:07', times: '07, 27, 47' }
+          ]
+        }
+      ],
+      downward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '08:05~11:15', times: '05, 10, 15, 20, 30, 35, 40, 50, 55' },
+            { range: '11:16~12:05', times: '05, 15, 25, 35, 45, 55' },
+            { range: '12:10~13:10', times: '점심시간 운휴' },
+            { range: '13:15~15:55', times: '05, 15, 25, 35, 45, 55' },
+            { range: '16:00~19:15', times: '05, 15, 25, 30, 35, 45, 55' }
+          ]
+        },
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:40~11:00', times: '00, 20, 40' },
+            { range: '11:00~13:30', times: '점심시간 운휴' },
+            { range: '13:40~16:20', times: '00, 20, 40' }
+          ]
+        }
+      ],
+    },
+    공대삼거리: {
+      upward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '07:54~11:54', times: '04, 14, 19, 23, 34, 39, 44, 54, 59' },
+            { range: '11:14~11:54', times: '04, 14, 24, 34, 44, 54' },
+            { range: '12:00~12:59', times: '점심시간 운휴' },
+            { range: '13:04~15:44', times: '04, 14, 24, 34, 44, 54' },
+            { range: '15:54~19:04', times: '04, 14, 19, 23, 34, 39, 44, 54, 59' }
+          ]
+        },
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:29~10:49', times: '09, 29, 49' },
+            { range: '11:05~13:20', times: '점심시간 운휴' },
+            { range: '13:29~16:09', times: '09, 29, 49' }
+          ]
+        }
+      ],
+      downward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '08:03~11:13', times: '03, 08, 13, 23, 28, 33, 43, 48, 53' },
+            { range: '11:23~12:13', times: '03, 13, 23, 33, 43, 53' },
+            { range: '12:14~13:12', times: '점심시간 운휴' },
+            { range: '13:13~15:53', times: '03, 13, 23, 33, 43, 53' },
+            { range: '16:03~19:13', times: '03, 08, 13, 23, 28, 33, 43, 48, 53' }
+          ]
+        },
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:38~10:58', times: '18, 38, 58' },
+            { range: '11:18~13:37', times: '점심시간 운휴' },
+            { range: '13:38~16:18', times: '18, 38, 58' }
+          ]
+        }
       ]
     },
-    {
-      route: '한우리집',
-      timeRanges: [
-        { range: '08:38~10:58', times: '18,38,58' },
-        { range: '11:18~13:37', times: '점심시간 운휴' },
-        { range: '13:38~16:18', times: '18,38,58' }
+    기숙사삼거리: {
+      upward: [], // 기숙사 삼거리 상행 없는듯?
+      downward: [
+        {
+          route: '연구협력관',
+          timeRanges: [
+            { range: '08:01~11:11', times: '01, 06, 11, 21, 26, 31, 41, 46, 51' },
+            { range: '11:21~12:11', times: '01, 11, 21, 31, 41, 51' },
+            { range: '12:12~13:10', times: '점심시간 운휴' },
+            { range: '13:11~15:51', times: '01, 11, 21, 31, 41, 51' },
+            { range: '16:01~19:11', times: '01, 06, 11, 21, 26, 31, 41, 46, 51' }
+          ]
+        }
+      ]
+    },
+    한우리집: {
+      upward: [], // 한우리 상행은 없는듯>?
+      downward: [
+        {
+          route: '한우리집',
+          timeRanges: [
+            { range: '08:35~10:55', times: '15, 35, 55' },
+            { range: '11:05~13:20', times: '점심시간 운휴' },
+            { range: '13:35~16:15', times: '15, 35, 55' }
+          ]
+        }
       ]
     }
-  ];
+  };
+
+  const busTimetable = timetableData[selectedDeparture][isUpward ? 'upward' : 'downward'] || [];
 
   return (
     <div className="shuttle-container">
       <h2 className="shuttle-title">셔틀 시간표</h2>
+      <h2 className="shuttle-title">BUS STOP</h2>
 
       {/* 출발지 Dropdown */}
       <div className="dropdown-container">
@@ -66,7 +189,7 @@ const Shuttle = () => {
           {selectedDeparture}
         </button>
         <div className={`departure-dropdown ${isDropdownOpen ? 'open' : ''}`}>
-          {['정문', '포관', '공대삼거리', '한우리집'].map((departure) => (
+          {['정문', '포관', '공대삼거리', '한우리집', '기숙사삼거리'].map((departure) => (
             <div key={departure} onClick={() => handleDepartureClick(departure)}>
               {departure}
             </div>
@@ -90,6 +213,13 @@ const Shuttle = () => {
         </button>
       </div>
 
+      {/* 주의사항 노란색 텍스트 추가 */}
+      <div className="notice">
+        <p>운행시간은 도로 사정에 따라 달라질 수 있습니다.</p>
+        <p>미운행시간: 12시 ~ 13시</p>
+        <p>외부인은 이용하실 수 없습니다.</p>
+      </div>
+
       {/* 노선 정보 */}
       <div className="route-info">
         {shuttleRoutes[selectedDeparture].map((route, index) => (
@@ -101,27 +231,31 @@ const Shuttle = () => {
 
       {/* 버스 시간표 */}
       <div className="bus-timetable">
-        {busTimetable.map((bus, index) => (
-          <div key={index} className="route-table">
-            <h3>{bus.route}</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>시간대</th>
-                  <th>시간</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bus.timeRanges.map((range, idx) => (
-                  <tr key={idx}>
-                    <td>{range.range}</td>
-                    <td>{range.times}</td>
+        {busTimetable.length > 0 ? (
+          busTimetable.map((bus, index) => (
+            <div key={index} className="route-table">
+              <h3>{bus.route}</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>시간대</th>
+                    <th>시간</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ))}
+                </thead>
+                <tbody>
+                  {bus.timeRanges.map((range, idx) => (
+                    <tr key={idx}>
+                      <td>{range.range}</td>
+                      <td>{range.times}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))
+        ) : (
+          <p>해당 출발지에 대한 시간표 정보가 없습니다.</p>
+        )}
       </div>
     </div>
   );
