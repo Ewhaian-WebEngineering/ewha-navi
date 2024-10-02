@@ -6,7 +6,7 @@ import ReviewWritingPage from "./components/views/ReviewPage/ReviewWriting";
 import PathList from "./components/views/PathListPage/PathList"; //빨간줄 뜨는 이슈
 import PathMap from "./components/views/PathListPage/PathMap";
 import Shuttle from "./components/views/Shuttle/Shuttle";
-
+import NavBar from "./components/NavBar";  // NavBar 추가
 
 function App() {
   return (
@@ -21,6 +21,7 @@ function App() {
           <Route exact path="/path-list" element={<PathList />} />
           <Route exact path="/path-map" element={<PathMap />} />
         </Routes>
+        <NavBar /> 
       </BrowserRouter>
     </div>
   );
