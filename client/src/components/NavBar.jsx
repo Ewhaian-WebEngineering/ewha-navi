@@ -65,7 +65,7 @@ function NavBar() {
       </NavBarContainer>
       <CenterButton>
         <StyledLink to="/">
-          <HomeImage src="/path/to/your/image.png" alt="Home Button" />
+          <HomeImage src="\ewha-navi\client\public\logo.png" alt="Home Button" />
         </StyledLink>
       </CenterButton>
     </>
