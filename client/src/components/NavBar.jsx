@@ -11,7 +11,7 @@ const NavBarContainer = styled.div`
   background-color: #2e4730;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around; /* 버튼을 균등하게 배분 */
   align-items: center;
   z-index: 1000; 
   height: 70px; 
@@ -34,10 +34,7 @@ const CenterButton = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative; /* 다른 버튼들과 함께 배치되도록 변경 */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
@@ -56,6 +53,14 @@ function NavBar() {
         <StyledLink to="/path-list"> 
           <AiOutlineMenu size={30} />
         </StyledLink>
+        
+        {/* 중앙의 홈 버튼 */}
+        <CenterButton>
+          <StyledLink to="/">
+            <HomeImage src="client/public/logo.png" alt="Home Button" />
+          </StyledLink>
+        </CenterButton>
+        
         <StyledLink to="/shuttle">
           <AiOutlineCar size={30} />
         </StyledLink>
@@ -63,11 +68,6 @@ function NavBar() {
           <AiOutlineStar size={30} />
         </StyledLink>
       </NavBarContainer>
-      <CenterButton>
-        <StyledLink to="/">
-          <HomeImage src="\ewha-navi\client\public\logo.png" alt="Home Button" />
-        </StyledLink>
-      </CenterButton>
     </>
   );
 }
