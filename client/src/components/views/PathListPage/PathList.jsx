@@ -3,6 +3,7 @@ import Header from "../../utils/header/header";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
+import Favorite from "./Favorite"; // Favorite 컴포넌트 추가
 
 
 const PathList = () => {
@@ -21,6 +22,24 @@ const PathList = () => {
   const handleReviewButtonClick = () => {
     navigate("/review-write");
   };
+
+    // 즐겨찾기 추가/제거 함수
+    const toggleFavorite = (path) => {
+      setFavoritePaths((prevFavorites) => {
+        const isFavorite = prevFavorites.some((item) => item.id === path.id);
+        if (isFavorite) {
+          // 이미 즐겨찾기에 있다면 제거
+          const updatedFavorites = prevFavorites.filter((item) => item.id !== path.id);
+          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+          return updatedFavorites;
+        } else {
+          // 즐겨찾기에 추가
+          const updatedFavorites = [...prevFavorites, path];
+          localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+          return updatedFavorites;
+        }
+      });
+    };
 
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
@@ -58,6 +77,7 @@ const PathList = () => {
                 <PathLocation>{path.location}</PathLocation>
                 <Rating>★ {path.rating}</Rating>
               </PathDetails>
+              <Favorite path={path} onToggleFavorite={toggleFavorite} /> {/* 즐겨찾기 추가 */}
               <ReviewButton onClick={handleReviewButtonClick}>
                 리뷰 보기  
                 <ArrowImage src={NextArrowIcon} alt="arrow icon" />
