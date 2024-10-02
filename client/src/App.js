@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../src/components/style/GlobalStyle";
 import Home from "./components/views/Home";
 import Search from "./components/views/Search/index";
-import ReviewWritingPage from "./components/views/reviewWritingPage/ReviewWriting";
+import ReviewWritingPage from "./components/views/ReviewPage/ReviewWriting";
 import PathList from "./components/views/PathListPage/PathList"; //빨간줄 뜨는 이슈
 import PathMap from "./components/views/PathListPage/PathMap";
 import Shuttle from "./components/views/Shuttle/Shuttle";
