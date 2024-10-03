@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Header from "../../utils/header/header";
 import './Shuttle.css'; 
-import './utils/header/header.jsx';
+
 
 const Shuttle = () => {
   const [isUpward, setIsUpward] = useState(true); // 상행/하행 토글 상태 관리
@@ -34,7 +35,7 @@ const Shuttle = () => {
       { route: '한우리집 노선(상행기준)', time: '08:30-15:45', interval: '배차간격: 20분' },
     ],
     기숙사삼거리: [
-      { route: '연구협력관 노선(상행기준)', time: '08:01-19:11', interval: '배차간격: 5-10분' }
+      { route: '연구협력관 노선(하행기준)', time: '08:01-19:11', interval: '배차간격: 5-10분' }
     ],
   };
 
@@ -180,9 +181,13 @@ const Shuttle = () => {
   const busTimetable = timetableData[selectedDeparture][isUpward ? 'upward' : 'downward'] || [];
 
   return (
+    
     <div className="shuttle-container">
-      <h2 className="shuttle-title">셔틀 시간표</h2>
-      <h2 className="shuttle-title">BUS STOP</h2>
+
+    <Header title="셔틀시간표 BUS STOP" />
+
+
+      
 
       {/* 출발지 Dropdown */}
       <div className="dropdown-container">
@@ -214,21 +219,27 @@ const Shuttle = () => {
         </button>
       </div>
 
-      {/* 주의사항 노란색 텍스트 추가 */}
-      <div className="notice">
-        <p>운행시간은 도로 사정에 따라 달라질 수 있습니다.</p>
-        <p>미운행시간: 12시 ~ 13시</p>
-        <p>외부인은 이용하실 수 없습니다.</p>
-      </div>
+   
 
       {/* 노선 정보 */}
-      <div className="route-info">
-        {shuttleRoutes[selectedDeparture].map((route, index) => (
-          <div className="route" key={index}>
-            <p><strong>{route.route}:</strong> {route.time} <span>{route.interval}</span></p>
-          </div>
-        ))}
+<div className="route-info">
+  {/* 출발장소 표시 */}
+  <div className="departure-location">
+    <strong>{selectedDeparture}</strong> {/* 선택한 출발지 출력 */}
+  </div>
+
+  {/* 노선 정보 표시 */}
+  <div className="routes">
+    {shuttleRoutes[selectedDeparture].map((route, index) => (
+      <div className="route" key={index}>
+        <p><strong>{route.route}:</strong> {route.time} <span>{route.interval}</span></p>
       </div>
+    ))}
+  </div>
+</div>
+
+
+
 
       {/* 버스 시간표 */}
       <div className="bus-timetable">
@@ -255,7 +266,7 @@ const Shuttle = () => {
             </div>
           ))
         ) : (
-          <p>해당 출발지에 대한 시간표 정보가 없습니다.</p>
+          <p>.</p>
         )}
       </div>
     </div>

@@ -1,37 +1,54 @@
 .shuttle-container {
-    background-color: #0F3D2B; 
-    color: #2b3d33;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-    box-sizing: border-box;
-}
-
-.shuttle-title {
-    text-align: center;
-    font-size: 1.8em;
-    color: yellow; 
-    font-weight: bold;
-}
-
-/* notice 노란색글씨   */
-.notice{
-    color:yellow;
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 중앙 정렬 */
+    background-color:  #0F3D2B; /* 배경색 조정 */
+    width: 100%; /* 전체 너비에 맞춤 */
+    max-width: 390px; /* 레이아웃 너비를 고정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 0; /* 기본 패딩 제거 */
+    height: 100vh;
+  }
   
-    margin:10px 0;
-}
+  .shuttle-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    color: #2d3e3f;
+    text-align: center;
+    padding: 10px; /* 헤더와의 여백 추가 */
+  }
+  
+  .header-bar {
+    width: 100%; /* Header와 Shuttle의 너비 맞추기 */
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between; /* 좌우 균형 정렬 */
+    background-color: #fff; /* 헤더 배경색을 흰색으로 설정 */
+    width: 100%;
+  }
+
+
+
+
+
+
+
 
 
 
 
 /* 드롭다운 버튼 스타일 */
 .dropdown-container {
-    position: relative;
+    width: 90%;
     margin: 15px 0;
     background-color: #ffffff; 
     border-radius: 10px;
-    padding: 10px;
+    padding: 0;
 }
 
 .departure-button {
@@ -46,7 +63,8 @@
 }
 
 .departure-button:after {
-    content: "▼";
+    
+    content: "∨";
     float: right;
 }
 
@@ -77,8 +95,11 @@
 
 .direction-toggle {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center; /* 버튼들이 수직 가운데 정렬되도록 설정 */
+    width: 100%; /* 전체 너비 사용 */
     margin: 15px 0;
+    gap:0;
 }
 
 .direction-toggle button {
@@ -87,7 +108,9 @@
     border: none;
     padding: 10px 20px;
     border-radius: 10px;
+    margin-right: 10px;
     cursor: pointer;
+    margin: 0;
 }
 
 .direction-toggle button.active {
@@ -95,12 +118,47 @@
     font-weight: bold;
 }
 
-.route-info {
-    background-color: #ffffff; 
-    padding: 10px;
-    border-radius: 10px;
+
+
+
+
+
+
+.departure-location {
+    width: auto; 
+    padding: 10px 20px; 
+    background-color: #a3c9b9; 
+    border-radius: 0px; 
+    text-align: center; 
+    margin: 0; 
+    height: 100%;
+    display: flex; 
+    align-items: center; 
+  }
+  
+ 
+  .route-info {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    width: 95%;
+    padding: 0; 
+    border-radius: 7px;
     margin-bottom: 15px;
-}
+  }
+  
+  /* 노선 정보 스타일 */
+  .routes {
+    width: 80%; 
+    padding: 0 15px; 
+  }
+
+
+
+
+
+
+
 
 .route p {
     margin: 5px 0;
@@ -110,12 +168,13 @@
 
 .bus-timetable {
     margin-top: 20px;
+    
 }
 
 .route-table {
     background-color: #ffffff; /* 시간표 박스 흰색으로 변경하기 */
-    padding: 10px;
-    border-radius: 10px;
+    padding: 5px;
+    border-radius: 2px;
 }
 
 .route-table h3 {
@@ -129,7 +188,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
-    background-color: #ffffff; /* 테이블도 흰색으로 */
+    background-color: #ffffff; 
 }
 
 th, td {
@@ -150,3 +209,13 @@ td {
 tbody tr:nth-child(even) {
     background-color: #f5f7f6;
 }
+
+.location-info {
+    background-color: #ffffff;
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
