@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Shuttle.css'; 
+import './utils/header/header.jsx';
 
 const Shuttle = () => {
   const [isUpward, setIsUpward] = useState(true); // 상행/하행 토글 상태 관리
