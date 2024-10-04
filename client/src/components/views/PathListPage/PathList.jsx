@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Header from "../../utils/header/header";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
-import Favorite from "../Favorite/Favorite"; // Favorite 컴포넌트 추가
+
 
 const PathList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isViewButtonClicked = location.pathname === "/path-map";
-  
-  const [favoritePaths, setFavoritePaths] = useState([]);
-
-  useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    setFavoritePaths(storedFavorites);
-  }, []);
 
   const handleViewButtonClick = () => {
     navigate("/path-map");
@@ -29,26 +22,11 @@ const PathList = () => {
     navigate("/review-write");
   };
 
-  const toggleFavorite = (path) => {
-    setFavoritePaths((prevFavorites) => {
-      const isFavorite = prevFavorites.some((item) => item.id === path.id);
-      let updatedFavorites;
-      if (isFavorite) {
-        // 이미 즐겨찾기에 있다면 제거
-        updatedFavorites = prevFavorites.filter((item) => item.id !== path.id);
-      } else {
-        // 즐겨찾기에 추가
-        updatedFavorites = [...prevFavorites, path];
-      }
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      return updatedFavorites;
-    });
-  };
-
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
     { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
     { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
+    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
     { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
   ];
 
@@ -80,13 +58,12 @@ const PathList = () => {
                 <PathLocation>{path.location}</PathLocation>
                 <Rating>★ {path.rating}</Rating>
               </PathDetails>
-              <Favorite path={path} isFavorite={favoritePaths.some((item) => item.id === path.id)} onToggleFavorite={toggleFavorite} />
               <ReviewButton onClick={handleReviewButtonClick}>
                 리뷰 보기  
                 <ArrowImage src={NextArrowIcon} alt="arrow icon" />
               </ReviewButton>
             </PathCard>
-          ))}
+  ))}
         </PathListContainer>
       </Container>
     </>
@@ -94,8 +71,6 @@ const PathList = () => {
 };
 
 export default PathList;
-
-// Define the styled-components here:
 
 const Container = styled.div`
   padding: 16px;
@@ -116,8 +91,8 @@ const ListButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
   padding: 5px 20px; 
   border-radius: 20px;
   cursor: pointer;
@@ -131,8 +106,8 @@ const ViewButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
   padding: 5px 20px; 
   border-radius: 20px;
   cursor: pointer;
@@ -202,7 +177,7 @@ const ReviewButton = styled.button`
   font-size: 12px;
   cursor: pointer;
   margin-top: 60px;
-  margin-right: 10px;
+  margin-right: 10px
 `;
 
 const ArrowImage = styled.img`
