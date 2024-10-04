@@ -3,7 +3,7 @@ import Header from "../../utils/header/header";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
-import Favorite from "./Favorite"; // Favorite 컴포넌트 추가
+import Favorite from "../Favorite/Favorite"; // Favorite 컴포넌트 추가
 
 
 const PathList = () => {
