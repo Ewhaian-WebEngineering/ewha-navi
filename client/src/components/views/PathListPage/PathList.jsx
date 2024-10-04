@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../utils/header/header";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
 
-
 const PathList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isViewButtonClicked = location.pathname === "/path-map";
+
+  const [favoritePaths, setFavoritePaths] = useState([]);
+
+  // localStorage에서 즐겨찾기 목록을 가져옴
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavoritePaths(storedFavorites);
+  }, []);
 
   const handleViewButtonClick = () => {
     navigate("/path-map");
@@ -22,17 +29,31 @@ const PathList = () => {
     navigate("/review-write");
   };
 
+  // 즐겨찾기 토글 함수
+  const toggleFavorite = (path) => {
+    setFavoritePaths((prevFavorites) => {
+      const isFavorite = prevFavorites.some((item) => item.id === path.id);
+      let updatedFavorites;
+      if (isFavorite) {
+        updatedFavorites = prevFavorites.filter((item) => item.id !== path.id);
+      } else {
+        updatedFavorites = [...prevFavorites, path];
+      }
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      return updatedFavorites;
+    });
+  };
+
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
     { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
     { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
     { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
   ];
 
   return (
     <>
-      <Header title="지름길 목록 / 리뷰" />
+      <Header title="지름길 목록 / 즐겨찾기" />
       <Container>
         <ButtonContainer>
           <ListButton
@@ -50,20 +71,32 @@ const PathList = () => {
         </ButtonContainer>
 
         <PathListContainer>
-          {paths.map((path) => (
-            <PathCard key={path.id}>
-              <ImagePlaceholder />
-              <PathDetails>
-                <PathName>{path.name}</PathName>
-                <PathLocation>{path.location}</PathLocation>
-                <Rating>★ {path.rating}</Rating>
-              </PathDetails>
-              <ReviewButton onClick={handleReviewButtonClick}>
-                리뷰 보기  
-                <ArrowImage src={NextArrowIcon} alt="arrow icon" />
-              </ReviewButton>
-            </PathCard>
-  ))}
+          {paths.map((path) => {
+            const isFavorite = favoritePaths.some(
+              (favorite) => favorite.id === path.id
+            );
+
+            return (
+              <PathCard key={path.id}>
+                <ImagePlaceholder />
+                <PathDetails>
+                  <PathName>{path.name}</PathName>
+                  <PathLocation>{path.location}</PathLocation>
+                  <Rating>★ {path.rating}</Rating>
+                </PathDetails>
+                <FavoriteButton
+                  isFavorite={isFavorite}
+                  onClick={() => toggleFavorite(path)}
+                >
+                  {isFavorite ? "★" : "☆"} {/* 즐겨찾기 상태에 따른 별 표시 */}
+                </FavoriteButton>
+                <ReviewButton onClick={handleReviewButtonClick}>
+                  리뷰 보기
+                  <ArrowImage src={NextArrowIcon} alt="arrow icon" />
+                </ReviewButton>
+              </PathCard>
+            );
+          })}
         </PathListContainer>
       </Container>
     </>
@@ -71,6 +104,8 @@ const PathList = () => {
 };
 
 export default PathList;
+
+// Define the styled-components here:
 
 const Container = styled.div`
   padding: 16px;
@@ -83,7 +118,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 30px;
-  gap: 5px; 
+  gap: 5px;
 `;
 
 const ListButton = styled.button`
@@ -91,9 +126,9 @@ const ListButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
-  padding: 5px 20px; 
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
@@ -106,9 +141,9 @@ const ViewButton = styled.button`
     isClicked
       ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
       : "white"};
-  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")}; /* 비활성화 시 폰트 색을 검은색으로 변경 */
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")}; /* 비활성화 시 테두리를 없앰 */
-  padding: 5px 20px; 
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
@@ -124,7 +159,7 @@ const PathListContainer = styled.div`
 
 const PathCard = styled.div`
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: flex-start;
   align-items: center;
   background-color: white;
@@ -133,20 +168,20 @@ const PathCard = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 100%;
-  min-height: 120px; 
+  min-height: 120px;
 `;
 
 const ImagePlaceholder = styled.div`
-  width: 90px; 
-  height: 90px; 
+  width: 90px;
+  height: 90px;
   background-color: #ddd;
   margin-left: 10px;
 `;
 
 const PathDetails = styled.div`
   flex-grow: 1;
-  margin-left: 20px; 
-  justify-content: flex-start; 
+  margin-left: 20px;
+  justify-content: flex-start;
   padding-top: 0;
 `;
 
@@ -159,13 +194,21 @@ const PathName = styled.div`
 const PathLocation = styled.div`
   font-size: 12px;
   color: #888;
-  margin-top: 5px; 
+  margin-top: 5px;
 `;
 
 const Rating = styled.div`
-  font-size: 12px; 
+  font-size: 12px;
   color: #0F3D2B;
   margin-top: 3px;
+`;
+
+const FavoriteButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: ${({ isFavorite }) => (isFavorite ? "#ffcc00" : "#ccc")};
+  cursor: pointer;
 `;
 
 const ReviewButton = styled.button`
@@ -177,11 +220,11 @@ const ReviewButton = styled.button`
   font-size: 12px;
   cursor: pointer;
   margin-top: 60px;
-  margin-right: 10px
+  margin-right: 10px;
 `;
 
 const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
-  margin-left: 7px; 
+  margin-left: 7px;
 `;

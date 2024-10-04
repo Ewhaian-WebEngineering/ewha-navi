@@ -34,7 +34,7 @@ const CenterButton = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  position: relative; /* 다른 버튼들과 함께 배치되도록 변경 */
+  position: relative; 
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
@@ -45,30 +45,27 @@ const HomeImage = styled.img`
 
 function NavBar() {
   return (
-    <>
-      <NavBarContainer>
-        <StyledLink to="/search">
-          <AiOutlineSearch size={30} />
+    <NavBarContainer>
+      <StyledLink to="/search">
+        <AiOutlineSearch size={30} />
+      </StyledLink>
+      <StyledLink to="/path-list"> 
+        <AiOutlineMenu size={30} />
+      </StyledLink>
+      
+      <CenterButton>
+        <StyledLink to="/">
+          <HomeImage src="client/public/logo.png" alt="Home Button" />
         </StyledLink>
-        <StyledLink to="/path-list"> 
-          <AiOutlineMenu size={30} />
-        </StyledLink>
-        
-        {/* 중앙의 홈 버튼 */}
-        <CenterButton>
-          <StyledLink to="/">
-            <HomeImage src="client/public/logo.png" alt="Home Button" />
-          </StyledLink>
-        </CenterButton>
-        
-        <StyledLink to="/shuttle">
-          <AiOutlineCar size={30} />
-        </StyledLink>
-        <StyledLink to="/menu">
-          <AiOutlineStar size={30} />
-        </StyledLink>
-      </NavBarContainer>
-    </>
+      </CenterButton>
+      
+      <StyledLink to="/shuttle">
+        <AiOutlineCar size={30} />
+      </StyledLink>
+      <StyledLink to="/favorite"> {/* 즐겨찾기 페이지로 이동 */}
+        <AiOutlineStar size={30} />
+      </StyledLink>
+    </NavBarContainer>
   );
 }
 
