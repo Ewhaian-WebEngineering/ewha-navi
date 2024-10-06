@@ -1,5 +1,5 @@
 {
-  "name": "ewha-navi",
+  "name": "q",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -46,5 +46,9 @@
   "devDependencies": {
     "file-loader": "^6.2.0",
     "source-map-loader": "^5.0.0"
-  }
+  },
+  "description": "이화여대 지름길 찾기 사이트",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

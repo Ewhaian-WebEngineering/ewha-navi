@@ -4,6 +4,8 @@ import 화살표 from "../../images/Search/화살표.svg";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import 포공A from "./포-공A";
+import shortpath from "../../images/Search/shortpath.png";
+
 
 const Search = () => {
   const [selectedMode, setSelectedMode] = useState("도보");
@@ -154,9 +156,13 @@ const Star = styled.div`
 
 const Map = styled.div`
   width: 324px;
-  height: 139px;
+  height: 235px;
   background-color: #e9ebee;
+  background-image: url(${shortpath}); /* 배경 이미지 추가 */
+  background-size: cover; /* 이미지를 div에 맞게 조정 */
+  background-position: center; /* 이미지를 가운데 정렬 */
 `;
+
 
 const Route = styled.div`
   margin-top: 20px;
