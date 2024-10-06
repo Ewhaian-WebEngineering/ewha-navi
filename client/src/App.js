@@ -6,6 +6,7 @@ import ReviewWritingPage from "./components/views/ReviewPage/ReviewWriting";
 import PathList from "./components/views/PathListPage/PathList"; //빨간줄 뜨는 이슈
 import PathMap from "./components/views/PathListPage/PathMap";
 import Shuttle from "./components/views/ShuttlePage/Shuttle";
+import Favorite from "./components/views/FavoritePage/Favorite";
 import NavBar from "./components/views/NavBar/NavBar";  
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/shuttle" element={<Shuttle />} />
           <Route exact path="/path-list" element={<PathList />} />
           <Route exact path="/path-map" element={<PathMap />} />
+          <Route exact path="/favorite" element={<Favorite />} />
         </Routes>
         <NavBar /> 
       </BrowserRouter>
