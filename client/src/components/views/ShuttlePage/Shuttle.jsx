@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from "../../utils/header/header";
+import Header from "../../utils/header/Header";
 import './Shuttle.css'; 
 
 

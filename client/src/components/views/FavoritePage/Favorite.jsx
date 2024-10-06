@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../utils/header/header";
+import Header from "../../utils/header/Header";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
