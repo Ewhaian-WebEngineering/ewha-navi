@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/header/Header2";
 import styled from "styled-components";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import { useNavigate } from "react-router-dom";
@@ -98,7 +98,7 @@ const PathLocation = styled.div`
 
 const Rating = styled.div`
   font-size: 12px;
-  color: #0F3D2B;
+  color: #0f3d2b;
   margin-top: 2px;
 `;
 

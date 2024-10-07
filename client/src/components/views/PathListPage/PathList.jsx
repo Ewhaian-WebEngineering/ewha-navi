@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/header/Header2";
 import styled from "styled-components";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const PathList = () => {
   const navigate = useNavigate();
@@ -97,7 +97,6 @@ const PathList = () => {
 };
 
 export default PathList;
-
 
 const Container = styled.div`
   padding: 16px;
@@ -200,7 +199,7 @@ const PathLocation = styled.div`
 
 const Rating = styled.div`
   font-size: 12px;
-  color: #0F3D2B;
+  color: #0f3d2b;
   margin-top: 2px;
   margin-left: 0;
 `;
