@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../../utils/header/Header2";
+import Header from "../../utils/header/Header";
 import styled from "styled-components";
 import NextArrowIcon from "../../utils/icons/NextArrow.png";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
