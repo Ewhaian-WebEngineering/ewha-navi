@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../utils/header/Header";
 import styled from "styled-components";
-import NextArrowIcon from "../../utils/icons/NextArrow.png";
+import NextArrow from "../../images/PathListPage/NextArrow.svg";
 import FilledStar from "../../images/PathListPage/FilledStar.svg";
 import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; //현재 피그마에서 export하는 과정에서 svg가 깨졌으므로 파일 변경 필요
 import { useNavigate } from "react-router-dom";
@@ -77,7 +77,7 @@ const PathList = () => {
                   </Star>
                   <ReviewButton onClick={handleReviewButtonClick}>
                     리뷰 보기
-                    <ArrowImage src={NextArrowIcon} alt="arrow icon" />
+                    <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
                 </StarAndReviewContainer>
               </PathCard>
@@ -226,6 +226,7 @@ const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
   margin-left: 7px;
+  margin-top: 5px;
 `;
 
 const PathMapContainer = styled.div`
