@@ -21,9 +21,7 @@ function NavBar() {
         </LeftIconsContainer>
 
         <CenterButtonWrapper>
-          <StyledLink to="/home">
             <HomeImage src={homeIcon} alt="Home Button" />
-          </StyledLink>
         </CenterButtonWrapper>
 
         <RightIconsContainer>
