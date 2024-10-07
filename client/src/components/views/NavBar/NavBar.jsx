@@ -5,7 +5,7 @@ import searchIcon from "../../images/NavBar/search.svg";
 import listIcon from "../../images/NavBar/list.svg";
 import shuttleIcon from "../../images/NavBar/shuttle.svg";
 import favoriteIcon from "../../images/NavBar/favorite.svg";
-import homeIcon from "../../images/NavBar/home.svg"; // 육각형 모양의 홈 아이콘 추가
+import homeIcon from "../../images/NavBar/home.svg"; 
 
 function NavBar() {
   return (
@@ -87,7 +87,7 @@ const HomeImage = styled.img`
     width: 50%;
     height: 10px;
     background: rgba(0, 0, 0, 0.3);
-    filter: blur(30px); /* 그림자 효과 */
+    filter: blur(30px);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 `;
