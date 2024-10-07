@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import Header from "../../utils/header/Header";
 import styled from "styled-components";
-import NextArrowIcon from "../../utils/icons/NextArrow.png";
-import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
-import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
+import NextArrow from "../../images/PathListPage/NextArrow.svg";
+import FilledStar from "../../images/PathListPage/FilledStar.svg";
+import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; //현재 피그마에서 export하는 과정에서 svg가 깨졌으므로 파일 변경 필요
 import { useNavigate } from "react-router-dom";
 
 const PathList = () => {
   const navigate = useNavigate();
   const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
-  const [favoritePaths, setFavoritePaths] = useState([]);
-  const [isStarred, setIsStarred] = useState(false); // 별 표시 상태 추가
+  //const [favoritePaths, setFavoritePaths] = useState([]);
+  const [starredPaths, setStarredPaths] = useState([false, false, false, false]); // 별 표시 상태 배열 추가
 
   const handleViewButtonClick = () => {
     setIsViewButtonClicked(true);
@@ -24,8 +24,12 @@ const PathList = () => {
     navigate("/review-write");
   };
 
-  const toggleStar = () => {
-    setIsStarred((prev) => !prev); // 별 상태 토글
+  const toggleStar = (index) => {
+    setStarredPaths((prev) => {
+      const newStarredPaths = [...prev];
+      newStarredPaths[index] = !newStarredPaths[index];
+      return newStarredPaths;
+    });
   };
 
   const paths = [
@@ -56,46 +60,39 @@ const PathList = () => {
 
         {!isViewButtonClicked ? (
           <PathListContainer>
-            {paths.map((path) => {
-              const isFavorite = favoritePaths.some(
-                (favorite) => favorite.id === path.id
-              );
-
-              return (
-                <PathCard key={path.id}>
-                  <ImagePlaceholder />
-                  <DetailsAndStarContainer>
-                    <PathDetails>
-                      <PathName>{path.name}</PathName>
-                      <PathLocation>{path.location}</PathLocation>
-                      <Rating>★ {path.rating}</Rating>
-                    </PathDetails>
-                    <Star onClick={toggleStar}>
-                      <img
-                        src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
-                        alt="즐겨찾기"
-                      />
-                    </Star>
-                  </DetailsAndStarContainer>
+            {paths.map((path, index) => (
+              <PathCard key={path.id}>
+                <ImagePlaceholder />
+                <PathDetails>
+                  <PathName>{path.name}</PathName>
+                  <PathLocation>{path.location}</PathLocation>
+                  <Rating>★ {path.rating}</Rating>
+                </PathDetails>
+                <StarAndReviewContainer>
+                  <Star onClick={() => toggleStar(index)}>
+                    <img
+                      src={starredPaths[index] ? FilledStar : UnfilledStar}
+                      alt="즐겨찾기"
+                    />
+                  </Star>
                   <ReviewButton onClick={handleReviewButtonClick}>
                     리뷰 보기
-                    <ArrowImage src={NextArrowIcon} alt="arrow icon" />
+                    <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
-                </PathCard>
-              );
-            })}
+                </StarAndReviewContainer>
+              </PathCard>
+            ))}
           </PathListContainer>
         ) : (
           <PathMapContainer>
             <h2>지도에 지름길 그려진 이미지 </h2>
-            {/*나중에 지도 이미지 추가 */}
+            {/* 나중에 지도 이미지 추가 */}
           </PathMapContainer>
         )}
       </Container>
     </>
   );
 };
-
 export default PathList;
 
 const Container = styled.div`
@@ -168,25 +165,19 @@ const ImagePlaceholder = styled.div`
   margin-left: 10px;
 `;
 
-const DetailsAndStarContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-grow: 1;
-  margin-left: 20px;
-`;
-
 const PathDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 0;
+  margin-left:0
 `;
 
 const PathName = styled.div`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
-  margin-top: 0;
+  margin-top: -10px;
   margin-left: 0;
 `;
 
@@ -204,11 +195,19 @@ const Rating = styled.div`
   margin-left: 0;
 `;
 
+const StarAndReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: auto;
+  margin-right: 10px;
+`;
+
 const Star = styled.div`
   cursor: pointer;
   align-self: flex-start;
-  margin-top: 5px;
-  margin-left: 40px;
+  margin-top: 25px;
+  margin-left: 50px;
 `;
 
 const ReviewButton = styled.button`
@@ -219,14 +218,15 @@ const ReviewButton = styled.button`
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
-  margin-top: 60px;
-  margin-right: 10px;
+  margin-top: 30px;
+  margin-bottom: 10px;
 `;
 
 const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
   margin-left: 7px;
+  margin-top: 5px;
 `;
 
 const PathMapContainer = styled.div`
