@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';  
 import styled from 'styled-components';
-import searchIcon from "../../images/NavBar/search.svg";
-import listIcon from "../../images/NavBar/list.svg";
-import shuttleIcon from "../../images/NavBar/shuttle.svg";
-import favoriteIcon from "../../images/NavBar/favorite.svg";
-import homeIcon from "../../images/NavBar/home.svg"; 
+import SearchIcon from "../../images/NavBar/SearchIcon.svg";
+import ListIcon from "../../images/NavBar/ListIcon.svg";
+import ShuttleIcon from "../../images/NavBar/ShuttleIcon.svg";
+import FavoriteIcon from "../../images/NavBar/FavoriteIcon.svg";
+import LogoIcon from "../../images/NavBar/LogoIcon.svg"; 
 
 function NavBar() {
   return (
@@ -13,23 +13,23 @@ function NavBar() {
       <NavBarContainer>
         <LeftIconsContainer>
           <StyledLink to="/search">
-            <IconImage src={searchIcon} alt="Search Icon" />
+            <IconImage src={SearchIcon} alt="Search Icon" />
           </StyledLink>
           <StyledLink to="/path-list">
-            <IconImage src={listIcon} alt="List Icon" />
+            <IconImage src={ListIcon} alt="List Icon" />
           </StyledLink>
         </LeftIconsContainer>
 
         <CenterButtonWrapper>
-            <HomeImage src={homeIcon} alt="Home Button" />
+            <HomeImage src={LogoIcon} alt="Center Button" />
         </CenterButtonWrapper>
 
         <RightIconsContainer>
           <StyledLink to="/shuttle">
-            <IconImage src={shuttleIcon} alt="Shuttle Icon" />
+            <IconImage src={ShuttleIcon} alt="Shuttle Icon" />
           </StyledLink>
           <StyledLink to="/favorite">
-            <IconImage src={favoriteIcon} alt="Favorite Icon" />
+            <IconImage src={FavoriteIcon} alt="Favorite Icon" />
           </StyledLink>
         </RightIconsContainer>
       </NavBarContainer>
