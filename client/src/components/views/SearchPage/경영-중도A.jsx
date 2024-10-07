@@ -2,46 +2,35 @@ import styled from "styled-components";
 import 출발 from "../../images/Search/출발.svg";
 import 도착 from "../../images/Search/도착.svg";
 
-const 경영중도A = () => {
+const 경영중도 = () => {
   return (
     <Wrapper>
       <Build>
         <img src={출발} alt="출발" />
-        <div className="text">경영관 출발</div>
+        <div className="text">정문 출발</div>
       </Build>
       <Build>
         <div className="dot"></div>
-        <div className="text">수영장길</div>
+        <div className="text">박물관 옆 길</div>
       </Build>
       <Build>
         <div className="dot"></div>
-        <div className="text">학생문화관 2층 출구</div>
+        <div className="text">유치원 옆 길</div>
       </Build>
       <Build>
         <div className="dot"></div>
-        <div className="text">포스코관 지하1층</div>
+        <div className="text">생활관</div>
       </Build>
-      <Build>
-        <div className="dot"></div>
-        <div className="text">포스코관 4층</div>
-      </Build>
-      <Build>
-        <div className="dot"></div>
-        <div className="text">종합과학관 지하1층</div>
-      </Build>
-      <Build>
-        <div className="dot"></div>
-        <div className="text">종합과학관 4층</div>
-      </Build>
+      
       <Build>
         <img src={도착} alt="도착" />
-        <div className="text">기숙사 도착</div>
+        <div className="text">학생문화관 도착</div>
       </Build>
     </Wrapper>
   );
 };
 
-export default 경영중도A;
+export default 정문학문관;
 
 const Wrapper = styled.div`
   color: white;
