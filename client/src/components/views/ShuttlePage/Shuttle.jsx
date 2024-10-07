@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../utils/header/Header";
 import styled from 'styled-components';
-import "./Shuttle.css";
+
 // styled-components 정의
 const ShuttleContainer = styled.div`
   display: flex;
