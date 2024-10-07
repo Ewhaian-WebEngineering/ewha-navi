@@ -1,6 +1,194 @@
 import React, { useState } from 'react';
+//import './Shuttle.css'; 
+import styled from 'styled-components';
+
 import Header from "../../utils/header/header";
-import './Shuttle.css'; 
+
+
+
+
+
+
+// styled-components 정의
+
+const ShuttleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0f3d2b;
+  width: 100vw; /* 전체 화면 너비로 확장 */
+  max-width: 100%; /* 최대 너비 제한 해제 */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex; /* 플렉스 레이아웃 */
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center;
+  width: 100%; /* 전체 너비 */
+  background-color: #ffffff; /* 흰색 배경 */
+  padding: 15px 0;
+  position: fixed; /* 위치 고정 */
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
+
+const DropdownContainer = styled.div`
+  width: 90%;
+  margin: 70px 0 15px; /* 고정된 헤더를 피하기 위한 여백 */
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 0;
+  position: relative;
+`;
+
+const DepartureButton = styled.button`
+  background-color: #ffffff;
+  color: #2b3d33;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: left;
+  font-size: 1em;
+
+  &::after {
+    content: '∨';
+    float: right;
+  }
+`;
+
+const DepartureDropdown = styled.div`
+  background-color: #ffffff;
+  position: absolute;
+  width: 100%;
+  border-radius: 10px;
+  top: 45px;
+  left: 0;
+  z-index: 10;
+  display: ${(props) => (props.open ? 'block' : 'none')};
+`;
+
+const DepartureItem = styled.div`
+  padding: 10px 20px;
+  color: #2b3d33;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d0e8dc;
+  }
+`;
+
+const DirectionToggle = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin: 15px 0;
+  gap: 0;
+`;
+
+const DirectionButton = styled.button`
+  background-color: ${(props) => (props.active ? '#a3c9b9' : '#ffffff')};
+  color: #2b3d33;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
+`;
+
+const RouteInfo = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  width: 95%;
+  border-radius: 7px;
+  margin-bottom: 15px;
+`;
+
+const DepartureLocation = styled.div`
+  width: auto;
+  padding: 10px 20px;
+  background-color: #a3c9b9;
+  border-radius: 0px;
+  text-align: center;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const Routes = styled.div`
+  width: 80%;
+  padding: 0 15px;
+`;
+
+
+
+const RouteDescription = styled.div`
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+`;
+
+const BusTimetable = styled.div`
+  margin-top: 20px;
+`;
+
+const RouteTable = styled.div`
+  background-color: #ffffff;
+  padding: 5px;
+  border-radius: 2px;
+  margin-bottom: 15px;
+
+  h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2b3d33;
+    margin-bottom: 10px;
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  background-color: #ffffff;
+
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #d0e8dc;
+  }
+
+  th {
+    background-color: #a3c9b9;
+    color: white;
+  }
+
+  td {
+    background-color: #ffffff;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f5f7f6;
+  }
+`;
+
+
+
+
+
+
+
+
+//styled component코드 
 
 
 const Shuttle = () => {
@@ -178,99 +366,80 @@ const Shuttle = () => {
     }
   };
 
-  const busTimetable = timetableData[selectedDeparture][isUpward ? 'upward' : 'downward'] || [];
+  const busTimetable = timetableData[selectedDeparture]?.[isUpward ? 'upward' : 'downward'] || [];
 
   return (
     
-    <div className="shuttle-container">
+    <ShuttleContainer>
+    {/* Header 영역 */}
+    <HeaderContainer>
+       <Header title="셔틀시간표 BUS STOP" />
+    </HeaderContainer>
 
-    <Header title="셔틀시간표 BUS STOP" />
+    {/* 출발지 Dropdown */}
+    <DropdownContainer>
+      <DepartureButton onClick={toggleDropdown}>{selectedDeparture}</DepartureButton>
+      <DepartureDropdown open={isDropdownOpen}>
+        {Object.keys(shuttleRoutes).map((departure) => (
+          <DepartureItem key={departure} onClick={() => handleDepartureClick(departure)}>
+            {departure}
+          </DepartureItem>
+        ))}
+      </DepartureDropdown>
+    </DropdownContainer>
 
+    {/* 상행/하행 Toggle */}
+    <DirectionToggle>
+      <DirectionButton active={isUpward} onClick={() => setIsUpward(true)}>
+        상행
+      </DirectionButton>
+      <DirectionButton active={!isUpward} onClick={() => setIsUpward(false)}>
+        하행
+      </DirectionButton>
+    </DirectionToggle>
 
-      
+    {/* 노선 정보 */}
+    <RouteInfo>
+      <DepartureLocation>{selectedDeparture}</DepartureLocation>
+      <Routes>
+        {shuttleRoutes[selectedDeparture].map((route, index) => (
+          <RouteDescription key={index}>
+            <strong>{route.route}:</strong> {route.time} <span>({route.interval})</span>
+          </RouteDescription>
+        ))}
+      </Routes>
+    </RouteInfo>
 
-      {/* 출발지 Dropdown */}
-      <div className="dropdown-container">
-        <button className="departure-button" onClick={toggleDropdown}>
-          {selectedDeparture}
-        </button>
-        <div className={`departure-dropdown ${isDropdownOpen ? 'open' : ''}`}>
-          {['정문', '포관', '공대삼거리', '한우리집', '기숙사삼거리'].map((departure) => (
-            <div key={departure} onClick={() => handleDepartureClick(departure)}>
-              {departure}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 상행/하행 Toggle */}
-      <div className="direction-toggle">
-        <button
-          className={isUpward ? 'active' : ''}
-          onClick={() => setIsUpward(true)}
-        >
-          상행
-        </button>
-        <button
-          className={!isUpward ? 'active' : ''}
-          onClick={() => setIsUpward(false)}
-        >
-          하행
-        </button>
-      </div>
-
-   
-
-      {/* 노선 정보 */}
-<div className="route-info">
-  {/* 출발장소 표시 */}
-  <div className="departure-location">
-    <strong>{selectedDeparture}</strong> {/* 선택한 출발지 출력 */}
-  </div>
-
-  {/* 노선 정보 표시 */}
-  <div className="routes">
-    {shuttleRoutes[selectedDeparture].map((route, index) => (
-      <div className="route" key={index}>
-        <p><strong>{route.route}:</strong> {route.time} <span>{route.interval}</span></p>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-
-
-      {/* 버스 시간표 */}
-      <div className="bus-timetable">
-        {busTimetable.length > 0 ? (
-          busTimetable.map((bus, index) => (
-            <div key={index} className="route-table">
-              <h3>{bus.route}</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>시간대</th>
-                    <th>시간</th>
+    {/* 버스 시간표 */}
+    <BusTimetable>
+      {busTimetable.length > 0 ? (
+        busTimetable.map((bus, index) => (
+          <RouteTable key={index}>
+            <h3>{bus.route}</h3>
+            <Table>
+              <thead>
+                <tr>
+                  <th>시간대</th>
+                  <th>시간</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bus.timeRanges.map((range, idx) => (
+                  <tr key={idx}>
+                    <td>{range.range}</td>
+                    <td>{range.times}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {bus.timeRanges.map((range, idx) => (
-                    <tr key={idx}>
-                      <td>{range.range}</td>
-                      <td>{range.times}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))
-        ) : (
-          <p>.</p>
-        )}
-      </div>
-    </div>
-  );
+                ))}
+              </tbody>
+            </Table>
+          </RouteTable>
+        ))
+      ) : (
+        <p>해당 방향에 대한 시간표가 없습니다.</p>
+      )}
+    </BusTimetable>
+  </ShuttleContainer>
+);
 };
 
 export default Shuttle;
