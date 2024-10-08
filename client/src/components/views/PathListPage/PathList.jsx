@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../utils/Header/Header";
 import styled from "styled-components";
 import NextArrow from "../../images/PathListPage/NextArrow.svg";
@@ -6,95 +6,7 @@ import FilledStar from "../../images/PathListPage/FilledStar.svg";
 import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
 import { useNavigate } from "react-router-dom";
 
-const PathList = () => {
-  const navigate = useNavigate();
-  const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
-  //const [favoritePaths, setFavoritePaths] = useState([]);
-  const [starredPaths, setStarredPaths] = useState([false, false, false, false]); // 별 표시 상태 배열 추가
-
-  const handleViewButtonClick = () => {
-    setIsViewButtonClicked(true);
-  };
-
-  const handleListButtonClick = () => {
-    setIsViewButtonClicked(false);
-  };
-
-  const handleReviewButtonClick = () => {
-    navigate("/review-write");
-  };
-
-  const toggleStar = (index) => {
-    setStarredPaths((prev) => {
-      const newStarredPaths = [...prev];
-      newStarredPaths[index] = !newStarredPaths[index];
-      return newStarredPaths;
-    });
-  };
-
-  const paths = [
-    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-  ];
-
-  return (
-    <>
-      <Header title="지름길 목록 / 리뷰" />
-      <Container>
-        <ButtonContainer>
-          <ListButton
-            isClicked={!isViewButtonClicked}
-            onClick={handleListButtonClick}
-          >
-            지름길 목록
-          </ListButton>
-          <ViewButton
-            isClicked={isViewButtonClicked}
-            onClick={handleViewButtonClick}
-          >
-            지름길 한 눈에 보기
-          </ViewButton>
-        </ButtonContainer>
-
-        {!isViewButtonClicked ? (
-          <PathListContainer>
-            {paths.map((path, index) => (
-              <PathCard key={path.id}>
-                <ImagePlaceholder />
-                <PathDetails>
-                  <PathName>{path.name}</PathName>
-                  <PathLocation>{path.location}</PathLocation>
-                  <Rating>★ {path.rating}</Rating>
-                </PathDetails>
-                <StarAndReviewContainer>
-                  <Star onClick={() => toggleStar(index)}>
-                    <img
-                      src={starredPaths[index] ? FilledStar : UnfilledStar}
-                      alt="즐겨찾기"
-                    />
-                  </Star>
-                  <ReviewButton onClick={handleReviewButtonClick}>
-                    리뷰 보기
-                    <ArrowImage src={NextArrow} alt="arrow icon" />
-                  </ReviewButton>
-                </StarAndReviewContainer>
-              </PathCard>
-            ))}
-          </PathListContainer>
-        ) : (
-          <PathMapContainer>
-            <h2>지도에 지름길 그려진 이미지 </h2>
-            {/* 나중에 지도 이미지 추가 */}
-          </PathMapContainer>
-        )}
-      </Container>
-    </>
-  );
-};
-export default PathList;
-
+// Styled-components 정의 부분
 const Container = styled.div`
   padding: 16px;
   background-color: #0f3d2b;
@@ -237,3 +149,106 @@ const PathMapContainer = styled.div`
   color: #0f3d2b;
   font-size: 16px;
 `;
+
+// 실제 컴포넌트 정의
+const PathList = () => {
+  const navigate = useNavigate();
+  const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
+  const [starredPaths, setStarredPaths] = useState(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+    return [false, false, false, false].map((_, index) => storedFavorites.includes(index));
+  });
+
+  const handleViewButtonClick = () => {
+    setIsViewButtonClicked(true);
+  };
+
+  const handleListButtonClick = () => {
+    setIsViewButtonClicked(false);
+  };
+
+  const handleReviewButtonClick = () => {
+    navigate("/review-write");
+  };
+
+  const toggleStar = (index) => {
+    setStarredPaths((prev) => {
+      const newStarredPaths = [...prev];
+      newStarredPaths[index] = !newStarredPaths[index];
+
+      const favoritePaths = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+      if (newStarredPaths[index]) {
+        favoritePaths.push(index);
+      } else {
+        const pathIndex = favoritePaths.indexOf(index);
+        if (pathIndex > -1) favoritePaths.splice(pathIndex, 1);
+      }
+      localStorage.setItem("favoritePaths", JSON.stringify(favoritePaths));
+
+      return newStarredPaths;
+    });
+  };
+
+  const paths = [
+    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
+    { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
+    { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
+    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
+  ];
+
+  return (
+    <>
+      <Header title="지름길 목록 / 리뷰" />
+      <Container>
+        <ButtonContainer>
+          <ListButton
+            isClicked={!isViewButtonClicked}
+            onClick={handleListButtonClick}
+          >
+            지름길 목록
+          </ListButton>
+          <ViewButton
+            isClicked={isViewButtonClicked}
+            onClick={handleViewButtonClick}
+          >
+            지름길 한 눈에 보기
+          </ViewButton>
+        </ButtonContainer>
+
+        {!isViewButtonClicked ? (
+          <PathListContainer>
+            {paths.map((path, index) => (
+              <PathCard key={path.id}>
+                <ImagePlaceholder />
+                <PathDetails>
+                  <PathName>{path.name}</PathName>
+                  <PathLocation>{path.location}</PathLocation>
+                  <Rating>★ {path.rating}</Rating>
+                </PathDetails>
+                <StarAndReviewContainer>
+                  <Star onClick={() => toggleStar(index)}>
+                    <img
+                      src={starredPaths[index] ? FilledStar : UnfilledStar}
+                      alt="즐겨찾기"
+                    />
+                  </Star>
+                  <ReviewButton onClick={handleReviewButtonClick}>
+                    리뷰 보기
+                    <ArrowImage src={NextArrow} alt="arrow icon" />
+                  </ReviewButton>
+                </StarAndReviewContainer>
+              </PathCard>
+            ))}
+          </PathListContainer>
+        ) : (
+          <PathMapContainer>
+            <h2>지도에 지름길 그려진 이미지 </h2>
+            {/* 나중에 지도 이미지 추가 */}
+          </PathMapContainer>
+        )}
+      </Container>
+    </>
+  );
+};
+
+export default PathList;
