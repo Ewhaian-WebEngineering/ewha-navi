@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/Header/Header";
 import styled from 'styled-components';
 
 // styled-components 정의
