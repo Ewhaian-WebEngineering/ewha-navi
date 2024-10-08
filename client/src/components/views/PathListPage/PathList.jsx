@@ -150,13 +150,12 @@ const PathMapContainer = styled.div`
   font-size: 16px;
 `;
 
-// 실제 컴포넌트 정의
 const PathList = () => {
   const navigate = useNavigate();
   const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
   const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
-    return [false, false, false, false].map((_, index) => storedFavorites.includes(index));
+    return storedFavorites;
   });
 
   const handleViewButtonClick = () => {
@@ -171,29 +170,22 @@ const PathList = () => {
     navigate("/review-write");
   };
 
-  const toggleStar = (index) => {
-    setStarredPaths((prev) => {
-      const newStarredPaths = [...prev];
-      newStarredPaths[index] = !newStarredPaths[index];
-
-      const favoritePaths = JSON.parse(localStorage.getItem("favoritePaths")) || [];
-      if (newStarredPaths[index]) {
-        favoritePaths.push(index);
-      } else {
-        const pathIndex = favoritePaths.indexOf(index);
-        if (pathIndex > -1) favoritePaths.splice(pathIndex, 1);
-      }
-      localStorage.setItem("favoritePaths", JSON.stringify(favoritePaths));
-
-      return newStarredPaths;
-    });
+  const handleStarClick = (index) => {
+    const updatedFavorites = [...starredPaths];
+    if (updatedFavorites.includes(index)) {
+      updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
+    } else {
+      updatedFavorites.push(index);
+    }
+    setStarredPaths(updatedFavorites);
+    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
   };
 
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
+    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.8 },
+    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.8 },
+    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.8 },
   ];
 
   return (
@@ -226,9 +218,9 @@ const PathList = () => {
                   <Rating>★ {path.rating}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
-                  <Star onClick={() => toggleStar(index)}>
+                  <Star onClick={() => handleStarClick(index)}>
                     <img
-                      src={starredPaths[index] ? FilledStar : UnfilledStar}
+                      src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
                       alt="즐겨찾기"
                     />
                   </Star>
@@ -242,7 +234,7 @@ const PathList = () => {
           </PathListContainer>
         ) : (
           <PathMapContainer>
-            <h2>지도에 지름길 그려진 이미지 </h2>
+            <h2>지도에 지름길 그려진 이미지</h2>
             {/* 나중에 지도 이미지 추가 */}
           </PathMapContainer>
         )}
