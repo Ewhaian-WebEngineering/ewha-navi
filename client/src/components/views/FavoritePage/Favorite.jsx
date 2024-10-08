@@ -1,3 +1,4 @@
+// Favorite.jsx
 import React, { useState, useEffect } from "react";
 import Header from "../../utils/Header/Header";
 import styled from "styled-components";
@@ -6,6 +7,7 @@ import FilledStar from "../../images/PathListPage/FilledStar.svg";
 import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
 import { useNavigate } from "react-router-dom";
 
+// Styled-components 정의 부분
 const Container = styled.div`
   padding: 16px;
   background-color: #0f3d2b;
@@ -43,7 +45,7 @@ const PathDetails = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 0;
-  margin-left:0
+  margin-left: 0;
 `;
 
 const PathName = styled.div`
@@ -102,60 +104,53 @@ const ArrowImage = styled.img`
   margin-top: 5px;
 `;
 
+const PathMapContainer = styled.div`
+  padding: 16px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  color: #0f3d2b;
+  font-size: 16px;
+`;
 
 const Favorite = () => {
   const navigate = useNavigate();
-  const [favoritePaths, setFavoritePaths] = useState([]);
-  const [starredPaths, setStarredPaths] = useState([]);
-
-  useEffect(() => {
-    const paths = [
-      { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-      { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-      { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-      { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    ];
-
+  const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
-    const favoritePathList = paths.filter((_, index) => storedFavorites.includes(index));
-
-    setFavoritePaths(favoritePathList);
-    setStarredPaths(storedFavorites);
-  }, []);
+    return storedFavorites;
+  });
 
   const handleReviewButtonClick = () => {
     navigate("/review-write");
   };
 
-  const toggleStar = (index) => {
+  const handleStarClick = (index) => {
     const updatedFavorites = [...starredPaths];
     if (updatedFavorites.includes(index)) {
       updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
     } else {
       updatedFavorites.push(index);
     }
-
     setStarredPaths(updatedFavorites);
     localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
-
-    const paths = [
-      { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-      { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-      { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-      { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    ];
-
-    const favoritePathList = paths.filter((_, idx) => updatedFavorites.includes(idx));
-    setFavoritePaths(favoritePathList);
   };
+
+  const allPaths = [
+    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
+    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.8 },
+    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.8 },
+    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.8 },
+  ];
+
+  const favoritePaths = starredPaths.map(index => allPaths[index]).filter(path => path);
 
   return (
     <>
-      <Header title="즐겨찾기 경로" />
+      <Header title="즐겨찾기" />
       <Container>
-        <PathListContainer>
-          {favoritePaths.length > 0 ? (
-            favoritePaths.map((path, index) => (
+        {favoritePaths.length > 0 ? (
+          <PathListContainer>
+            {favoritePaths.map((path, index) => (
               <PathCard key={path.id}>
                 <ImagePlaceholder />
                 <PathDetails>
@@ -164,9 +159,9 @@ const Favorite = () => {
                   <Rating>★ {path.rating}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
-                  <Star onClick={() => toggleStar(index)}>
+                  <Star onClick={() => handleStarClick(allPaths.indexOf(path))}>
                     <img
-                      src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
+                      src={starredPaths.includes(allPaths.indexOf(path)) ? FilledStar : UnfilledStar}
                       alt="즐겨찾기"
                     />
                   </Star>
@@ -176,11 +171,13 @@ const Favorite = () => {
                   </ReviewButton>
                 </StarAndReviewContainer>
               </PathCard>
-            ))
-          ) : (
-            <div>즐겨찾기한 경로가 없습니다.</div>
-          )}
-        </PathListContainer>
+            ))}
+          </PathListContainer>
+        ) : (
+          <PathMapContainer>
+            <h5>즐겨찾기된 지름길이 없습니다.</h5>
+          </PathMapContainer>
+        )}
       </Container>
     </>
   );
