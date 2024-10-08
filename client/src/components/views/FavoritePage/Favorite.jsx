@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/Header/Header";
 import styled from "styled-components";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import { useNavigate } from "react-router-dom";
