@@ -3,7 +3,7 @@ import Header from "../../utils/header/Header";
 import styled from "styled-components";
 import NextArrow from "../../images/PathListPage/NextArrow.svg";
 import FilledStar from "../../images/PathListPage/FilledStar.svg";
-import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; //현재 피그마에서 export하는 과정에서 svg가 깨졌으므로 파일 변경 필요
+import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
 import { useNavigate } from "react-router-dom";
 
 const PathList = () => {
