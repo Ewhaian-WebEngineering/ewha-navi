@@ -3,8 +3,6 @@ import styled from "styled-components";
 import 화살표 from "../../images/Search/화살표.svg";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
-import 포공A from "./포-공A";
-import shortpath from "../../images/Search/shortpath.png";
 
 const Search = () => {
   const [selectedMode, setSelectedMode] = useState("도보");
@@ -118,60 +116,31 @@ const Search = () => {
     }
   };
 
+
   const arrivalOptions = getArrivalOptions(departureLocation);
 
-  // 소요 시간을 계산하는 함수
   const calculateTotalTime = (departure, arrival) => {
     const key = `${departure}-${arrival}`;
-    return travelTimes[key] || 0; // 해당하는 키가 없으면 0 반환
+    return travelTimes[key] || 0;
   };
 
-  // 출발지와 도착지가 변경될 때마다 소요 시간 계산
   useEffect(() => {
     if (departureLocation && arrivalLocation) {
       const time = calculateTotalTime(departureLocation, arrivalLocation);
       setTotalTime(time);
     } else {
-      setTotalTime(0); // 출발지와 도착지가 모두 입력되지 않으면 총 소요시간 초기화
+      setTotalTime(0);
     }
-  }, [departureLocation, arrivalLocation]); // 의존성 배열에 두 개의 변수를 모두 포함
-
-  // 도보 모드일 때 API 호출
-  useEffect(() => {
-    if (selectedMode === "도보") {
-      fetch("API_URL") // 실제 API URL로 교체
-        .then((response) => response.json())
-        .then((data) => {
-          setRouteData(data.route); // API 응답에서 경로 데이터를 가져옴
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    }
-  }, [selectedMode]);
+  }, [departureLocation, arrivalLocation]);
 
   const toggleStar = () => {
     setIsStarred((prev) => !prev);
   };
 
   const swapLocations = () => {
-    if (!departureLocation || !arrivalLocation) {
-      alert("출발지와 도착지를 모두 입력해주세요");
-      return;
-    }
-    // 출발지와 도착지를 바꿉니다.
+    const temp = departureLocation;
     setDepartureLocation(arrivalLocation);
-    setArrivalLocation(departureLocation);
-  };
-
-  // 엔터 키를 눌렀을 때 소요 시간 검색
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (departureLocation && arrivalLocation) {
-        const time = calculateTotalTime(departureLocation, arrivalLocation);
-        setTotalTime(time);
-      } else {
-        alert("출발지와 도착지를 모두 입력해주세요");
-      }
-    }
+    setArrivalLocation(temp);
   };
 
   return (
@@ -183,36 +152,27 @@ const Search = () => {
             value={departureLocation}
             onChange={(e) => {
               setDepartureLocation(e.target.value);
-              setArrivalLocation(""); // 출발지 변경 시 도착지 초기화
+              setArrivalLocation("");
             }}
-            onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
           >
-            <option value="" disabled>
-              출발지 선택
-            </option>
+            <option value="" disabled>출발지 선택</option>
             {locations.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
-              </option>
+              <option key={index} value={location}>{location}</option>
             ))}
           </SelectLocation>
           <SelectArrival
             value={arrivalLocation}
             onChange={(e) => setArrivalLocation(e.target.value)}
-            disabled={!departureLocation} // 출발지가 선택되지 않으면 비활성화
-            onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
+            disabled={!departureLocation}
           >
-            <option value="" disabled>
-              도착지 선택
-            </option>
+            <option value="" disabled>도착지 선택</option>
             {arrivalOptions.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
-              </option>
+              <option key={index} value={location}>{location}</option>
             ))}
           </SelectArrival>
         </div>
       </SearchContainer>
+
       <Select>
         <div
           className={`도보 ${selectedMode === "도보" ? "selected" : ""}`}
@@ -227,27 +187,147 @@ const Search = () => {
           셔틀
         </div>
       </Select>
+
       <Wrapper>
-        {selectedMode === "도보" ? (
-          <>
-            <div className="time">총 소요시간: {totalTime} 분</div>
-            <Star onClick={toggleStar}>
-              <img src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기} alt="즐겨찾기" />
-            </Star>
-            <Map></Map>
-            <Route>
-              <div className="container">
-                {routeData ? (
-                  routeData.map((route, index) => (
-                    <포공A key={index} {...route} />
-                  ))
-                ) : (
-                  <포공A></포공A>
-                )}
-              </div>
-            </Route>
-          </>
-        ) : null}
+        <div className="time">총 소요시간: {totalTime} 분</div>
+        <Star onClick={toggleStar}>
+          <img src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기} alt="즐겨찾기" />
+        </Star>
+
+        <Map></Map>
+
+        <TableContainer>
+  <StyledTable>
+    <thead>
+      <tr>
+        <th>약어</th>
+        <th>건물 이름</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>경영</td>
+        <td>이화 신세계관</td>
+      </tr>
+      <tr>
+        <td>공학A</td>
+        <td>아산공학관</td>
+      </tr>
+      <tr>
+        <td>공학B</td>
+        <td>신공학관</td>
+      </tr>
+      <tr>
+        <td>공대강당</td>
+        <td>아산공학관 지하1층 강당</td>
+      </tr>
+      <tr>
+        <td>교A</td>
+        <td>교육관 A동</td>
+      </tr>
+      <tr>
+        <td>교B</td>
+        <td>교육관 B동</td>
+      </tr>
+      <tr>
+        <td>교문</td>
+        <td>이화 삼성교육문화관</td>
+      </tr>
+      <tr>
+        <td>교회301</td>
+        <td>대학교회 3층 예배실</td>
+      </tr>
+      <tr>
+        <td>국</td>
+        <td>국제교육관</td>
+      </tr>
+      <tr>
+        <td>법</td>
+        <td>법학관</td>
+      </tr>
+      <tr>
+        <td>본</td>
+        <td>본관</td>
+      </tr>
+      <tr>
+        <td>생활</td>
+        <td>생활환경관</td>
+      </tr>
+      <tr>
+        <td>약A</td>
+        <td>약학관 A동</td>
+      </tr>
+      <tr>
+        <td>음</td>
+        <td>음악관</td>
+      </tr>
+      <tr>
+        <td>음B119</td>
+        <td>음악관 지하 시청각실</td>
+      </tr>
+      <tr>
+        <td>의</td>
+        <td>목동 의학연구동</td>
+      </tr>
+      <tr>
+        <td>조형A</td>
+        <td>조형예술관 A동</td>
+      </tr>
+      <tr>
+        <td>조형B</td>
+        <td>조형예술관 B동</td>
+      </tr>
+      <tr>
+        <td>조형C</td>
+        <td>조형예술관 C동</td>
+      </tr>
+      <tr>
+        <td>정보B01</td>
+        <td>이화 SK텔레콤관 지하1층</td>
+      </tr>
+      <tr>
+        <td>종A</td>
+        <td>종합과학관 A동</td>
+      </tr>
+      <tr>
+        <td>종B</td>
+        <td>종합과학관 B동</td>
+      </tr>
+      <tr>
+        <td>체</td>
+        <td>체육관 A동</td>
+      </tr>
+      <tr>
+        <td>체</td>
+        <td>체육관 B동</td>
+      </tr>
+      <tr>
+        <td>체</td>
+        <td>체육관 C동</td>
+      </tr>
+      <tr>
+        <td>캠</td>
+        <td>이화캠퍼스복합단지(ECC)</td>
+      </tr>
+      <tr>
+        <td>포</td>
+        <td>이화 포스코관</td>
+      </tr>
+      <tr>
+        <td>학</td>
+        <td>학관</td>
+      </tr>
+      <tr>
+        <td>헬</td>
+        <td>헬렌관</td>
+      </tr>
+      <tr>
+        <td>R.H.</td>
+        <td>학관 5층 레크레이션홀</td>
+      </tr>
+    </tbody>
+  </StyledTable>
+</TableContainer>
       </Wrapper>
     </MainWrapper>
   );
@@ -271,7 +351,7 @@ const SearchContainer = styled.div`
   img {
     margin-right: 20px;
     margin-left: 10px;
-    cursor: pointer; /* 화살표에 포인터 커서 추가 */
+    cursor: pointer;
   }
 `;
 
@@ -305,11 +385,11 @@ const Select = styled.div`
   display: flex;
   .selected {
     font-weight: bold;
-    color: #0f3d2b; /* 선택된 항목의 색상 */
-    border-bottom: solid #0f3d2b; /* 선택된 항목 하단 테두리 색상 */
+    color: #0f3d2b;
+    border-bottom: solid #0f3d2b;
   }
   div {
-    cursor: pointer; /* 포인터 커서 추가 */
+    cursor: pointer;
     width: 50%;
     text-align: center;
     color: #8e8e8e;
@@ -344,21 +424,30 @@ const Map = styled.div`
   width: 324px;
   height: 235px;
   background-color: #e9ebee;
-  background-image: url(${shortpath}); /* 배경 이미지 추가 */
-  background-size: cover; /* 이미지를 div에 맞게 조정 */
-  background-position: center; /* 이미지를 가운데 정렬 */
 `;
 
-const Route = styled.div`
+const TableContainer = styled.div`
   margin-top: 20px;
-  border-top: 0.1px solid white;
-  width: 327px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  .container {
-    border-left: 0.1px solid white;
-    width: 250px;
-    height: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  td {
+    background-color: #fff;
   }
 `;
