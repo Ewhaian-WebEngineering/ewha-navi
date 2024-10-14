@@ -17,7 +17,7 @@ const ShuttleContainer = styled.div`
 
 const DropdownContainer = styled.div`
   width: 90%;
-  margin: 70px 0 15px; /* 고정된 헤더를 피하기 위한 여백 */
+  margin: 20px 0 15px; /* 고정된 헤더를 피하기 위한 여백 */
   background-color: #ffffff;
   border-radius: 10px;
   padding: 0;
@@ -49,7 +49,7 @@ const DepartureDropdown = styled.div`
 `;
 const DepartureItem = styled.div`
   padding: 10px 20px;
-  color: #2b3d33;
+  color: #358868;
   cursor: pointer;
   &:hover {
     background-color: #d0e8dc;
@@ -63,15 +63,39 @@ const DirectionToggle = styled.div`
   margin: 15px 0;
   gap: 0;
 `;
-const DirectionButton = styled.button`
-  background-color: ${(props) => (props.active ? '#a3c9b9' : '#ffffff')};
-  color: #2b3d33;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
+const UpwardButton = styled.button`
+  background: ${({ isClicked }) =>
+    isClicked
+      ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
+      : "white"};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 15px;
+  border-radius: 20px;
   cursor: pointer;
-  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
+  font-size: 14px;
+  font-weight: 100;
+  margin-left: 20px;
+  margin-top: -10px;
 `;
+
+const DownwardButton = styled.button`
+  background: ${({ isClicked }) =>
+    isClicked
+      ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
+      : "white"};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  margin-right: 250px;
+  margin-top:-10px;
+`;
+
+
 const RouteInfo = styled.div`
   display: flex;
   align-items: center;
@@ -83,8 +107,9 @@ const RouteInfo = styled.div`
 const DepartureLocation = styled.div`
   width: auto;
   padding: 10px 20px;
-  background-color: #a3c9b9;
-  border-radius: 0px;
+  background-color: #358868;
+  color: white;
+  border-radius: 4px;
   text-align: center;
   margin: 0;
   height: 100%;
@@ -94,10 +119,10 @@ const DepartureLocation = styled.div`
 const Routes = styled.div`
   width: 80%;
   padding: 0 15px;
+  color: #0F3D2B;
 `;
 const RouteDescription = styled.div`
   padding: 10px;
-  background-color: #f0f0f0;
   border-radius: 7px;
   margin-bottom: 10px;
   font-size: 0.9em;
@@ -108,11 +133,12 @@ const BusTimetable = styled.div`
 const RouteTable = styled.div`
   background-color: #ffffff;
   padding: 5px;
-  border-radius: 2px;
-  margin-bottom: 15px;
-  h3 {
+  border-radius: 4px;
+  padding:10px 10px;;
+
+  p {
     font-size: 1.2em;
-    font-weight: bold;
+    font-weight: normal;
     color: #2b3d33;
     margin-bottom: 10px;
   }
@@ -125,17 +151,8 @@ const Table = styled.table`
   th, td {
     padding: 8px;
     text-align: center;
-    border: 1px solid #d0e8dc;
-  }
-  th {
-    background-color: #a3c9b9;
-    color: white;
-  }
-  td {
-    background-color: #ffffff;
-  }
-  tbody tr:nth-child(even) {
-    background-color: #f5f7f6;
+    border: 2px solid #358868;
+    border-radius: 10px;
   }
 `;
 //styled component코드 
@@ -405,12 +422,12 @@ const Shuttle = () => {
     </DropdownContainer>
     {/* 상행/하행 Toggle */}
     <DirectionToggle>
-      <DirectionButton active={isUpward} onClick={() => setIsUpward(true)}>
-        상행
-      </DirectionButton>
-      <DirectionButton active={!isUpward} onClick={() => setIsUpward(false)}>
-        하행
-      </DirectionButton>
+    <UpwardButton isClicked={isUpward} onClick={() => setIsUpward(true)}>
+    상행
+  </UpwardButton>
+  <DownwardButton isClicked={!isUpward} onClick={() => setIsUpward(false)}>
+    하행
+  </DownwardButton>
     </DirectionToggle>
     {/* 노선 정보 */}
     <RouteInfo>
@@ -428,14 +445,8 @@ const Shuttle = () => {
       {busTimetable.length > 0 ? (
         busTimetable.map((bus, index) => (
           <RouteTable key={index}>
-            <h3>{bus.route}</h3>
+            <p>{bus.route}</p>
             <Table>
-              <thead>
-                <tr>
-                  <th>시간대</th>
-                  <th>시간</th>
-                </tr>
-              </thead>
               <tbody>
                 {bus.timeRanges.map((range, idx) => (
                   <tr key={idx}>
