@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+// src/components/PathList/PathList.jsx
+import React, { useState } from "react";
 import Header from "../../utils/Header/Header";
 import styled from "styled-components";
 import NextArrow from "../../images/PathListPage/NextArrow.svg";
 import FilledStar from "../../images/PathListPage/FilledStar.svg";
 import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
 import { useNavigate } from "react-router-dom";
+import KakaoMap from "../KakaoMap/KakaoMap"; // KakaoMap 컴포넌트 import
 
 // Styled-components 정의 부분
 const Container = styled.div`
@@ -27,7 +29,7 @@ const ListButton = styled.button`
       ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
       : "white"};
   color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  border: none;
   padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -42,7 +44,7 @@ const ViewButton = styled.button`
       ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
       : "white"};
   color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  border: none;
   padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -82,7 +84,7 @@ const PathDetails = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 0;
-  margin-left:0
+  margin-left: 0;
 `;
 
 const PathName = styled.div`
@@ -183,9 +185,9 @@ const PathList = () => {
 
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.8 },
-    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.8 },
-    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.8 },
+    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.5 },
+    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.7 },
+    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.6 },
   ];
 
   return (
@@ -234,8 +236,7 @@ const PathList = () => {
           </PathListContainer>
         ) : (
           <PathMapContainer>
-            <h2>지도에 지름길 그려진 이미지</h2>
-            {/* 나중에 지도 이미지 추가 */}
+            <KakaoMap />
           </PathMapContainer>
         )}
       </Container>
