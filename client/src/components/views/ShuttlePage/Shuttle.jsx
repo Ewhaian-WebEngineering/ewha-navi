@@ -144,7 +144,7 @@ const Table = styled.table`
 const Shuttle = () => {
   const [isUpward, setIsUpward] = useState(true); // 상행/하행 토글 상태 관리
   const [selectedDeparture, setSelectedDeparture] = useState("정문"); // 출발지 선택 상태 관리
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 드롭다운 상태 관리
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 드롭다운 상태 
 
   const handleDepartureClick = (departure) => {
     setSelectedDeparture(departure); // 선택한 출발지 업데이트
