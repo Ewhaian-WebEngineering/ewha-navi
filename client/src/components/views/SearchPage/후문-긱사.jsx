@@ -2,16 +2,16 @@ import styled from "styled-components";
 import 출발 from "../../images/Search/출발.svg";
 import 도착 from "../../images/Search/도착.svg";
 
-const 후문긱사 = () => {
+const 경영중도A = () => {
   return (
     <Wrapper>
       <Build>
         <img src={출발} alt="출발" />
-        <div className="text">후문 출발</div>
+        <div className="text">경영관 출발</div>
       </Build>
       <Build>
         <div className="dot"></div>
-        <div className="text">학생문화관</div>
+        <div className="text">수영장길</div>
       </Build>
       <Build>
         <div className="dot"></div>
@@ -41,7 +41,7 @@ const 후문긱사 = () => {
   );
 };
 
-export default 후문긱사;
+export default 경영중도A;
 
 const Wrapper = styled.div`
   color: white;

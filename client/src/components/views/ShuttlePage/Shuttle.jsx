@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/Header/Header";
 import styled from 'styled-components';
-import "./Shuttle.css";
+import ToggleIcon from "../../images/ShuttlePage/Toggle.svg"; 
 // styled-components 정의
 const ShuttleContainer = styled.div`
   display: flex;
@@ -17,25 +17,30 @@ const ShuttleContainer = styled.div`
 
 const DropdownContainer = styled.div`
   width: 90%;
-  margin: 70px 0 15px; /* 고정된 헤더를 피하기 위한 여백 */
+  margin: 20px 0 15px; /* 고정된 헤더를 피하기 위한 여백 */
   background-color: #ffffff;
   border-radius: 10px;
   padding: 0;
   position: relative;
 `;
+const IconImage = styled.img`
+  width: 16px; /* Adjust size as needed */
+  height: 16px;
+  margin-right:0px;
+`;
 const DepartureButton = styled.button`
   background-color: #ffffff;
   color: #2b3d33;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 15px;
   border-radius: 10px;
   width: 100%;
   text-align: left;
   font-size: 1em;
-  &::after {
-    content: '∨';
-    float: right;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between text and icon */
+  cursor: pointer;
 `;
 const DepartureDropdown = styled.div`
   background-color: #ffffff;
@@ -49,7 +54,7 @@ const DepartureDropdown = styled.div`
 `;
 const DepartureItem = styled.div`
   padding: 10px 20px;
-  color: #2b3d33;
+  color: #358868;
   cursor: pointer;
   &:hover {
     background-color: #d0e8dc;
@@ -63,81 +68,114 @@ const DirectionToggle = styled.div`
   margin: 15px 0;
   gap: 0;
 `;
-const DirectionButton = styled.button`
-  background-color: ${(props) => (props.active ? '#a3c9b9' : '#ffffff')};
-  color: #2b3d33;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
+const UpwardButton = styled.button`
+  background: ${({ isClicked }) =>
+    isClicked
+      ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
+      : "white"};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 15px;
+  border-radius: 20px;
   cursor: pointer;
-  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
+  font-size: 14px;
+  font-weight: 100;
+  margin-left: 20px;
+  margin-top: -10px;
 `;
-const RouteInfo = styled.div`
+
+const DownwardButton = styled.button`
+  background: ${({ isClicked }) =>
+    isClicked
+      ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
+      : "white"};
+  color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
+  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  padding: 5px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  margin-right: 250px;
+  margin-top:-10px;
+`;
+
+
+const RouteInfo = styled.div` //노선 정보
   display: flex;
   align-items: center;
   background-color: #ffffff;
-  width: 95%;
+  width: 90%;
+  height: 16%;
   border-radius: 7px;
   margin-bottom: 15px;
 `;
-const DepartureLocation = styled.div`
-  width: auto;
-  padding: 10px 20px;
-  background-color: #a3c9b9;
-  border-radius: 0px;
+const DepartureLocation = styled.div` //정문
+  width: 30%;
+  height: 100%;
+  padding: 15px 5px;
+  background-color: #358868;
+  color: white;
+  border-radius: 4px;
   text-align: center;
   margin: 0;
-  height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center; 
 `;
 const Routes = styled.div`
   width: 80%;
   padding: 0 15px;
+  color: #0F3D2B;
 `;
 const RouteDescription = styled.div`
-  padding: 10px;
-  background-color: #f0f0f0;
   border-radius: 7px;
-  margin-bottom: 10px;
-  font-size: 0.9em;
-`;
-const BusTimetable = styled.div`
-  margin-top: 20px;
-`;
-const RouteTable = styled.div`
-  background-color: #ffffff;
-  padding: 5px;
-  border-radius: 2px;
   margin-bottom: 15px;
-  h3 {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #2b3d33;
-    margin-bottom: 10px;
+  font-size: 15px;
+  margin-top:10px;
+
+  p{
+  font-size: 10px;
   }
 `;
+const BusTimetableContainer = styled.div`
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between tables */
+`;
+
+const RouteTable = styled.div`
+  padding: 5px 0px;
+  border-radius: 4px;
+  width: 100%;
+  margin-bottom: 15px;
+
+  p {
+    font-size: 15px;
+    color: #000000;
+    margin: 10px 0 10px 0; 
+  }
+`;
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 15px;
   background-color: #ffffff;
   th, td {
-    padding: 8px;
+    font-size: 14px;
+    padding: 5px;
     text-align: center;
-    border: 1px solid #d0e8dc;
-  }
-  th {
-    background-color: #a3c9b9;
-    color: white;
-  }
-  td {
-    background-color: #ffffff;
-  }
-  tbody tr:nth-child(even) {
-    background-color: #f5f7f6;
+    border: 2px solid #358868;
+    border-radius: 4px;
   }
 `;
+
+
 //styled component코드 
 
 
@@ -158,12 +196,12 @@ const Shuttle = () => {
   const shuttleRoutes = {
     정문: [
       {
-        route: "연구협력관 노선(상행기준)",
+        route: "연구협력관 노선",
         time: "07:50-21:00",
         interval: "배차간격: 5-10분",
       },
       {
-        route: "한우리집 노선(상행기준)",
+        route: "한우리집 노선",
         time: "08:25-16:05",
         interval: "배차간격: 20분",
       },
@@ -394,23 +432,27 @@ const Shuttle = () => {
     <ShuttleContainer>
     {/* 출발지 Dropdown */}
     <DropdownContainer>
-      <DepartureButton onClick={toggleDropdown}>{selectedDeparture}</DepartureButton>
-      <DepartureDropdown open={isDropdownOpen}>
-        {Object.keys(shuttleRoutes).map((departure) => (
-          <DepartureItem key={departure} onClick={() => handleDepartureClick(departure)}>
-            {departure}
-          </DepartureItem>
-        ))}
-      </DepartureDropdown>
-    </DropdownContainer>
+  <DepartureButton onClick={toggleDropdown}>
+    {selectedDeparture}
+    <IconImage src={ToggleIcon} alt="Toggle Icon" />
+  </DepartureButton>
+  <DepartureDropdown open={isDropdownOpen}>
+    {Object.keys(shuttleRoutes).map((departure) => (
+      <DepartureItem key={departure} onClick={() => handleDepartureClick(departure)}>
+        {departure}
+      </DepartureItem>
+    ))}
+  </DepartureDropdown>
+</DropdownContainer>
+
     {/* 상행/하행 Toggle */}
     <DirectionToggle>
-      <DirectionButton active={isUpward} onClick={() => setIsUpward(true)}>
-        상행
-      </DirectionButton>
-      <DirectionButton active={!isUpward} onClick={() => setIsUpward(false)}>
-        하행
-      </DirectionButton>
+    <UpwardButton isClicked={isUpward} onClick={() => setIsUpward(true)}>
+    상행
+  </UpwardButton>
+  <DownwardButton isClicked={!isUpward} onClick={() => setIsUpward(false)}>
+    하행
+  </DownwardButton>
     </DirectionToggle>
     {/* 노선 정보 */}
     <RouteInfo>
@@ -418,39 +460,34 @@ const Shuttle = () => {
       <Routes>
         {shuttleRoutes[selectedDeparture].map((route, index) => (
           <RouteDescription key={index}>
-            <strong>{route.route}:</strong> {route.time} <span>({route.interval})</span>
+            <strong>{route.route}:</strong> {route.time} <p>{route.interval}</p>
           </RouteDescription>
         ))}
       </Routes>
     </RouteInfo>
     {/* 버스 시간표 */}
-    <BusTimetable>
+    <BusTimetableContainer>
       {busTimetable.length > 0 ? (
         busTimetable.map((bus, index) => (
-          <RouteTable key={index}>
-            <h3>{bus.route}</h3>
-            <Table>
-              <thead>
-                <tr>
-                  <th>시간대</th>
-                  <th>시간</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bus.timeRanges.map((range, idx) => (
-                  <tr key={idx}>
-                    <td>{range.range}</td>
-                    <td>{range.times}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </RouteTable>
-        ))
-      ) : (
-        <p>해당 방향에 대한 시간표가 없습니다.</p>
-      )}
-    </BusTimetable>
+        <RouteTable key={index}>
+          <p>{bus.route}</p>
+          <Table>
+            <tbody>
+              {bus.timeRanges.map((range, idx) => (
+              <tr key={idx}>
+                <td>{range.range}</td>
+                <td>{range.times}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </RouteTable>
+    ))
+  ) : (
+    <p>해당 방향에 대한 시간표가 없습니다.</p>
+  )}
+    </BusTimetableContainer>
+
   </ShuttleContainer>
   </>
 );

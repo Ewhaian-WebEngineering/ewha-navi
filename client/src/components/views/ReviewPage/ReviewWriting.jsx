@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import ReviewWritingHeader from "../../utils/header/Header2";
+import ReviewWritingHeader from "../../utils/Header/Header2";
 import ReviewRoadImgIntro from "./ReviewRoadImgIntro";
 import MakeReviewStar from "./MakeReveiwStar";
 import ReviewDataBox from "./ReviewDataBox";
 import styled from "styled-components";
+import axios from "axios";
 
 // 지름길 리뷰 페이지입니다.
 const ReviewWriting = ()=>{
@@ -17,10 +18,22 @@ const ReviewWriting = ()=>{
     const [roadName, setRoadName] = useState("지름길 이름");
     const [building, setBuilging] = useState(["출발", "도착"]);
     const [ratingAverage, setRatingAverage] = useState(4.8);
-
+    const [reviews, setReviews] = useState([]);
+    const [updateUI, setUpdateUI] = useState(false);
     // 리뷰 작성 시 등록할 별점과 리뷰 내용
     const [ratingNum, setRatingNum] = useState(0);
     const [reviewText, setReviewText] = useState("");
+
+    const params = new URLSearchParams(window.location.search);
+    const roadQuery = params.get('roadName');
+    // baseURL 설정 방법 알아봐야 됨....
+    const baseURL = `http://localhost:5000`;
+    useEffect(()=>{
+        setRoadName(roadQuery);
+        //axios 이용해서 db의 값 불러와야 됨...
+        
+    }, [updateUI]);
+    // 리뷰추가하는 함수 만들 예정
 
     const onChangeReviewNum = function (params){
         setRatingNum(params);
@@ -37,13 +50,27 @@ const ReviewWriting = ()=>{
             <div className="review-writing-box">
                 <MakeReviewStar onChangeReviewNum={onChangeReviewNum}/>
                 <ReviewWriteBox>
-                    <ReviewForm><WriteInputBox placeholder="  해당 길에 관해 자유롭게 적어보세요."/>
-                    <WriteUploadBtn>리뷰 등록</WriteUploadBtn>
+                    <ReviewForm><WriteInputBox
+                    type="text"
+                    value={reviewText}
+                    onChange={(((e)=> setReviewText(e.target.value)))}
+                     placeholder="  해당 길에 관해 자유롭게 적어보세요."/>
+                    <WriteUploadBtn type="submit">리뷰 등록</WriteUploadBtn>
                     </ReviewForm>
                 </ReviewWriteBox>
                 <ReviewHr />
             </div>
             <div>
+                {
+                    reviews.map(review=>
+                        <ReviewDataBox
+                        key = {review._id}
+                        id = {review._id}
+                        ratingData = {review.rating}
+                        textData={review.reviewText}
+                         />
+                    )
+                }
                 <ReviewDataBox
                     ratingData={4}
                     textData="나중에 데이터가 들어가면 map 통해서 구현할 내용입니다!!!!"

@@ -1,103 +1,14 @@
+// src/components/PathList/PathList.jsx
 import React, { useState } from "react";
-import Header from "../../utils/header/Header";
+import Header from "../../utils/Header/Header";
 import styled from "styled-components";
-import NextArrowIcon from "../../utils/icons/NextArrow.png";
-import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
-import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
+import NextArrow from "../../images/PathListPage/NextArrow.svg";
+import FilledStar from "../../images/PathListPage/FilledStar.svg";
+import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
 import { useNavigate } from "react-router-dom";
+import KakaoMap from "../KakaoMap/KakaoMap"; // KakaoMap 컴포넌트 import
 
-const PathList = () => {
-  const navigate = useNavigate();
-  const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
-  const [favoritePaths, setFavoritePaths] = useState([]);
-  const [isStarred, setIsStarred] = useState(false); // 별 표시 상태 추가
-
-  const handleViewButtonClick = () => {
-    setIsViewButtonClicked(true);
-  };
-
-  const handleListButtonClick = () => {
-    setIsViewButtonClicked(false);
-  };
-
-  const handleReviewButtonClick = () => {
-    navigate("/review-write");
-  };
-
-  const toggleStar = () => {
-    setIsStarred((prev) => !prev); // 별 상태 토글
-  };
-
-  const paths = [
-    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 3, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-    { id: 4, name: "지름길 이름", location: "장소 - 장소", rating: 4.8 },
-  ];
-
-  return (
-    <>
-      <Header title="지름길 목록 / 리뷰" />
-      <Container>
-        <ButtonContainer>
-          <ListButton
-            isClicked={!isViewButtonClicked}
-            onClick={handleListButtonClick}
-          >
-            지름길 목록
-          </ListButton>
-          <ViewButton
-            isClicked={isViewButtonClicked}
-            onClick={handleViewButtonClick}
-          >
-            지름길 한 눈에 보기
-          </ViewButton>
-        </ButtonContainer>
-
-        {!isViewButtonClicked ? (
-          <PathListContainer>
-            {paths.map((path) => {
-              const isFavorite = favoritePaths.some(
-                (favorite) => favorite.id === path.id
-              );
-
-              return (
-                <PathCard key={path.id}>
-                  <ImagePlaceholder />
-                  <DetailsAndStarContainer>
-                    <PathDetails>
-                      <PathName>{path.name}</PathName>
-                      <PathLocation>{path.location}</PathLocation>
-                      <Rating>★ {path.rating}</Rating>
-                    </PathDetails>
-                    <Star onClick={toggleStar}>
-                      <img
-                        src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
-                        alt="즐겨찾기"
-                      />
-                    </Star>
-                  </DetailsAndStarContainer>
-                  <ReviewButton onClick={handleReviewButtonClick}>
-                    리뷰 보기
-                    <ArrowImage src={NextArrowIcon} alt="arrow icon" />
-                  </ReviewButton>
-                </PathCard>
-              );
-            })}
-          </PathListContainer>
-        ) : (
-          <PathMapContainer>
-            <h2>지도에 지름길 그려진 이미지 </h2>
-            {/*나중에 지도 이미지 추가 */}
-          </PathMapContainer>
-        )}
-      </Container>
-    </>
-  );
-};
-
-export default PathList;
-
+// Styled-components 정의 부분
 const Container = styled.div`
   padding: 16px;
   background-color: #0f3d2b;
@@ -118,7 +29,7 @@ const ListButton = styled.button`
       ? "linear-gradient(to bottom, #358868 0%, #116846 100%)"
       : "white"};
   color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  border: none;
   padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -133,7 +44,7 @@ const ViewButton = styled.button`
       ? "linear-gradient(to bottom, #116846 0%, #358868 100%)"
       : "white"};
   color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
-  border: ${({ isClicked }) => (isClicked ? "none" : "none")};
+  border: none;
   padding: 5px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -168,25 +79,19 @@ const ImagePlaceholder = styled.div`
   margin-left: 10px;
 `;
 
-const DetailsAndStarContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-grow: 1;
-  margin-left: 20px;
-`;
-
 const PathDetails = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 0;
+  margin-left: 0;
 `;
 
 const PathName = styled.div`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
-  margin-top: 0;
+  margin-top: -10px;
   margin-left: 0;
 `;
 
@@ -204,11 +109,19 @@ const Rating = styled.div`
   margin-left: 0;
 `;
 
+const StarAndReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: auto;
+  margin-right: 10px;
+`;
+
 const Star = styled.div`
   cursor: pointer;
   align-self: flex-start;
-  margin-top: 5px;
-  margin-left: 40px;
+  margin-top: 25px;
+  margin-left: 50px;
 `;
 
 const ReviewButton = styled.button`
@@ -219,14 +132,15 @@ const ReviewButton = styled.button`
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
-  margin-top: 60px;
-  margin-right: 10px;
+  margin-top: 30px;
+  margin-bottom: 10px;
 `;
 
 const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
   margin-left: 7px;
+  margin-top: 5px;
 `;
 
 const PathMapContainer = styled.div`
@@ -237,3 +151,97 @@ const PathMapContainer = styled.div`
   color: #0f3d2b;
   font-size: 16px;
 `;
+
+const PathList = () => {
+  const navigate = useNavigate();
+  const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
+  const [starredPaths, setStarredPaths] = useState(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+    return storedFavorites;
+  });
+
+  const handleViewButtonClick = () => {
+    setIsViewButtonClicked(true);
+  };
+
+  const handleListButtonClick = () => {
+    setIsViewButtonClicked(false);
+  };
+
+  const handleReviewButtonClick = () => {
+    navigate("/review-write");
+  };
+
+  const handleStarClick = (index) => {
+    const updatedFavorites = [...starredPaths];
+    if (updatedFavorites.includes(index)) {
+      updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
+    } else {
+      updatedFavorites.push(index);
+    }
+    setStarredPaths(updatedFavorites);
+    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
+  };
+
+  const paths = [
+    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
+    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.5 },
+    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.7 },
+    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.6 },
+  ];
+
+  return (
+    <>
+      <Header title="지름길 목록 / 리뷰" />
+      <Container>
+        <ButtonContainer>
+          <ListButton
+            isClicked={!isViewButtonClicked}
+            onClick={handleListButtonClick}
+          >
+            지름길 목록
+          </ListButton>
+          <ViewButton
+            isClicked={isViewButtonClicked}
+            onClick={handleViewButtonClick}
+          >
+            지름길 한 눈에 보기
+          </ViewButton>
+        </ButtonContainer>
+
+        {!isViewButtonClicked ? (
+          <PathListContainer>
+            {paths.map((path, index) => (
+              <PathCard key={path.id}>
+                <ImagePlaceholder />
+                <PathDetails>
+                  <PathName>{path.name}</PathName>
+                  <PathLocation>{path.location}</PathLocation>
+                  <Rating>★ {path.rating}</Rating>
+                </PathDetails>
+                <StarAndReviewContainer>
+                  <Star onClick={() => handleStarClick(index)}>
+                    <img
+                      src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
+                      alt="즐겨찾기"
+                    />
+                  </Star>
+                  <ReviewButton onClick={handleReviewButtonClick}>
+                    리뷰 보기
+                    <ArrowImage src={NextArrow} alt="arrow icon" />
+                  </ReviewButton>
+                </StarAndReviewContainer>
+              </PathCard>
+            ))}
+          </PathListContainer>
+        ) : (
+          <PathMapContainer>
+            <KakaoMap />
+          </PathMapContainer>
+        )}
+      </Container>
+    </>
+  );
+};
+
+export default PathList;
