@@ -208,48 +208,102 @@ const Shuttle = () => {
     ],
     포관: [
       {
-        route: "연구협력관 노선(상행기준)",
+        route: "연구협력관 노선",
         time: "07:52-19:02",
         interval: "배차간격: 5-10분",
       },
       {
-        route: "한우리집 노선(상행기준)",
+        route: "한우리집 노선",
         time: "08:27-16:07",
         interval: "배차간격: 20분",
       },
     ],
     공대삼거리: [
       {
-        route: "연구협력관 노선(상행기준)",
+        route: "연구협력관 노선",
         time: "07:54-19:04",
         interval: "배차간격: 5-10분",
       },
       {
-        route: "한우리집 노선(상행기준)",
+        route: "한우리집 노선",
         time: "08:29-16:09",
         interval: "배차간격: 20분",
       },
     ],
     한우리집: [
       {
-        route: "연구협력관 노선(상행기준)",
-        time: "07:55-21:10",
-        interval: "배차간격: 15분",
+        
       },
       {
-        route: "한우리집 노선(상행기준)",
-        time: "08:30-15:45",
-        interval: "배차간격: 20분",
+        
       },
     ],
     기숙사삼거리: [
       {
-        route: "연구협력관 노선(하행기준)",
+        route: "연구협력관 노선",
         time: "08:01-19:11",
         interval: "배차간격: 5-10분",
       },
     ],
   };
+
+//   ******************11/7일 추가내용******************
+const shuttleRoutes_down = {
+  정문: [
+    {
+      
+    },
+    {
+      
+    },
+  ],
+  포관: [
+    {
+      route: "연구협력관 노선",
+      time: "08:05-19:15",
+      interval: "배차간격: 5-10분",
+    },
+    {
+      route: "한우리집 노선",
+      time: "08:40-16:20",
+      interval: "배차간격: 20분",
+    },
+  ],
+  공대삼거리: [
+    {
+      route: "연구협력관 노선",
+      time: "08:03-19:13",
+      interval: "배차간격: 5-10분",
+    },
+    {
+      route: "한우리집 노선",
+      time: "08:38-16:18",
+      interval: "배차간격: 20분",
+    },
+  ],
+  한우리집: [
+    
+    {
+      route: "한우리집 노선",
+      time: "08:35-16:15",
+      interval: "배차간격: 20분",
+    },
+  ],
+  기숙사삼거리: [
+    {
+      route: "연구협력관 노선",
+      time: "08:01-19:11",
+      interval: "배차간격: 5-10분",
+    },
+  ],
+};
+
+const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
+
+
+
+
+// *****11/7추가 내용 끝*********
 
   // 각 출발지에 따른 상행/하행 시간표
   const timetableData = {
@@ -315,7 +369,7 @@ const Shuttle = () => {
           timeRanges: [
             {
               range: "08:05~11:15",
-              times: "05, 10, 15, 20, 30, 35, 40, 50, 55",
+              times: "05, 10, 15, 25, 30, 35, 40, 50, 55",
             },
             { range: "11:16~12:05", times: "05, 15, 25, 35, 45, 55" },
             { range: "12:10~13:10", times: "점심시간 운휴" },
@@ -340,14 +394,14 @@ const Shuttle = () => {
           timeRanges: [
             {
               range: "07:54~11:54",
-              times: "04, 14, 19, 23, 34, 39, 44, 54, 59",
+              times: "04, 14, 19, 24, 34, 39, 44, 54, 59",
             },
             { range: "11:14~11:54", times: "04, 14, 24, 34, 44, 54" },
             { range: "12:00~12:59", times: "점심시간 운휴" },
             { range: "13:04~15:44", times: "04, 14, 24, 34, 44, 54" },
             {
               range: "15:54~19:04",
-              times: "04, 14, 19, 23, 34, 39, 44, 54, 59",
+              times: "04, 14, 19, 24, 34, 39, 44, 54, 59",
             },
           ],
         },
@@ -437,7 +491,7 @@ const Shuttle = () => {
     <IconImage src={ToggleIcon} alt="Toggle Icon" />
   </DepartureButton>
   <DepartureDropdown open={isDropdownOpen}>
-    {Object.keys(shuttleRoutes).map((departure) => (
+    {Object.keys(currentRoutes).map((departure) => (
       <DepartureItem key={departure} onClick={() => handleDepartureClick(departure)}>
         {departure}
       </DepartureItem>
@@ -458,7 +512,7 @@ const Shuttle = () => {
     <RouteInfo>
       <DepartureLocation>{selectedDeparture}</DepartureLocation>
       <Routes>
-        {shuttleRoutes[selectedDeparture].map((route, index) => (
+        {currentRoutes[selectedDeparture].map((route, index) => (
           <RouteDescription key={index}>
             <strong>{route.route}:</strong> {route.time} <p>{route.interval}</p>
           </RouteDescription>
