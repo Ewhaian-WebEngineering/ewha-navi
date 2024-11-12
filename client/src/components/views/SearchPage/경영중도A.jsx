@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import data from "./포공A.json"; // JSON 파일 경로
+import data from "./경영중도A.json"; // JSON 파일 경로
 
-const 포공A = () => {
+const 경영중도A = () => {
   return (
     <Wrapper>
       {data.elements.map((element, index) => (
@@ -19,7 +19,7 @@ const 포공A = () => {
   );
 };
 
-export default 포공A;
+export default 경영중도A;
 
 const Wrapper = styled.div`
   color: white;
