@@ -1,0 +1,47 @@
+{
+    "component": "정문긱사B",
+    "elements": [
+      {
+        "type": "Build",
+        "image": {
+          "src": "../../images/Search/출발.svg",
+          "alt": "출발"
+        },
+        "text": "정문 출발"
+      },
+      {
+        "type": "Build",
+        "dot": true,
+        "text": "ECC 엘리베이터"
+      },
+      {
+        "type": "Build",
+        "dot": true,
+        "text": "포스코관 지하1층"
+      },
+      {
+        "type": "Build",
+        "dot": true,
+        "text": "포스코관 4층"
+      },
+      {
+        "type": "Build",
+        "dot": true,
+        "text": "종합과학관 지하1층"
+      },
+      {
+        "type": "Build",
+        "dot": true,
+        "text": "종합과학관 4층"
+      },
+      {
+        "type": "Build",
+        "image": {
+          "src": "../../images/Search/도착.svg",
+          "alt": "도착"
+        },
+        "text": "한우리집 도착"
+      }
+    ]
+  }
+  

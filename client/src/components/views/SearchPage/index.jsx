@@ -3,8 +3,9 @@ import styled from "styled-components";
 import 화살표 from "../../images/Search/화살표.svg";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
+import BuildName from "./BuildName";
 import 포공A from "./포-공A";
-import shortpath from "../../images/Search/shortpath.png";
+import 정문학문관 from "./정문-학문관";
 
 const Search = () => {
   const [selectedMode, setSelectedMode] = useState("도보");
@@ -120,58 +121,30 @@ const Search = () => {
 
   const arrivalOptions = getArrivalOptions(departureLocation);
 
-  // 소요 시간을 계산하는 함수
   const calculateTotalTime = (departure, arrival) => {
     const key = `${departure}-${arrival}`;
-    return travelTimes[key] || 0; // 해당하는 키가 없으면 0 반환
+    return travelTimes[key] || 0;
   };
 
-  // 출발지와 도착지가 변경될 때마다 소요 시간 계산
   useEffect(() => {
     if (departureLocation && arrivalLocation) {
       const time = calculateTotalTime(departureLocation, arrivalLocation);
       setTotalTime(time);
+      setRouteData({ departure: departureLocation, arrival: arrivalLocation }); // routeData 설정
     } else {
-      setTotalTime(0); // 출발지와 도착지가 모두 입력되지 않으면 총 소요시간 초기화
+      setTotalTime(0);
+      setRouteData(null); // routeData 리셋
     }
-  }, [departureLocation, arrivalLocation]); // 의존성 배열에 두 개의 변수를 모두 포함
-
-  // 도보 모드일 때 API 호출
-  useEffect(() => {
-    if (selectedMode === "도보") {
-      fetch("API_URL") // 실제 API URL로 교체
-        .then((response) => response.json())
-        .then((data) => {
-          setRouteData(data.route); // API 응답에서 경로 데이터를 가져옴
-        })
-        .catch((error) => console.error("Error fetching data:", error));
-    }
-  }, [selectedMode]);
+  }, [departureLocation, arrivalLocation]);
 
   const toggleStar = () => {
     setIsStarred((prev) => !prev);
   };
 
   const swapLocations = () => {
-    if (!departureLocation || !arrivalLocation) {
-      alert("출발지와 도착지를 모두 입력해주세요");
-      return;
-    }
-    // 출발지와 도착지를 바꿉니다.
+    const temp = departureLocation;
     setDepartureLocation(arrivalLocation);
-    setArrivalLocation(departureLocation);
-  };
-
-  // 엔터 키를 눌렀을 때 소요 시간 검색
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (departureLocation && arrivalLocation) {
-        const time = calculateTotalTime(departureLocation, arrivalLocation);
-        setTotalTime(time);
-      } else {
-        alert("출발지와 도착지를 모두 입력해주세요");
-      }
-    }
+    setArrivalLocation(temp);
   };
 
   return (
@@ -183,9 +156,8 @@ const Search = () => {
             value={departureLocation}
             onChange={(e) => {
               setDepartureLocation(e.target.value);
-              setArrivalLocation(""); // 출발지 변경 시 도착지 초기화
+              setArrivalLocation("");
             }}
-            onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
           >
             <option value="" disabled>
               출발지 선택
@@ -199,8 +171,7 @@ const Search = () => {
           <SelectArrival
             value={arrivalLocation}
             onChange={(e) => setArrivalLocation(e.target.value)}
-            disabled={!departureLocation} // 출발지가 선택되지 않으면 비활성화
-            onKeyDown={handleKeyDown} // 엔터 키 이벤트 추가
+            disabled={!departureLocation}
           >
             <option value="" disabled>
               도착지 선택
@@ -213,6 +184,7 @@ const Search = () => {
           </SelectArrival>
         </div>
       </SearchContainer>
+
       <Select>
         <div
           className={`도보 ${selectedMode === "도보" ? "selected" : ""}`}
@@ -227,28 +199,38 @@ const Search = () => {
           셔틀
         </div>
       </Select>
+
       <Wrapper>
         {selectedMode === "도보" ? (
-          <>
-            <div className="time">총 소요시간: {totalTime} 분</div>
-            <Star onClick={toggleStar}>
-              <img src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기} alt="즐겨찾기" />
-            </Star>
-            <Map></Map>
-            <Route>
-              <div className="container">
-                {routeData ? (
-                  routeData.map((route, index) => (
-                    <포공A key={index} {...route} />
-                  ))
-                ) : (
-                  <포공A></포공A>
+          routeData ? (
+            // routeData가 있을 때 SearchedInfo 렌더링
+            <SearchedInfo>
+              <Searched>
+                <div className="time">총 소요시간: {totalTime} 분</div>
+                <Star onClick={toggleStar}>
+                  <img
+                    src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
+                    alt="즐겨찾기"
+                  />
+                </Star>
+              </Searched>
+              <Divider></Divider>
+              <Map>
+                {departureLocation === "포관" && arrivalLocation === "공대" && (
+                  <포공A />
                 )}
-              </div>
-            </Route>
-          </>
-        ) : null}
+                {departureLocation === "정문" &&
+                  arrivalLocation === "학문관" && <정문학문관 />}
+              </Map>
+            </SearchedInfo>
+          ) : (
+            <BuildName /> // routeData가 없을 때 BuildName 렌더링
+          )
+        ) : (
+          <div /> // 셔틀 모드일 때 비어있는 상태로 렌더링
+        )}
       </Wrapper>
+      <Footer></Footer>
     </MainWrapper>
   );
 };
@@ -271,7 +253,7 @@ const SearchContainer = styled.div`
   img {
     margin-right: 20px;
     margin-left: 10px;
-    cursor: pointer; /* 화살표에 포인터 커서 추가 */
+    cursor: pointer;
   }
 `;
 
@@ -305,25 +287,25 @@ const Select = styled.div`
   display: flex;
   .selected {
     font-weight: bold;
-    color: #0f3d2b; /* 선택된 항목의 색상 */
-    border-bottom: solid #0f3d2b; /* 선택된 항목 하단 테두리 색상 */
+    color: #0f3d2b;
+    border-bottom: solid #0f3d2b;
   }
   div {
-    cursor: pointer; /* 포인터 커서 추가 */
+    cursor: pointer;
     width: 50%;
     text-align: center;
     color: #8e8e8e;
     border-bottom: solid #e4e4e4;
   }
 `;
-
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
-  height: 100vh;
+  min-height: 812px;
   background-color: #0f3d2b;
+`;
+const SearchedInfo = styled.div`
+  width: 90%;
+
   .time {
     margin-left: 30px;
     margin-top: 30px;
@@ -341,24 +323,20 @@ const Star = styled.div`
 `;
 
 const Map = styled.div`
-  width: 324px;
-  height: 235px;
-  background-color: #e9ebee;
-  background-image: url(${shortpath}); /* 배경 이미지 추가 */
-  background-size: cover; /* 이미지를 div에 맞게 조정 */
-  background-position: center; /* 이미지를 가운데 정렬 */
+  width: 80%;
+  border-left: 1px solid white;
 `;
-
-const Route = styled.div`
-  margin-top: 20px;
-  border-top: 0.1px solid white;
-  width: 327px;
-  height: auto;
+const Searched = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
-  .container {
-    border-left: 0.1px solid white;
-    width: 250px;
-    height: auto;
-  }
+  flex-direction: column;
+  align-items: center;
+`;
+const Divider = styled.div`
+  border-top: 1px solid white;
+`;
+const Footer = styled.div`
+  background-color: #0f3d2b;
+  width: 100%;
+  height: 100px;
 `;
