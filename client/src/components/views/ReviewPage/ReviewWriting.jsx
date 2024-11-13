@@ -9,35 +9,57 @@ import axios from "axios";
 
 // 지름길 리뷰 페이지입니다.
 const ReviewWriting = ()=>{
-    // db에서 해당길 정보 불러오는 부분 필요
-    // db에서 해당 길에 대한 리뷰들 불러오는 부분 필요
-    // db에서 해당 길에 대한 리뷰 별점 평균 계산하는 부분 필요
-
-    // 해당 지름길에 대한 정보 표시
     // 쿼리로 roadName 받아오면 될 것 같음
     const [roadName, setRoadName] = useState("지름길 이름");
     const [building, setBuilging] = useState(["출발", "도착"]);
-    const [ratingAverage, setRatingAverage] = useState(4.8);
+    const [ratingAverage, setRatingAverage] = useState(0);
     const [reviews, setReviews] = useState([]);
     const [updateUI, setUpdateUI] = useState(false);
     // 리뷰 작성 시 등록할 별점과 리뷰 내용
     const [ratingNum, setRatingNum] = useState(0);
     const [reviewText, setReviewText] = useState("");
-
+    
     const params = new URLSearchParams(window.location.search);
     const roadQuery = params.get('roadName');
     // baseURL 설정 방법 알아봐야 됨....
-    const baseURL = `http://localhost:5000`;
+    const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
+
+    
     useEffect(()=>{
         setRoadName(roadQuery);
-        //axios 이용해서 db의 값 불러와야 됨...
-        
+        setRatingNum(0);
+        axios.get(`${baseURL}/api/review-write/get?roadName=${roadQuery}`)
+        .then(response => {
+            if(response.data.length < 1){
+                setRatingAverage(0);
+            } else{
+                setReviews(response.data);
+                const averageRating = response.data.reduce((sum, review) => sum + review.rating, 0) / response.data.length;
+                setRatingAverage(averageRating.toFixed(2));
+            }
+            
+            
+        })
+        .catch(error => console.error(error));
     }, [updateUI]);
-    // 리뷰추가하는 함수 만들 예정
-
-    const onChangeReviewNum = function (params){
-        setRatingNum(params);
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post(`${baseURL}/api/review-write/save?roadName=${roadQuery}`, {
+                rating: ratingNum,
+                reviewText: reviewText
+            });
+            setReviewText("");
+            setRatingNum(0); 
+            setUpdateUI(!updateUI); 
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        }
     };
+    const onChangeReviewNum = (value) => setRatingNum(value);
+    
     // 
     return (
         <>
@@ -50,7 +72,7 @@ const ReviewWriting = ()=>{
             <div className="review-writing-box">
                 <MakeReviewStar onChangeReviewNum={onChangeReviewNum}/>
                 <ReviewWriteBox>
-                    <ReviewForm><WriteInputBox
+                    <ReviewForm onSubmit={handleSubmit}><WriteInputBox
                     type="text"
                     value={reviewText}
                     onChange={(((e)=> setReviewText(e.target.value)))}
@@ -71,17 +93,7 @@ const ReviewWriting = ()=>{
                          />
                     )
                 }
-                <ReviewDataBox
-                    ratingData={4}
-                    textData="나중에 데이터가 들어가면 map 통해서 구현할 내용입니다!!!!"
-                >
-                </ReviewDataBox>
-
-                <ReviewDataBox
-                    ratingData={4}
-                    textData="나중에 데이터가 들어가면 map 통해서 구현할 내용입니다!!!!"
-                >
-                </ReviewDataBox>
+                
             </div>
             
         </ReviewContainer>

@@ -169,9 +169,7 @@ const PathList = () => {
     setIsViewButtonClicked(false);
   };
 
-  const handleReviewButtonClick = () => {
-    navigate("/review-write");
-  };
+  
 
   const handleStarClick = (index) => {
     const updatedFavorites = [...starredPaths];
@@ -193,6 +191,9 @@ const PathList = () => {
     { id: 6, name: "기숙사길", location: "종합과학관 - 기숙사", rating: 4.6 },
     { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
   ];
+  const handleReviewButtonClick = (roadName) => {
+    navigate(`/review-write?roadName=${roadName}`);
+  };
 
   return (
     <>
@@ -230,7 +231,7 @@ const PathList = () => {
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={handleReviewButtonClick}>
+                  <ReviewButton onClick={() => handleReviewButtonClick(path.name)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
