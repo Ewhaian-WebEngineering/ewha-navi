@@ -3,9 +3,9 @@ import styled from "styled-components";
 import 화살표 from "../../images/Search/화살표.svg";
 import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
+import paths from "./paths.json"; // 통합된 JSON 파일
+import Path from "./path.jsx";
 import BuildName from "./BuildName";
-import 포공A from "./포-공A";
-import 정문학문관 from "./정문-학문관";
 
 const Search = () => {
   const [selectedMode, setSelectedMode] = useState("도보");
@@ -78,7 +78,7 @@ const Search = () => {
     "ecc-중도": 4,
     "중도-ecc": 4, // 반대 방향 추가
   };
-
+  
   const getArrivalOptions = (departure) => {
     switch (departure) {
       case "정문":
@@ -96,8 +96,6 @@ const Search = () => {
         return ["중도", "공대", "ecc", "생활관"];
       case "법학관":
         return ["공대"];
-      case "중도":
-        return ["포관", "경영대", "ecc"];
       case "학관":
         return ["ecc", "포관", "체육관"];
       case "ecc":
@@ -130,10 +128,10 @@ const Search = () => {
     if (departureLocation && arrivalLocation) {
       const time = calculateTotalTime(departureLocation, arrivalLocation);
       setTotalTime(time);
-      setRouteData({ departure: departureLocation, arrival: arrivalLocation }); // routeData 설정
+      setRouteData({ departure: departureLocation, arrival: arrivalLocation });
     } else {
       setTotalTime(0);
-      setRouteData(null); // routeData 리셋
+      setRouteData(null);
     }
   }, [departureLocation, arrivalLocation]);
 
@@ -203,7 +201,7 @@ const Search = () => {
       <Wrapper>
         {selectedMode === "도보" ? (
           routeData ? (
-            // routeData가 있을 때 SearchedInfo 렌더링
+            // JSON 데이터를 기반으로 동적 렌더링
             <SearchedInfo>
               <Searched>
                 <div className="time">총 소요시간: {totalTime} 분</div>
@@ -216,18 +214,22 @@ const Search = () => {
               </Searched>
               <Divider></Divider>
               <Map>
-                {departureLocation === "포관" && arrivalLocation === "공대" && (
-                  <포공A />
-                )}
-                {departureLocation === "정문" &&
-                  arrivalLocation === "학문관" && <정문학문관 />}
+                {paths
+                  .filter(
+                    (path) =>
+                      path.start_building === departureLocation &&
+                      path.end_building === arrivalLocation
+                  )
+                  .map((path, index) => (
+                    <Path key={index} path={path} />
+                  ))}
               </Map>
             </SearchedInfo>
           ) : (
-            <BuildName /> // routeData가 없을 때 BuildName 렌더링
+            <BuildName />
           )
         ) : (
-          <div /> // 셔틀 모드일 때 비어있는 상태로 렌더링
+          <div />
         )}
       </Wrapper>
       <Footer></Footer>
@@ -237,6 +239,7 @@ const Search = () => {
 
 export default Search;
 
+// Styled-components 유지
 const MainWrapper = styled.div`
   width: 100%;
   height: auto;
@@ -285,11 +288,13 @@ const Select = styled.div`
   width: 100%;
   height: 38px;
   display: flex;
+
   .selected {
     font-weight: bold;
     color: #0f3d2b;
     border-bottom: solid #0f3d2b;
   }
+
   div {
     cursor: pointer;
     width: 50%;
@@ -298,14 +303,15 @@ const Select = styled.div`
     border-bottom: solid #e4e4e4;
   }
 `;
+
 const Wrapper = styled.div`
   width: 100%;
   min-height: 812px;
   background-color: #0f3d2b;
 `;
+
 const SearchedInfo = styled.div`
   width: 90%;
-
   .time {
     margin-left: 30px;
     margin-top: 30px;
@@ -326,15 +332,18 @@ const Map = styled.div`
   width: 80%;
   border-left: 1px solid white;
 `;
+
 const Searched = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
+
 const Divider = styled.div`
   border-top: 1px solid white;
 `;
+
 const Footer = styled.div`
   background-color: #0f3d2b;
   width: 100%;
