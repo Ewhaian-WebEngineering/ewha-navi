@@ -240,23 +240,19 @@ const Shuttle = () => {
     ],
     기숙사삼거리: [
       {
-        route: "연구협력관 노선",
-        time: "08:01-19:11",
-        interval: "배차간격: 5-10분",
+        
       },
     ],
+    연구협력관: [
+      {
+        
+      }
+    ]
   };
 
-//   ******************11/7일 추가내용******************
+
 const shuttleRoutes_down = {
-  정문: [
-    {
-      
-    },
-    {
-      
-    },
-  ],
+ 
   포관: [
     {
       route: "연구협력관 노선",
@@ -296,6 +292,13 @@ const shuttleRoutes_down = {
       interval: "배차간격: 5-10분",
     },
   ],
+  연구협력관: [
+    {
+      route: "연구협력관 노선",
+      time: "08:00-21:00",
+      interval: "배차간격: 5-10분",
+    },
+  ],
 };
 
 const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
@@ -303,7 +306,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
 
 
 
-// *****11/7추가 내용 끝*********
+
 
   // 각 출발지에 따른 상행/하행 시간표
   const timetableData = {
@@ -475,6 +478,27 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
         },
       ],
     },
+    연구협력관: {
+      upward: [], //상행 없는듯?
+      downward: [
+        {
+          route: "연구협력관",
+          timeRanges: [
+            {
+              range: "08:01~11:05",
+              times: "00, 10, 15, 20, 30, 35, 40, 50, 55",
+            },
+            { range: "11:10~12:00", times: "00, 10, 15, 20, 30, 40, 50" },
+            { range: "12:00~13:00", times: "점심시간 운휴" },
+            { range: "13:10~15:50", times: "00, 10, 20, 30, 40, 50" },
+            {
+              range: "16:00~21:00",
+              times: "00, 05, 10, 20, 25, 30, 40, 45, 50, 55",
+            },
+          ],
+        },
+      ],
+    }
   };
 
   const busTimetable = timetableData[selectedDeparture]?.[isUpward ? 'upward' : 'downward'] || [];
