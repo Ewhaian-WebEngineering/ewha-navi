@@ -252,7 +252,16 @@ const Shuttle = () => {
 
 
 const shuttleRoutes_down = {
- 
+  정문: [
+    {route: "시간표 없음",
+     
+      
+    },
+    {route: "시간표 없음",
+     
+      
+    },
+  ],
   포관: [
     {
       route: "연구협력관 노선",
@@ -445,7 +454,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       ],
     },
     기숙사삼거리: {
-      upward: [], // 기숙사 삼거리 상행 없는듯?
+      upward: [], 
       downward: [
         {
           route: "연구협력관",
@@ -466,7 +475,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       ],
     },
     한우리집: {
-      upward: [], // 한우리 상행은 없는듯>?
+      upward: [], 
       downward: [
         {
           route: "한우리집",
