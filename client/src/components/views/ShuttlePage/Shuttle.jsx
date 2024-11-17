@@ -252,6 +252,14 @@ const Shuttle = () => {
 
 
 const shuttleRoutes_down = {
+  정문: [
+    {
+      
+    },
+    {
+      
+    },
+  ],
  
   포관: [
     {

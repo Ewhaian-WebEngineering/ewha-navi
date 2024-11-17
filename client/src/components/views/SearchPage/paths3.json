@@ -11,17 +11,6 @@
     ]
 },
 {
-    "path_name": "학관-체육관",
-    "start_building": "학관",
-    "end_building": "체육관",
-    "directions": [
-      "학관 6층 구름다리로 나오기",
-      "ECC방면으로 이동",
-      "ECC 야외 유리 엘리베이터 기준 왼쪽 길로 이동",
-      "체육관 도착"
-    ]
-},
-{
     "path_name": "체육관-학관",
     "start_building": "체육관",
     "end_building": "학관",
