@@ -1,0 +1,69 @@
+[
+{
+    "path_name": "공대-경영대",
+    "start_building": "공대",
+    "end_building": "경영대",
+    "directions": [
+      "아산공학관 1층 쪽문으로 나오기",
+      "이대부고, 후문 방향으로 약 10분 직진",
+      "경영관 도착"
+    ]
+},
+{
+    "path_name": "포도길",
+    "start_building": "포관",
+    "end_building": "중도",
+    "directions": [
+      "포스코관 1층 출입문으로 나오기",
+      "아령당-본관 사이 숲길 지나기",
+      "공관-간호대학 사이 길 지나기",
+      "중앙도서관 도착"
+    ]
+},
+{
+    "path_name": "학관-ecc",
+    "start_building": "학관",
+    "end_building": "ecc",
+    "directions": [
+      "ecc 엘베",
+      "걸어서 학문관 지나 학관 4층"
+    ]
+},
+{
+    "path_name": "경영대-ecc",
+    "start_building": "경영대",
+    "end_building": "ecc",
+    "directions": [
+      "경영대 1층?",
+      "아이하우스 옆길",
+      "ecc 주차장 왼쪽 길",
+      "국제교육관 지나서 우회전",
+      "ecc"
+    ]
+},
+{
+    "path_name": "경영대-포관",
+    "start_building": "경영대",
+    "end_building": "포관",
+    "directions": [
+      "경영대 1층?",
+      "아이하우스 옆길",
+      "ecc 주차장 왼쪽 길",
+      "국제교육관 지나서 우회전",
+      "ecc",
+      "?포관"
+    ]
+},
+{
+    "path_name": "ecc-생활관",
+    "start_building": "ecc",
+    "end_building": "생활관",
+    "directions": [
+      "ecc 지하4층",
+      "대강당 계단",
+      "대강당 오른쪽 길",
+      "내리막길",
+      "좌측에 생활관"
+    ]
+}
+]
