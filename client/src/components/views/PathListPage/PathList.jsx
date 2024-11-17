@@ -1,16 +1,16 @@
-// src/components/PathList/PathList.jsx
 import React, { useState } from "react";
 import Header from "../../utils/Header/Header";
 import styled from "styled-components";
 import NextArrow from "../../images/PathListPage/NextArrow.svg";
 import FilledStar from "../../images/PathListPage/FilledStar.svg";
-import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg"; 
+import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg";
+import WalkingBridge from "../../images/PathListPage/walkingBridge.jpg";
 import { useNavigate } from "react-router-dom";
-import KakaoMap from "../KakaoMap/KakaoMap"; // KakaoMap 컴포넌트 import
+import KakaoMap from "../KakaoMap/KakaoMap";
 
-// Styled-components 정의 부분
 const Container = styled.div`
   padding: 16px;
+  padding-bottom: 90px;
   background-color: #0f3d2b;
   min-height: 100vh;
 `;
@@ -72,11 +72,12 @@ const PathCard = styled.div`
   min-height: 120px;
 `;
 
-const ImagePlaceholder = styled.div`
+const ImagePlaceholder = styled.img`
   width: 90px;
   height: 90px;
   background-color: #ddd;
   margin-left: 10px;
+  border-radius: 8px;
 `;
 
 const PathDetails = styled.div`
@@ -168,9 +169,7 @@ const PathList = () => {
     setIsViewButtonClicked(false);
   };
 
-  const handleReviewButtonClick = () => {
-    navigate("/review-write");
-  };
+  
 
   const handleStarClick = (index) => {
     const updatedFavorites = [...starredPaths];
@@ -185,10 +184,16 @@ const PathList = () => {
 
   const paths = [
     { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "지름길 이름1", location: "장소 - 장소", rating: 4.5 },
-    { id: 3, name: "지름길 이름2", location: "장소 - 장소", rating: 4.7 },
-    { id: 4, name: "지름길 이름3", location: "장소 - 장소", rating: 4.6 },
+    { id: 2, name: "수영장길", location: "생활관 - SK 텔레콤관", rating: 4.5 },
+    { id: 3, name: "징공다리", location: "신공학관 - 연구협력관", rating: 4.6 },
+    { id: 4, name: "포관 - 종과길", location: "포스코관 - 종합과학관", rating: 4.7 },
+    { id: 5, name: "헬렌관길", location: "헬렌관 - 중앙도서관", rating: 5.0 },
+    { id: 6, name: "기숙사길", location: "종합과학관 - 기숙사", rating: 4.6 },
+    { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
   ];
+  const handleReviewButtonClick = (roadName) => {
+    navigate(`/review-write?roadName=${roadName}`);
+  };
 
   return (
     <>
@@ -213,7 +218,7 @@ const PathList = () => {
           <PathListContainer>
             {paths.map((path, index) => (
               <PathCard key={path.id}>
-                <ImagePlaceholder />
+                <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
                   <PathLocation>{path.location}</PathLocation>
@@ -226,7 +231,7 @@ const PathList = () => {
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={handleReviewButtonClick}>
+                  <ReviewButton onClick={() => handleReviewButtonClick(path.name)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>

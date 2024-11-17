@@ -1,0 +1,58 @@
+[{
+    "path_name": "포관-학관",
+    "start_building": "포관",
+    "end_building": "학관",
+    "directions": [
+      "포관 지하1층 문으로 나오기",
+      "포관-학관 연결다리",
+      "학관 6층 도착"
+    ]
+},
+{
+    "path_name": "포관-종과",
+    "start_building": "포관",
+    "end_building": "종과",
+    "directions": [
+      "포스코관 4층 출발",
+      "포스코관- 종합과학관 연결통로",
+      "종합과학관 D동 지하 2층 도착"
+    ]
+},
+{
+    "path_name": "공대-연협",
+    "start_building": "공대",
+    "end_building": "연협",
+    "directions": [
+      "신공학관 4층 출발",
+      "징공다리",
+      "연구협력관(1층) 도착"
+    ]
+},
+{
+    "path_name": "종과-음대",
+    "start_building": "종과",
+    "end_building": "음대",
+    "directions": [
+      "종과 2층? 계단?",
+      "포도길",
+      "???",
+      "음대 4층"
+    ]
+},
+{
+    "path_name": "기숙사-음대",
+    "start_building": "기숙사",
+    "end_building": "음대",
+    "directions": [
+      "법학관 방향으로 직진",
+      "음대 4층 연결 통로"
+    ]
+},
+{
+    "path_name": "경영대-생활관",
+    "start_building": "경영대",
+    "end_building": "생활관",
+    "directions": [
+      "수영장길 이용?"
+    ]
+}]
