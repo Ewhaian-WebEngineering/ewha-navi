@@ -253,15 +253,16 @@ const Shuttle = () => {
 
 const shuttleRoutes_down = {
   정문: [
-    {route: "시간표 없음",
-     
+
+    {
       
     },
-    {route: "시간표 없음",
-     
+    {
       
     },
   ],
+ 
+
   포관: [
     {
       route: "연구협력관 노선",
