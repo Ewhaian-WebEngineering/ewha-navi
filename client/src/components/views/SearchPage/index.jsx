@@ -5,7 +5,12 @@ import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import paths from "./paths.json"; // 통합된 JSON 파일
 import Path from "./path.jsx";
+import paths1 from "./paths1.json"
+import paths2 from "./paths2.json"
+import paths3 from "./paths3.json"
 import BuildName from "./BuildName";
+
+const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
 
 const Search = () => {
   const [selectedMode, setSelectedMode] = useState("도보");
@@ -214,7 +219,7 @@ const Search = () => {
               </Searched>
               <Divider></Divider>
               <Map>
-                {paths
+                {allPaths
                   .filter(
                     (path) =>
                       path.start_building === departureLocation &&
@@ -238,6 +243,7 @@ const Search = () => {
 };
 
 export default Search;
+
 
 // Styled-components 유지
 const MainWrapper = styled.div`
