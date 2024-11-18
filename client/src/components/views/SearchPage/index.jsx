@@ -5,9 +5,9 @@ import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
 import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import paths from "./paths.json"; // 통합된 JSON 파일
 import Path from "./path.jsx";
-import paths1 from "./paths1.json"
-import paths2 from "./paths2.json"
-import paths3 from "./paths3.json"
+import paths1 from "./paths1.json";
+import paths2 from "./paths2.json";
+import paths3 from "./paths3.json";
 import BuildName from "./BuildName";
 
 const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
@@ -19,6 +19,7 @@ const Search = () => {
   const [isStarred, setIsStarred] = useState(false);
   const [departureLocation, setDepartureLocation] = useState("");
   const [arrivalLocation, setArrivalLocation] = useState("");
+  const [popupImage, setPopupImage] = useState(null); // 팝업 이미지 상태
 
   const locations = [
     "기숙사",
@@ -85,7 +86,7 @@ const Search = () => {
     "ecc-중도": 4,
     "중도-ecc": 4, // 반대 방향 추가
   };
-  
+
   const getArrivalOptions = (departure) => {
     switch (departure) {
       case "정문":
@@ -151,6 +152,15 @@ const Search = () => {
     const temp = departureLocation;
     setDepartureLocation(arrivalLocation);
     setArrivalLocation(temp);
+  };
+
+  const getPathImage = () => {
+    const matchingPath = allPaths.find(
+      (path) =>
+        path.start_building === departureLocation &&
+        path.end_building === arrivalLocation
+    );
+    return matchingPath?.path_image || null;
   };
 
   return (
@@ -220,6 +230,27 @@ const Search = () => {
                   />
                 </Star>
               </Searched>
+              <PathImage>
+                {getPathImage() ? (
+                  <img
+                    src={require(`../../images/PathImages/${getPathImage()}`)}
+                    alt="경로 이미지"
+                    style={{ width: "100%", height: "auto", cursor: "pointer" }}
+                    onClick={() => setPopupImage(getPathImage())} // 팝업 이미지 설정
+                  />
+                ) : (
+                  <div
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      padding: "20px",
+                    }}
+                  >
+                    이미지 없음
+                  </div>
+                )}
+              </PathImage>
+
               <Divider></Divider>
               <Map>
                 {allPaths
@@ -239,14 +270,35 @@ const Search = () => {
         ) : (
           <div />
         )}
+        {popupImage && (
+          <Popup>
+            <Overlay onClick={() => setPopupImage(null)} />
+            <PopupContent>
+              {popupImage ? (
+                <img
+                  src={require(`../../images/PathImages/${popupImage}`)}
+                  alt="확대 이미지"
+                  style={{ width: "100%", height: "auto" }}
+                />
+              ) : (
+                <div style={{ textAlign: "center", color: "black" }}>
+                  이미지를 불러올 수 없습니다.
+                </div>
+              )}
+              <CloseButton onClick={() => setPopupImage(null)}>
+                닫기
+              </CloseButton>
+            </PopupContent>
+          </Popup>
+        )}
       </Wrapper>
+
       <Footer></Footer>
     </MainWrapper>
   );
 };
 
 export default Search;
-
 
 // Styled-components 유지
 const MainWrapper = styled.div`
@@ -349,6 +401,7 @@ const Searched = styled.div`
   align-items: center;
 `;
 
+const PathImage = styled.div``;
 const Divider = styled.div`
   border-top: 1px solid white;
 `;
@@ -357,4 +410,45 @@ const Footer = styled.div`
   background-color: #0f3d2b;
   width: 100%;
   height: 100px;
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 0;
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+`;
+
+const PopupContent = styled.div`
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #0f3d2b;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
 `;
