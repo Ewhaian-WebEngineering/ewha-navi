@@ -1,26 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import data from "./포공A.json"; // JSON 파일 경로
+import 출발 from "../../images/Search/출발.svg";
+import 도착 from "../../images/Search/도착.svg";
 
-const 포공A = () => {
+const Path = ({ path }) => {
   return (
     <Wrapper>
-      {data.elements.map((element, index) => (
+      {path.directions.map((text, index) => (
         <Build key={index}>
-          {element.image ? (
-            <img src={element.image.src} alt={element.image.alt} />
+          {index === 0 ? ( // 첫 번째 요소는 "출발" 이미지를 표시
+            <img src={출발} alt="출발" />
+          ) : index === path.directions.length - 1 ? ( // 마지막 요소는 "도착" 이미지를 표시
+            <img src={도착} alt="도착" />
           ) : (
-            <div className="dot"></div>
+            <div className="dot"></div> // 중간 요소는 점으로 표시
           )}
-          <div className="text">{element.text}</div>
+          <div className="text">{text}</div>
         </Build>
       ))}
     </Wrapper>
   );
 };
 
-export default 포공A;
+export default Path;
 
+// Styled-components
 const Wrapper = styled.div`
   color: white;
   position: relative;
