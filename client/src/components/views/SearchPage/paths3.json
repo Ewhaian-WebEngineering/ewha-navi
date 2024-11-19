@@ -1,14 +1,28 @@
 [
   {
-    "path_name": "학관-공대",
-    "start_building": "학관",
-    "end_building": "공대",
+    "path_name": "아산공학관-학관",
+    "start_building": "아산공학관",
+    "end_building": "학관",
     "directions": [
       "아산공학관 3층 출구 출발",
       "공대사거리 방향으로 오르막길 이동",
       "내리막길 직진",
       "학관 6층과 연결된 구름다리 진입",
       "학관 6층 도착"
+    ],
+    "path_image": "학관-공대.png"
+  },
+  {
+    "path_name": "학관-아산공학관",
+    "start_building": "학관",
+    "end_building": "아산공학관",
+    "directions": [
+      "학관 6층 출발",
+      "학관 6층과 연결된 구름다리로 나가기",
+      "공대사거리 방향으로 오르막길 이동",
+      "사거리에서 좌회전",
+      "내리막길 직진",
+      "아산공학관 3층 출구 도착"
     ],
     "path_image": "학관-공대.png"
   },
@@ -24,9 +38,21 @@
     "path_image": "학관-체육관.png"
   },
   {
-    "path_name": "ecc-중도",
-    "start_building": "ecc",
-    "end_building": "중도",
+    "path_name": "학관-체육관",
+    "start_building": "학관",
+    "end_building": "체육관",
+    "directions": [
+      "학관 6층 구름다리로 나오기",
+      "ECC 방면으로 이동",
+      "ECC 야외 유리 엘베 왼쪽 길로 가기",
+      "체육관 도착"
+    ],
+    "path_image": "학관-체육관.png"
+  },
+  {
+    "path_name": "ECC-중앙도서관",
+    "start_building": "ECC",
+    "end_building": "중앙도서관",
     "directions": [
       "블루보틀 쪽으로 이동",
       "헬렌관 옆 쪽 계단으로 이동",
@@ -35,9 +61,9 @@
     "path_image": "ECC-중도.png"
   },
   {
-    "path_name": "중도-ecc",
-    "start_building": "중도",
-    "end_building": "ecc",
+    "path_name": "중앙도서관-ECC",
+    "start_building": "중앙도서관",
+    "end_building": "ECC",
     "directions": [
       "중앙도서관 1층으로 나오기",
       "도서관 왼쪽에 위치한 계단으로 내려오기",
@@ -46,3 +72,5 @@
     "path_image": "ECC-중도.png"
   }
 ]
+
+
