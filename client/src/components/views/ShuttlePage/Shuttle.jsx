@@ -150,9 +150,12 @@ const BusTimetableContainer = styled.div`
 `;
 
 const RouteTable = styled.div`
-  padding: 5px 0px;
+  
+  display: flex; /* Flexbox 설정 */
+  flex-direction: column; /* 세로 정렬 */
+  width: 100%; /* 부모의 전체 너비를 채움 */
+  padding: 5px 0;
   border-radius: 4px;
-  width: 100%;
   margin-bottom: 15px;
 
   p {
@@ -173,6 +176,45 @@ const Table = styled.table`
     border: 2px solid #358868;
     border-radius: 4px;
   }
+`;
+
+// 실시간 위치보기 버튼 스타일
+const RealTimeButton = styled.a`
+
+ position: absolute; /* Absolute positioning */
+  right: 10px; /* Distance from the right edge */
+  top: 50%; /* Vertically center */
+  transform: translateY(-50%); /* Correct vertical alignment */
+
+  background-color: #e6f4ea;
+  color: #0f3d2b;
+  border: 1px solid #358868;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: auto; 
+
+
+  &:hover {
+    background-color: #358868;
+    color: white;
+  }
+`;
+
+const RouteHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; 
+  text-align:right;
+  padding: 0 10px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  position:relative;
 `;
 
 
@@ -253,7 +295,6 @@ const Shuttle = () => {
 
 const shuttleRoutes_down = {
   정문: [
-
     {
       
     },
@@ -262,7 +303,6 @@ const shuttleRoutes_down = {
     },
   ],
  
-
   포관: [
     {
       route: "연구협력관 노선",
@@ -549,6 +589,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
         {currentRoutes[selectedDeparture].map((route, index) => (
           <RouteDescription key={index}>
             <strong>{route.route}:</strong> {route.time} <p>{route.interval}</p>
+                
           </RouteDescription>
         ))}
       </Routes>
@@ -558,7 +599,20 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       {busTimetable.length > 0 ? (
         busTimetable.map((bus, index) => (
         <RouteTable key={index}>
-          <p>{bus.route}</p>
+           {/* 버스 노선 이름과 실시간 위치 보기 버튼 */}
+           <RouteHeader>
+                  <p>{bus.route}</p>
+                  <RealTimeButton
+                    href="http://route.hellobus.co.kr:8787/pub/routeView/ewha_route_day.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    실시간 위치 보기(주간)
+                  </RealTimeButton>
+                </RouteHeader>
+          
+
+
           <Table>
             <tbody>
               {bus.timeRanges.map((range, idx) => (
