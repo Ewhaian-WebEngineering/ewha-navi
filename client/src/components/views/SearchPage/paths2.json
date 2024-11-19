@@ -1,7 +1,7 @@
 [
   {
-    "path_name": "포관-학관",
-    "start_building": "포관",
+    "path_name": "이화 포스코관-학관",
+    "start_building": "이화 포스코관",
     "end_building": "학관",
     "directions": [
       "포관 지하1층 문으로 나오기",
@@ -11,9 +11,9 @@
     "path_image": "포관-학관.png"
   },
   {
-    "path_name": "포관-종과",
-    "start_building": "포관",
-    "end_building": "종과",
+    "path_name": "이화 포스코관-종합과학관",
+    "start_building": "이화 포스코관",
+    "end_building": "종합과학관",
     "directions": [
       "포스코관 4층 출발",
       "포스코관- 종합과학관 연결통로",
@@ -22,16 +22,16 @@
     "path_image": "포관-종과.png"
   },
   {
-    "path_name": "공대-연협",
-    "start_building": "공대",
-    "end_building": "연협",
+    "path_name": "아산공학관-연구협력관",
+    "start_building": "아산공학관",
+    "end_building": "연구협력관",
     "directions": ["신공학관 4층 출발", "징공다리", "연구협력관(1층) 도착"],
     "path_image": "공대-연협.png"
   },
   {
-    "path_name": "종과-음대",
-    "start_building": "종과",
-    "end_building": "음대",
+    "path_name": "종합과학관-음악관",
+    "start_building": "종합과학관",
+    "end_building": "음악관",
     "directions": [
       "종합과학관 D동 지하 2층에서 포스코관 4층 이동",
       "포스코관 1층으로 이동 후 밖으로 나오기",
@@ -41,9 +41,9 @@
     "path_image": "종과-음대.png"
   },
   {
-    "path_name": "기숙사-음대",
+    "path_name": "기숙사-음악관",
     "start_building": "기숙사",
-    "end_building": "음대",
+    "end_building": "음악관",
     "directions": [
       "이하우스, 한우리짐 거쳐 법학관 방향으로 직진",
       "중도 지나가기",
@@ -52,13 +52,14 @@
     "path_image": "기숙사-음대.png"
   },
   {
-    "path_name": "생활관-경영대",
-    "start_building": "생활관",
-    "end_building": "경영대",
+    "path_name": "이화 신세계관-생활환경관",
+    "start_building": "이화 신세계관",
+    "end_building": "생활환경관",
     "directions": [
-      "생활관 1층으로 나와 수영장 주차장 방향으로 나오기",
+      "경영관 1층 출발",
       "이화 수영장 간판 써있는 통로(터널) 통과하기",
-      "경영관 1층 도착"
+      "수영장 주차장 방향으로 나와 생활관 1층 도착"
+     
     ],
     "path_image": ""
   }

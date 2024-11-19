@@ -1,17 +1,5 @@
 [
   {
-    "path_name": "학관-체육관",
-    "start_building": "학관",
-    "end_building": "체육관",
-    "directions": [
-      "학관 6층 구름다리로 나오기",
-      "ECC 방면으로 이동",
-      "ECC 야외 유리 엘베 왼쪽 길로 가기",
-      "체육관 도착"
-    ],
-    "path_image": "학관-체육관.png"
-  },
-  {
     "path_name": "정문-기숙사",
     "start_building": "정문",
     "end_building": "기숙사",
@@ -36,19 +24,31 @@
     "path_image": "후문-기숙사.png"
   },
   {
-    "path_name": "포관-공대",
-    "start_building": "포관",
-    "end_building": "공대",
+    "path_name": "정문-학생문화관",
+    "start_building": "정문",
+    "end_building": "학생문화관",
     "directions": [
-      "포관 지하 1층에서 4층",
+      "국교관 방향으로 가기",
+      "수정 필요",
+      "수정 필요",
+      "수정 필요"
+    ],
+    "path_image": "후문-기숙사.png"
+  },
+  {
+    "path_name": "이화 포스코관-아산공학관",
+    "start_building": "이화 포스코관",
+    "end_building": "아산공학관",
+    "directions": [
+      "포스코관 지하 1층에서 4층",
       "종합과학관 지하 2층에서 4층",
       "왼쪽으로 쭉 내려가기"
     ]
   },
   {
-    "path_name": "경영대-중도",
-    "start_building": "경영대",
-    "end_building": "중도",
+    "path_name": "이화 신세계관-중앙도서관",
+    "start_building": "이화 신세계관",
+    "end_building": "중앙도서관",
     "directions": [
       "수영장길",
       " 학문관 지하1층에서 2층",
@@ -57,8 +57,8 @@
     ]
   },
   {
-    "path_name": "공대-법학관",
-    "start_building": "공대",
+    "path_name": "아산공학관-법학관",
+    "start_building": "아산공학관",
     "end_building": "법학관",
     "directions": [
       "아산공학관 3층 출입문으로 나오기",
@@ -66,18 +66,6 @@
       "엘베 타고 2층에서 내린 후 좌회전해서 C동 출입문으로 나오기",
       "계단 내려간 후 왼쪽으로 꺾어 이화역사관 지나기",
       "법학관 도착"
-    ],
-    "path_image": "공대-법학관.png"
-  },
-  {
-    "path_name": "법학관-공대",
-    "start_building": "법학관",
-    "end_building": "공대",
-    "directions": [
-      "이화역사관 방향으로 걷기",
-      "진선미관 방향으로 우회전 후 종합과학관 C동 계단 오르기",
-      "엘베 타고 종합과학관 4층 출입문 도착",
-      "아산공학관 3층 출입문으로 나오기"
     ],
     "path_image": "공대-법학관.png"
   }
