@@ -192,6 +192,7 @@ const PathList = () => {
     { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
   ];
   const handleReviewButtonClick = (roadName) => {
+    window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
     navigate(`/review-write?roadName=${roadName}`);
   };
 
