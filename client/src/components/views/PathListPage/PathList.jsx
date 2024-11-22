@@ -194,7 +194,9 @@ const PathList = () => {
     { id: 6, name: "기숙사길", start: "종합과학관", end: "기숙사", rating: 4.6 },
     { id: 7, name: "공대 쪽문길", start: "아산공학관", end: "공대쪽문", rating: 4.6 },
   ];
+
   const handleReviewButtonClick = (path) => {
+    window.scrollTo(0, 0);
     navigate(`/review-write`, {
       state:{
         id: path.id,
@@ -203,6 +205,7 @@ const PathList = () => {
         end: path.end,
       }
     });
+
   };
   const [averageRatings, setAverageRatings] = useState({});
   useEffect(() => {
