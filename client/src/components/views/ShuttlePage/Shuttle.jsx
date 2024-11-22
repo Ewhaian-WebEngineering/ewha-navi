@@ -150,9 +150,12 @@ const BusTimetableContainer = styled.div`
 `;
 
 const RouteTable = styled.div`
-  padding: 5px 0px;
+  
+  display: flex; /* Flexbox 설정 */
+  flex-direction: column; /* 세로 정렬 */
+  width: 100%; /* 부모의 전체 너비를 채움 */
+  padding: 5px 0;
   border-radius: 4px;
-  width: 100%;
   margin-bottom: 15px;
 
   p {
@@ -173,6 +176,45 @@ const Table = styled.table`
     border: 2px solid #358868;
     border-radius: 4px;
   }
+`;
+
+// 실시간 위치보기 버튼 스타일
+const RealTimeButton = styled.a`
+
+ position: absolute; /* Absolute positioning */
+  right: 10px; /* Distance from the right edge */
+  top: 50%; /* Vertically center */
+  transform: translateY(-50%); /* Correct vertical alignment */
+
+  background-color: #e6f4ea;
+  color: #0f3d2b;
+  border: 1px solid #358868;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: auto; 
+
+
+  &:hover {
+    background-color: #358868;
+    color: white;
+  }
+`;
+
+const RouteHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; 
+  text-align:right;
+  padding: 0 10px; 
+  box-sizing: border-box; 
+  flex-shrink: 0; 
+  position:relative;
 `;
 
 
@@ -240,14 +282,17 @@ const Shuttle = () => {
     ],
     기숙사삼거리: [
       {
-        route: "연구협력관 노선",
-        time: "08:01-19:11",
-        interval: "배차간격: 5-10분",
+        
       },
     ],
+    연구협력관: [
+      {
+        
+      }
+    ]
   };
 
-//   ******************11/7일 추가내용******************
+
 const shuttleRoutes_down = {
   정문: [
     {
@@ -257,6 +302,7 @@ const shuttleRoutes_down = {
       
     },
   ],
+ 
   포관: [
     {
       route: "연구협력관 노선",
@@ -296,6 +342,13 @@ const shuttleRoutes_down = {
       interval: "배차간격: 5-10분",
     },
   ],
+  연구협력관: [
+    {
+      route: "연구협력관 노선",
+      time: "08:00-21:00",
+      interval: "배차간격: 5-10분",
+    },
+  ],
 };
 
 const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
@@ -303,7 +356,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
 
 
 
-// *****11/7추가 내용 끝*********
+
 
   // 각 출발지에 따른 상행/하행 시간표
   const timetableData = {
@@ -442,7 +495,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       ],
     },
     기숙사삼거리: {
-      upward: [], // 기숙사 삼거리 상행 없는듯?
+      upward: [], 
       downward: [
         {
           route: "연구협력관",
@@ -463,7 +516,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       ],
     },
     한우리집: {
-      upward: [], // 한우리 상행은 없는듯>?
+      upward: [], 
       downward: [
         {
           route: "한우리집",
@@ -475,6 +528,27 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
         },
       ],
     },
+    연구협력관: {
+      upward: [], //상행 없는듯?
+      downward: [
+        {
+          route: "연구협력관",
+          timeRanges: [
+            {
+              range: "08:01~11:05",
+              times: "00, 10, 15, 20, 30, 35, 40, 50, 55",
+            },
+            { range: "11:10~12:00", times: "00, 10, 15, 20, 30, 40, 50" },
+            { range: "12:00~13:00", times: "점심시간 운휴" },
+            { range: "13:10~15:50", times: "00, 10, 20, 30, 40, 50" },
+            {
+              range: "16:00~21:00",
+              times: "00, 05, 10, 20, 25, 30, 40, 45, 50, 55",
+            },
+          ],
+        },
+      ],
+    }
   };
 
   const busTimetable = timetableData[selectedDeparture]?.[isUpward ? 'upward' : 'downward'] || [];
@@ -515,6 +589,7 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
         {currentRoutes[selectedDeparture].map((route, index) => (
           <RouteDescription key={index}>
             <strong>{route.route}:</strong> {route.time} <p>{route.interval}</p>
+                
           </RouteDescription>
         ))}
       </Routes>
@@ -524,7 +599,20 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       {busTimetable.length > 0 ? (
         busTimetable.map((bus, index) => (
         <RouteTable key={index}>
-          <p>{bus.route}</p>
+           {/* 버스 노선 이름과 실시간 위치 보기 버튼 */}
+           <RouteHeader>
+                  <p>{bus.route}</p>
+                  <RealTimeButton
+                    href="http://route.hellobus.co.kr:8787/pub/routeView/ewha_route_day.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    실시간 위치 보기(주간)
+                  </RealTimeButton>
+                </RouteHeader>
+          
+
+
           <Table>
             <tbody>
               {bus.timeRanges.map((range, idx) => (

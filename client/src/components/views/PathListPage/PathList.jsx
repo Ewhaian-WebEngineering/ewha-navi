@@ -7,6 +7,8 @@ import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg";
 import WalkingBridge from "../../images/PathListPage/walkingBridge.jpg";
 import { useNavigate } from "react-router-dom";
 import KakaoMap from "../KakaoMap/KakaoMap";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   padding: 16px;
@@ -155,6 +157,7 @@ const PathMapContainer = styled.div`
 
 const PathList = () => {
   const navigate = useNavigate();
+  const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
   const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
   const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
@@ -183,18 +186,45 @@ const PathList = () => {
   };
 
   const paths = [
-    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "수영장길", location: "생활관 - SK 텔레콤관", rating: 4.5 },
-    { id: 3, name: "징공다리", location: "신공학관 - 연구협력관", rating: 4.6 },
-    { id: 4, name: "포관 - 종과길", location: "포스코관 - 종합과학관", rating: 4.7 },
-    { id: 5, name: "헬렌관길", location: "헬렌관 - 중앙도서관", rating: 5.0 },
-    { id: 6, name: "기숙사길", location: "종합과학관 - 기숙사", rating: 4.6 },
-    { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
+    { id: 1, name: "포도길", start: "포스코관", end: "도서관", rating: 4.8 },
+    { id: 2, name: "수영장길", start: "생활관", end: "SK 텔레콤관", rating: 4.5 },
+    { id: 3, name: "징공다리", start: "신공학관", end: "연구협력관", rating: 4.6 },
+    { id: 4, name: "포관 - 종과길", start: "포스코관", end: "종합과학관", rating: 4.7 },
+    { id: 5, name: "헬렌관길", start: "헬렌관", end: "중앙도서관", rating: 5.0 },
+    { id: 6, name: "기숙사길", start: "종합과학관", end: "기숙사", rating: 4.6 },
+    { id: 7, name: "공대 쪽문길", start: "아산공학관", end: "공대쪽문", rating: 4.6 },
   ];
-  const handleReviewButtonClick = (roadName) => {
-    window.scrollTo(0, 0); // 스크롤을 맨 위로 이동
-    navigate(`/review-write?roadName=${roadName}`);
+
+  const handleReviewButtonClick = (path) => {
+    window.scrollTo(0, 0);
+    navigate(`/review-write`, {
+      state:{
+        id: path.id,
+        roadName : path.name,
+        start: path.start,
+        end: path.end,
+      }
+    });
+
   };
+  const [averageRatings, setAverageRatings] = useState({});
+  useEffect(() => {
+    const fetchAverageRatings = async () => {
+        try {
+            const roadNames = paths.map((path) => path.name); // 모든 roadName 추출
+            const response = await axios.post(
+                `${baseURL}/api/reviews/average-ratings`,
+                { roadNames }
+            );
+            setAverageRatings(response.data); // API에서 가져온 평균 별점을 상태에 저장
+        } catch (error) {
+            console.error("Error fetching average ratings:", error);
+        }
+    };
+
+    fetchAverageRatings();
+}, []);
+
 
   return (
     <>
@@ -222,8 +252,8 @@ const PathList = () => {
                 <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
-                  <PathLocation>{path.location}</PathLocation>
-                  <Rating>★ {path.rating}</Rating>
+                  <PathLocation>{path.start} - {path.end}</PathLocation>
+                  <Rating>★ {averageRatings[path.name] || "0"}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
                   <Star onClick={() => handleStarClick(index)}>
@@ -232,7 +262,7 @@ const PathList = () => {
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={() => handleReviewButtonClick(path.name)}>
+                  <ReviewButton onClick={() => handleReviewButtonClick(path)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
