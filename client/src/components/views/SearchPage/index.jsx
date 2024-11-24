@@ -9,6 +9,7 @@ import paths1 from "./paths1.json";
 import paths2 from "./paths2.json";
 import paths3 from "./paths3.json";
 import BuildName from "./BuildName";
+import { useLocation } from "react-router-dom";
 
 const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
 
@@ -20,6 +21,7 @@ const Search = () => {
   const [departureLocation, setDepartureLocation] = useState("");
   const [arrivalLocation, setArrivalLocation] = useState("");
   const [popupImage, setPopupImage] = useState(null); // 팝업 이미지 상태
+  const location = useLocation();
 
   const locations = [
     "ECC",
@@ -109,6 +111,29 @@ const Search = () => {
       setRouteData(null);
     }
   }, [departureLocation, arrivalLocation]);
+
+  useEffect(() => {
+    if (location.state?.departure && location.state?.arrival) {
+      setDepartureLocation(location.state.departure);
+      setArrivalLocation(location.state.arrival);
+      
+      // 경로가 선택되었을 때 바로 경로 정보를 표시
+      if (location.state.showPathDetails) {
+        const matchingPath = allPaths.find(
+          (path) =>
+            path.start_building === location.state.departure &&
+            path.end_building === location.state.arrival
+        );
+        if (matchingPath) {
+          setRouteData({
+            departure: location.state.departure,
+            arrival: location.state.arrival
+          });
+          setTotalTime(calculateTotalTime(location.state.departure, location.state.arrival));
+        }
+      }
+    }
+  }, [location.state]);
 
   const toggleStar = () => {
     setIsStarred((prev) => !prev);

@@ -9,6 +9,10 @@ import { useNavigate } from "react-router-dom";
 import KakaoMap from "../KakaoMap/KakaoMap";
 import { useEffect } from "react";
 import axios from "axios";
+import paths from "../SearchPage/paths.json";
+import paths1 from "../SearchPage/paths1.json";
+import paths2 from "../SearchPage/paths2.json";
+import paths3 from "../SearchPage/paths3.json";
 
 const Container = styled.div`
   padding: 16px;
@@ -72,6 +76,7 @@ const PathCard = styled.div`
   width: 100%;
   max-width: 100%;
   min-height: 120px;
+  cursor: pointer;
 `;
 
 const ImagePlaceholder = styled.img`
@@ -174,7 +179,8 @@ const PathList = () => {
 
   
 
-  const handleStarClick = (index) => {
+  const handleStarClick = (e, index) => {
+    e.stopPropagation();
     const updatedFavorites = [...starredPaths];
     if (updatedFavorites.includes(index)) {
       updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
@@ -185,33 +191,35 @@ const PathList = () => {
     localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
   };
 
-  const paths = [
-    { id: 1, name: "포도길", start: "포스코관", end: "도서관", rating: 4.8 },
-    { id: 2, name: "수영장길", start: "생활관", end: "SK 텔레콤관", rating: 4.5 },
-    { id: 3, name: "징공다리", start: "신공학관", end: "연구협력관", rating: 4.6 },
-    { id: 4, name: "포관 - 종과길", start: "포스코관", end: "종합과학관", rating: 4.7 },
-    { id: 5, name: "헬렌관길", start: "헬렌관", end: "중앙도서관", rating: 5.0 },
-    { id: 6, name: "기숙사길", start: "종합과학관", end: "기숙사", rating: 4.6 },
-    { id: 7, name: "공대 쪽문길", start: "아산공학관", end: "공대쪽문", rating: 4.6 },
-  ];
+  // 모든 경로 데이터 통합
+  const allPathsData = [...paths, ...paths1, ...paths2, ...paths3];
+  
+  // 경로 데이터 변환
+  const pathsList = allPathsData.map((path, index) => ({
+    id: index + 1,
+    name: path.path_name,
+    start: path.start_building,
+    end: path.end_building,
+    rating: 0 // 초기 rating 값은 0으로 설정
+  }));
 
-  const handleReviewButtonClick = (path) => {
+  const handleReviewButtonClick = (e, path) => {
+    e.stopPropagation();
     window.scrollTo(0, 0);
     navigate(`/review-write`, {
-      state:{
+      state: {
         id: path.id,
-        roadName : path.name,
+        roadName: path.name,
         start: path.start,
         end: path.end,
       }
     });
-
   };
   const [averageRatings, setAverageRatings] = useState({});
   useEffect(() => {
     const fetchAverageRatings = async () => {
         try {
-            const roadNames = paths.map((path) => path.name); // 모든 roadName 추출
+            const roadNames = pathsList.map((path) => path.name); // 모든 roadName 추출
             const response = await axios.post(
                 `${baseURL}/api/reviews/average-ratings`,
                 { roadNames }
@@ -225,6 +233,15 @@ const PathList = () => {
     fetchAverageRatings();
 }, []);
 
+  const handlePathClick = (path) => {
+    navigate('/search', {
+      state: {
+        departure: path.start,
+        arrival: path.end,
+        showPathDetails: true
+      }
+    });
+  };
 
   return (
     <>
@@ -247,8 +264,11 @@ const PathList = () => {
 
         {!isViewButtonClicked ? (
           <PathListContainer>
-            {paths.map((path, index) => (
-              <PathCard key={path.id}>
+            {pathsList.map((path, index) => (
+              <PathCard 
+                key={path.id}
+                onClick={() => handlePathClick(path)}
+              >
                 <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
@@ -256,13 +276,13 @@ const PathList = () => {
                   <Rating>★ {averageRatings[path.name] || "0"}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
-                  <Star onClick={() => handleStarClick(index)}>
+                  <Star onClick={(e) => handleStarClick(e, index)}>
                     <img
                       src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={() => handleReviewButtonClick(path)}>
+                  <ReviewButton onClick={(e) => handleReviewButtonClick(e, path)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
