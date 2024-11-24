@@ -9,33 +9,17 @@ import styled from "styled-components";
 
 const ReviewWriting = () => {
   const location = useLocation();
-  const [roadName, setRoadName] = useState("");
-  const [roadId, setRoadId] = useState();
-  const [building, setBuilding] = useState(["출발", "도착"]);
-  const [ratingAverage, setRatingAverage] = useState(0);
+  const { roadName, rating } = location.state || {};
+
+  const [ratingAverage, setRatingAverage] = useState(rating || 0);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [ratingNum, setRatingNum] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [updateUI, setUpdateUI] = useState(false);
-  const [resetStars, setResetStars] = useState(0); // 별점 초기화를 위한 상태
+  const [resetStars, setResetStars] = useState(0);
 
   const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-
-  useEffect(() => {
-    // location에서 전달받은 데이터 처리
-    if (location.state) {
-      const { id, roadName, start, end } = location.state;
-      setRoadName(roadName);
-      setRoadId(id);
-      setBuilding([start, end]);
-    }
-
-    // URL 쿼리 파라미터 처리
-    const params = new URLSearchParams(window.location.search);
-    const roadQuery = params.get("roadName");
-    if (roadQuery) setRoadName(roadQuery);
-  }, [location]);
 
   useEffect(() => {
     if (!roadName) return;
@@ -63,9 +47,8 @@ const ReviewWriting = () => {
       }
     };
 
-    setLoading(true);
     fetchReviews();
-  }, [roadName, updateUI]);
+  }, [roadName, updateUI, baseURL]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,10 +65,9 @@ const ReviewWriting = () => {
         reviewText,
       });
 
-      // 별점 및 리뷰 텍스트 초기화
       setReviewText("");
       setRatingNum(0);
-      setResetStars((prev) => prev + 1); // 별점 초기화 트리거
+      setResetStars((prev) => prev + 1);
       setReviews((prevReviews) => [
         { rating: ratingNum, reviewText, _id: Date.now() },
         ...prevReviews,
@@ -97,22 +79,55 @@ const ReviewWriting = () => {
     }
   };
 
+
+
+
+
+
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/review-write/get`, {
+          params: { roadName }, // 특정 경로 이름으로 요청
+        });
+        if (response.data.length === 0) {
+          setReviews([]);
+          setRatingAverage(0);
+        } else {
+          setReviews(response.data);
+          const averageRating =
+            response.data.reduce((sum, review) => sum + review.rating, 0) /
+            response.data.length;
+          setRatingAverage(averageRating.toFixed(2)); // 평균 평점 계산
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error.response || error.message);
+      }
+    };
+  
+    if (roadName) {
+      fetchReviews();
+    }
+  }, [roadName]);
+
+
+
+
+
+
+
+
+
   const onChangeReviewNum = (value) => setRatingNum(value);
 
   return (
     <>
       <ReviewWritingHeader title="지름길 리뷰" />
-      <ReviewRoadImgIntro
-        roadName={roadName}
-        building={building}
-        rating={ratingAverage}
-      />
+      <ReviewRoadImgIntro roadName={roadName} building={["출발", "도착"]} rating={ratingAverage} />
       <ReviewContainer>
         <div className="review-writing-box">
-          <MakeReviewStar
-            onChangeReviewNum={onChangeReviewNum}
-            resetTrigger={resetStars} // 별점 초기화를 위한 prop 추가
-          />
+          <MakeReviewStar onChangeReviewNum={onChangeReviewNum} resetTrigger={resetStars} />
           <ReviewWriteBox>
             <ReviewForm onSubmit={handleSubmit}>
               <WriteInputBox
@@ -145,34 +160,22 @@ const ReviewWriting = () => {
   );
 };
 
-const ReviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #0f3d2b;
-  max-width: 415px;
-  min-height: 100vh;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: auto;
-  margin-bottom: 60px;
-`;
-
+// 스타일 컴포넌트 추가
 const ReviewWriteBox = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 10px;
 `;
 
+const ReviewForm = styled.form`
+  display: flex;
+  justify-content: center;
+`;
+
 const WriteInputBox = styled.input`
   font-family: "Pretendard";
   width: 246px;
   height: 40px;
-`;
-
-const ReviewForm = styled.form`
-  display: flex;
-  justify-content: center;
 `;
 
 const WriteUploadBtn = styled.button`
@@ -189,6 +192,19 @@ const WriteUploadBtn = styled.button`
 const ReviewHr = styled.hr`
   margin-top: 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
+`;
+
+const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0f3d2b;
+  max-width: 415px;
+  min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+  margin-bottom: 60px;
 `;
 
 export default ReviewWriting;
