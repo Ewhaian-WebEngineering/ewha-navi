@@ -8,6 +8,10 @@ import NextArrow from "../../images/PathListPage/NextArrow.svg";
 import FilledStar from "../../images/PathListPage/FilledStar.svg";
 import UnfilledStar from "../../images/PathListPage/UnfilledStar.svg";
 import WalkingBridge from "../../images/PathListPage/walkingBridge.jpg";
+import paths from "../SearchPage/paths.json";
+import paths1 from "../SearchPage/paths1.json";
+import paths2 from "../SearchPage/paths2.json";
+import paths3 from "../SearchPage/paths3.json";
 
 // Styled components
 const Container = styled.div`
@@ -34,6 +38,7 @@ const PathCard = styled.div`
   width: 100%;
   max-width: 100%;
   min-height: 120px;
+  cursor: pointer;
 `;
 
 const ImagePlaceholder = styled.img`
@@ -127,13 +132,38 @@ const Favorite = () => {
   });
 
   const [allPaths, setAllPaths] = useState([
-    { id: 1, name: "포도길", location: "포스코관 - 도서관", rating: 4.8 },
-    { id: 2, name: "수영장길", location: "생활관 - SK 텔레콤관", rating: 4.5 },
-    { id: 3, name: "징공다리", location: "신공학관 - 연구협력관", rating: 4.6 },
-    { id: 4, name: "포관 - 종과길", location: "포스코관 - 종합과학관", rating: 4.7 },
-    { id: 5, name: "헬렌관길", location: "헬렌관 - 중앙도서관", rating: 5.0 },
-    { id: 6, name: "기숙사길", location: "종합과학관 - 기숙사", rating: 4.6 },
-    { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
+    ...paths.map(path => ({
+      id: path.id,
+      name: path.path_name,
+      location: `${path.start_building} - ${path.end_building}`,
+      start_building: path.start_building,
+      end_building: path.end_building,
+      rating: 0
+    })),
+    ...paths1.map(path => ({
+      id: path.id,
+      name: path.path_name,
+      location: `${path.start_building} - ${path.end_building}`,
+      start_building: path.start_building,
+      end_building: path.end_building,
+      rating: 0
+    })),
+    ...paths2.map(path => ({
+      id: path.id,
+      name: path.path_name,
+      location: `${path.start_building} - ${path.end_building}`,
+      start_building: path.start_building,
+      end_building: path.end_building,
+      rating: 0
+    })),
+    ...paths3.map(path => ({
+      id: path.id,
+      name: path.path_name,
+      location: `${path.start_building} - ${path.end_building}`,
+      start_building: path.start_building,
+      end_building: path.end_building,
+      rating: 0
+    }))
   ]);
 
   const fetchRatings = useCallback(async () => {
@@ -170,9 +200,13 @@ useEffect(() => {
  
 
 
-const handleReviewButtonClick = (path) => {
+const handleReviewButtonClick = (e, path) => {
+    e.stopPropagation();
     navigate("/review-write", {
-      state: { roadName: path.name, rating: path.rating },
+      state: { 
+        roadName: path.name, 
+        rating: path.rating 
+      },
     });
   };
 
@@ -186,7 +220,8 @@ const handleReviewButtonClick = (path) => {
 
 
 
-  const handleStarClick = (index) => {
+  const handleStarClick = (e, index) => {
+    e.stopPropagation();
     const updatedFavorites = [...starredPaths];
     if (updatedFavorites.includes(index)) {
       updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
@@ -197,9 +232,15 @@ const handleReviewButtonClick = (path) => {
     localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
   };
 
-
-
-
+  const handlePathClick = (path) => {
+    navigate('/search', {
+      state: {
+        departure: path.start_building,
+        arrival: path.end_building,
+        showPathDetails: true
+      }
+    });
+  };
 
   return (
     <>
@@ -208,24 +249,27 @@ const handleReviewButtonClick = (path) => {
         {favoritePaths.length > 0 ? (
           <PathListContainer>
             {favoritePaths.map((path, index) => (
-              <PathCard key={path.id}>
-                <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
+              <PathCard 
+                key={path.id}
+                onClick={() => handlePathClick(path)}
+              >
+                <ImagePlaceholder 
+                  src={path.name === "징공다리" ? WalkingBridge : ""} 
+                  alt="path image" 
+                />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
                   <PathLocation>{path.location}</PathLocation>
                   <Rating>★ {path.rating.toFixed(2)}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
-                 
-
-                <Star onClick={() => handleStarClick(allPaths.indexOf(path))}>
+                  <Star onClick={(e) => handleStarClick(e, allPaths.indexOf(path))}>
                     <img
                       src={starredPaths.includes(allPaths.indexOf(path)) ? FilledStar : UnfilledStar}
                       alt="즐겨찾기"
                     />
                   </Star>
-                 
-                  <ReviewButton onClick={() => handleReviewButtonClick(path)}>
+                  <ReviewButton onClick={(e) => handleReviewButtonClick(e, path)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>

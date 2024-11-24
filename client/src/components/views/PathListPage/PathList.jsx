@@ -179,7 +179,8 @@ const PathList = () => {
 
   
 
-  const handleStarClick = (index) => {
+  const handleStarClick = (e, index) => {
+    e.stopPropagation();
     const updatedFavorites = [...starredPaths];
     if (updatedFavorites.includes(index)) {
       updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
@@ -202,17 +203,17 @@ const PathList = () => {
     rating: 0 // 초기 rating 값은 0으로 설정
   }));
 
-  const handleReviewButtonClick = (path) => {
+  const handleReviewButtonClick = (e, path) => {
+    e.stopPropagation();
     window.scrollTo(0, 0);
     navigate(`/review-write`, {
-      state:{
+      state: {
         id: path.id,
-        roadName : path.name,
+        roadName: path.name,
         start: path.start,
         end: path.end,
       }
     });
-
   };
   const [averageRatings, setAverageRatings] = useState({});
   useEffect(() => {
@@ -236,7 +237,8 @@ const PathList = () => {
     navigate('/search', {
       state: {
         departure: path.start,
-        arrival: path.end
+        arrival: path.end,
+        showPathDetails: true
       }
     });
   };
@@ -274,13 +276,13 @@ const PathList = () => {
                   <Rating>★ {averageRatings[path.name] || "0"}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
-                  <Star onClick={() => handleStarClick(index)}>
+                  <Star onClick={(e) => handleStarClick(e, index)}>
                     <img
                       src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={() => handleReviewButtonClick(path)}>
+                  <ReviewButton onClick={(e) => handleReviewButtonClick(e, path)}>
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
