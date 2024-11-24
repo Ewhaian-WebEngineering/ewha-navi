@@ -136,66 +136,84 @@ const Favorite = () => {
     { id: 7, name: "공대 쪽문길", location: "아산공학관 - 공대쪽문", rating: 4.6 },
   ]);
 
+
+  
+
   const fetchRatings = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/api/ratings?_=${new Date().getTime()}`
-      );
-      console.log("API Response:", response.data); // API 응답 디버깅
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/ratings`);
       if (response.data && Array.isArray(response.data)) {
-        setAllPaths((prevPaths) =>
-          prevPaths.map((path) => {
-            const updatedPath = response.data.find((data) => data.name === path.name);
-            return updatedPath ? { ...path, rating: updatedPath.rating } : path;
-          })
-        );
+        const updatedPaths = allPaths.map((path) => {
+          const updatedPath = response.data.find((data) => data.name === path.name);
+          return updatedPath ? { ...path, rating: updatedPath.rating } : path;
+        });
+        setAllPaths(updatedPaths); // 별점 데이터 갱신
       }
     } catch (error) {
       console.error("Error fetching ratings:", error);
     }
-  }, []);
+  }, [allPaths]);
 
   useEffect(() => {
-    fetchRatings();
+    fetchRatings().then(() => {
+      console.log("Ratings updated after fetching!"); // 확인 메시지
+    });
   }, [fetchRatings]);
 
+
+
+
+
+
+
   
-useEffect(() => {
-  if (location.state?.updated) {
-    console.log("Location state updated: refreshing ratings...");
-    fetchRatings();
-  }
-}, [location, fetchRatings]);
-
- 
-
-
-const handleReviewButtonClick = (path) => {
-    navigate("/review-write", {
-      state: { roadName: path.name, rating: path.rating },
-    });
-  };
+  
 
   const favoritePaths = useMemo(() => {
-    return starredPaths.map((index) => allPaths[index]).filter(Boolean);
+    return starredPaths
+      .map((index) => allPaths[index])
+      .filter(Boolean); // allPaths가 업데이트되었을 때 반영됨
   }, [starredPaths, allPaths]);
 
 
 
-
-
-
-
-  const handleStarClick = (index) => {
-    const updatedFavorites = [...starredPaths];
-    if (updatedFavorites.includes(index)) {
-      updatedFavorites.splice(updatedFavorites.indexOf(index), 1);
-    } else {
-      updatedFavorites.push(index);
-    }
-    setStarredPaths(updatedFavorites);
-    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
+  const handleReviewButtonClick = (path) => {
+    navigate("/review-write", {
+      state: { roadName: path.name, rating: path.rating },
+    });
+    fetchRatings(); // 리뷰 작성 후 즉시 데이터 갱신
   };
+
+
+
+  const handleStarClick = async (id) => {
+    const updatedFavorites = starredPaths.includes(id)
+      ? starredPaths.filter((pathId) => pathId !== id)
+      : [...starredPaths, id];
+  
+    setStarredPaths(updatedFavorites); // 상태 업데이트
+    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites)); // localStorage 갱신
+  
+    await fetchRatings(); // 별점 클릭 시 최신 데이터 가져오기
+  };
+
+  
+  useEffect(() => {
+    if (location.state?.updated) {
+      console.log("Location state updated, refreshing ratings...");
+      fetchRatings(); // 데이터 새로 가져오기
+      navigate(location.pathname, { replace: true, state: {} }); // state 초기화
+    }
+  }, [location.state, fetchRatings, location.pathname]);
+
+ 
+
+
+
+
+
+
+
 
 
 

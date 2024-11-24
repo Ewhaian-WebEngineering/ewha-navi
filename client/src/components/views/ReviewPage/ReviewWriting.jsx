@@ -7,7 +7,13 @@ import MakeReviewStar from "./MakeReveiwStar";
 import ReviewDataBox from "./ReviewDataBox";
 import styled from "styled-components";
 
+
+
+import { useNavigate } from "react-router-dom";
+
+
 const ReviewWriting = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { roadName, rating } = location.state || {};
 
@@ -29,7 +35,7 @@ const ReviewWriting = () => {
         const response = await axios.get(`${baseURL}/api/review-write/get`, {
           params: { roadName },
         });
-
+    
         if (response.data.length === 0) {
           setReviews([]);
           setRatingAverage(0);
@@ -38,7 +44,7 @@ const ReviewWriting = () => {
           const averageRating =
             response.data.reduce((sum, review) => sum + review.rating, 0) /
             response.data.length;
-          setRatingAverage(averageRating.toFixed(2));
+          setRatingAverage(parseFloat(averageRating.toFixed(2))); // 숫자로 변환
         }
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -52,19 +58,19 @@ const ReviewWriting = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!ratingNum || !reviewText) {
       alert("별점과 리뷰 내용을 모두 작성해주세요.");
       return;
     }
-
+  
     try {
       await axios.post(`${baseURL}/api/review-write/save`, {
         roadName,
         rating: ratingNum,
         reviewText,
       });
-
+  
       setReviewText("");
       setRatingNum(0);
       setResetStars((prev) => prev + 1);
@@ -73,11 +79,14 @@ const ReviewWriting = () => {
         ...prevReviews,
       ]);
       setUpdateUI(!updateUI);
+  
+      // navigate를 통해 업데이트 플래그 전달
+      navigate("/favorite", { state: { updated: true } });
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("리뷰 제출에 실패했습니다.");
     }
-  };
+  }
 
 
 
@@ -85,39 +94,8 @@ const ReviewWriting = () => {
 
 
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(`${baseURL}/api/review-write/get`, {
-          params: { roadName }, // 특정 경로 이름으로 요청
-        });
-        if (response.data.length === 0) {
-          setReviews([]);
-          setRatingAverage(0);
-        } else {
-          setReviews(response.data);
-          const averageRating =
-            response.data.reduce((sum, review) => sum + review.rating, 0) /
-            response.data.length;
-          setRatingAverage(averageRating.toFixed(2)); // 평균 평점 계산
-        }
-      } catch (error) {
-        console.error("Error fetching reviews:", error.response || error.message);
-      }
-    };
+
   
-    if (roadName) {
-      fetchReviews();
-    }
-  }, [roadName]);
-
-
-
-
-
-
-
-
 
   const onChangeReviewNum = (value) => setRatingNum(value);
 

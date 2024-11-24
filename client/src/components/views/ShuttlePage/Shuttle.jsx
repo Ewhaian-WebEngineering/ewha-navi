@@ -181,10 +181,10 @@ const Table = styled.table`
 // 실시간 위치보기 버튼 스타일
 const RealTimeButton = styled.a`
 
- position: absolute; /* Absolute positioning */
-  right: 10px; /* Distance from the right edge */
-  top: 50%; /* Vertically center */
-  transform: translateY(-50%); /* Correct vertical alignment */
+  position: absolute; 
+  right: 10px; 
+  top: 50%; 
+  transform: translateY(-50%); 
 
   background-color: #e6f4ea;
   color: #0f3d2b;
@@ -595,6 +595,8 @@ const currentRoutes = isUpward ? shuttleRoutes : shuttleRoutes_down;
       </Routes>
     </RouteInfo>
     {/* 버스 시간표 */}
+
+    
     <BusTimetableContainer>
       {busTimetable.length > 0 ? (
         busTimetable.map((bus, index) => (
