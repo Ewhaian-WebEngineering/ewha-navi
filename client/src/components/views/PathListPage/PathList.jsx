@@ -76,6 +76,7 @@ const PathCard = styled.div`
   width: 100%;
   max-width: 100%;
   min-height: 120px;
+  cursor: pointer;
 `;
 
 const ImagePlaceholder = styled.img`
@@ -231,6 +232,14 @@ const PathList = () => {
     fetchAverageRatings();
 }, []);
 
+  const handlePathClick = (path) => {
+    navigate('/search', {
+      state: {
+        departure: path.start,
+        arrival: path.end
+      }
+    });
+  };
 
   return (
     <>
@@ -254,7 +263,10 @@ const PathList = () => {
         {!isViewButtonClicked ? (
           <PathListContainer>
             {pathsList.map((path, index) => (
-              <PathCard key={path.id}>
+              <PathCard 
+                key={path.id}
+                onClick={() => handlePathClick(path)}
+              >
                 <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
