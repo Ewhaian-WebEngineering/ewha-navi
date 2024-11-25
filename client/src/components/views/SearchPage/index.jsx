@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import 화살표 from "../../images/Search/화살표.svg";
-import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
-import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import paths from "./paths.json"; // 통합된 JSON 파일
 import Path from "./path.jsx";
 import paths1 from "./paths1.json";
@@ -11,6 +9,7 @@ import paths3 from "./paths3.json";
 import BuildName from "./BuildName";
 import { useLocation } from "react-router-dom";
 import magnifyingGlass from "../../images/Search/확대아이콘.png";
+import FilledStar from "../../images/PathListPage/FilledStar.svg";
 
 const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
 
@@ -231,7 +230,7 @@ const Search = () => {
       <Wrapper>
         {selectedMode === "도보" ? (
           routeData ? (
-            // JSON 데이터를 기반으로 동적 렌더링
+            // JSON 데이터를 기반으로 동 렌더링
             <SearchedInfo>
               <Searched>
                 <div className="time">
@@ -240,8 +239,14 @@ const Search = () => {
                 </div>
                 <Star onClick={toggleStar}>
                   <img
-                    src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
+                    src={FilledStar}
                     alt="즐겨찾기"
+                    style={isStarred ? { 
+                      filter: 'invert(100%) sepia(100%) saturate(1000%) hue-rotate(0deg) brightness(100%) contrast(100%)',
+                      color: 'yellow'
+                    } : {
+                      filter: 'brightness(0) saturate(100%) invert(100%)'
+                    }}
                   />
                 </Star>
               </Searched>
@@ -398,6 +403,11 @@ const Star = styled.div`
   transform: translateY(-10px);
   align-self: flex-end;
   cursor: pointer;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const Map = styled.div`
