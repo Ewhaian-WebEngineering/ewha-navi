@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Header from "../../utils/Header/Header";
@@ -124,102 +124,79 @@ const PathMapContainer = styled.div`
 
 const Favorite = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // 위치 정보 가져오기
+  const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
   const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
     return storedFavorites;
   });
 
+  const [averageRatings, setAverageRatings] = useState({});
   const [allPaths, setAllPaths] = useState([
-    ...paths.map(path => ({
+    ...paths.map((path) => ({
       id: path.id,
       name: path.path_name,
       location: `${path.start_building} - ${path.end_building}`,
       start_building: path.start_building,
       end_building: path.end_building,
-      rating: 0
+      rating: 0,
     })),
-    ...paths1.map(path => ({
+    ...paths1.map((path) => ({
       id: path.id,
       name: path.path_name,
       location: `${path.start_building} - ${path.end_building}`,
       start_building: path.start_building,
       end_building: path.end_building,
-      rating: 0
+      rating: 0,
     })),
-    ...paths2.map(path => ({
+    ...paths2.map((path) => ({
       id: path.id,
       name: path.path_name,
       location: `${path.start_building} - ${path.end_building}`,
       start_building: path.start_building,
       end_building: path.end_building,
-      rating: 0
+      rating: 0,
     })),
-    ...paths3.map(path => ({
+    ...paths3.map((path) => ({
       id: path.id,
       name: path.path_name,
       location: `${path.start_building} - ${path.end_building}`,
       start_building: path.start_building,
       end_building: path.end_building,
-      rating: 0
-    }))
+      rating: 0,
+    })),
   ]);
 
-  const fetchRatings = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/api/ratings?_=${new Date().getTime()}`
-      );
-  
-      if (response.data && Array.isArray(response.data)) {
-        setAllPaths((prevPaths) =>
-          prevPaths.map((path) => {
-            const updatedPath = response.data.find((data) => data.name === path.name);
-            // 별점 데이터가 있으면 업데이트, 없으면 기존 상태 유지
-            return updatedPath ? { ...path, rating: updatedPath.rating } : path;
-          })
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching ratings:", error);
-    }
-  }, []); // 의존성 배열에서 allPaths 제거
-
   useEffect(() => {
-    fetchRatings();
-  }, [fetchRatings]);
+    const fetchAverageRatings = async () => {
+      try {
+        const roadNames = allPaths.map((path) => path.name);
+        const response = await axios.post(
+          `${baseURL}/api/reviews/average-ratings`,
+          { roadNames }
+        );
+        setAverageRatings(response.data); 
+      } catch (error) {
+        console.error("Error fetching average ratings:", error);
+      }
+    };
 
-  
-useEffect(() => {
-  if (location.state?.updated) {
-    console.log("Location state updated: refreshing ratings...");
-    fetchRatings();
-  }
-}, [location, fetchRatings]);
-
- 
-
-
-const handleReviewButtonClick = (e, path) => {
-    e.stopPropagation();
-    navigate("/review-write", {
-      state: { 
-        roadName: path.name, 
-        rating: path.rating 
-      },
-    });
-  };
+    fetchAverageRatings();
+  }, [allPaths, baseURL]);
 
   const favoritePaths = useMemo(() => {
     return starredPaths.map((index) => allPaths[index]).filter(Boolean);
   }, [starredPaths, allPaths]);
 
-
-
-
-
-
+  const handleReviewButtonClick = (e, path) => {
+    e.stopPropagation();
+    navigate("/review-write", {
+      state: {
+        roadName: path.name,
+        rating: averageRatings[path.name] || 0,
+      },
+    });
+  };
 
   const handleStarClick = (e, index) => {
     e.stopPropagation();
@@ -234,12 +211,12 @@ const handleReviewButtonClick = (e, path) => {
   };
 
   const handlePathClick = (path) => {
-    navigate('/search', {
+    navigate("/search", {
       state: {
         departure: path.start_building,
         arrival: path.end_building,
-        showPathDetails: true
-      }
+        showPathDetails: true,
+      },
     });
   };
 
@@ -250,18 +227,15 @@ const handleReviewButtonClick = (e, path) => {
         {favoritePaths.length > 0 ? (
           <PathListContainer>
             {favoritePaths.map((path, index) => (
-              <PathCard 
-                key={path.id}
-                onClick={() => handlePathClick(path)}
-              >
-                <ImagePlaceholder 
-                  src={path.name === "징공다리" ? WalkingBridge : ""} 
-                  alt="path image" 
+              <PathCard key={path.id} onClick={() => handlePathClick(path)}>
+                <ImagePlaceholder
+                  src={path.name === "징공다리" ? WalkingBridge : ""}
+                  alt="path image"
                 />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
                   <PathLocation>{path.location}</PathLocation>
-                  <Rating>★ {path.rating.toFixed(2)}</Rating>
+                  <Rating>★ {averageRatings[path.name] || "0"}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
                   <Star onClick={(e) => handleStarClick(e, allPaths.indexOf(path))}>
