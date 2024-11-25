@@ -10,6 +10,7 @@ import paths2 from "./paths2.json";
 import paths3 from "./paths3.json";
 import BuildName from "./BuildName";
 import { useLocation } from "react-router-dom";
+import magnifyingGlass from "../../images/Search/확대아이콘.png";
 
 const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
 
@@ -34,7 +35,7 @@ const Search = () => {
     "종합과학관",
     "중앙도서관",
     "체육관",
-    "학관"
+    "학관",
   ];
 
   // 출발지와 도착지에 따른 소요 시간
@@ -57,12 +58,12 @@ const Search = () => {
     "종합과학관-음악관": 12,
     "기숙사-음악관": 8,
     "이화 신세계관-생활환경관": 5,
-    "학관-아산공학관":8,
-    "아산공학관-학관":7,
+    "학관-아산공학관": 8,
+    "아산공학관-학관": 7,
     "체육관-학관": 4,
-    "학관-체육관": 4, 
+    "학관-체육관": 4,
     "ECC-중앙도서관": 4,
-    "중앙도서관-ECC": 3, 
+    "중앙도서관-ECC": 3,
   };
 
   const getArrivalOptions = (departure) => {
@@ -116,7 +117,7 @@ const Search = () => {
     if (location.state?.departure && location.state?.arrival) {
       setDepartureLocation(location.state.departure);
       setArrivalLocation(location.state.arrival);
-      
+
       // 경로가 선택되었을 때 바로 경로 정보를 표시
       if (location.state.showPathDetails) {
         const matchingPath = allPaths.find(
@@ -127,9 +128,11 @@ const Search = () => {
         if (matchingPath) {
           setRouteData({
             departure: location.state.departure,
-            arrival: location.state.arrival
+            arrival: location.state.arrival,
           });
-          setTotalTime(calculateTotalTime(location.state.departure, location.state.arrival));
+          setTotalTime(
+            calculateTotalTime(location.state.departure, location.state.arrival)
+          );
         }
       }
     }
@@ -191,7 +194,6 @@ const Search = () => {
   return (
     <MainWrapper>
       <SearchContainer>
-        <img src={화살표} alt="화살표" onClick={swapLocations} />
         <div>
           <SelectLocation
             value={departureLocation}
@@ -226,28 +228,16 @@ const Search = () => {
         </div>
       </SearchContainer>
 
-      <Select>
-        <div
-          className={`도보 ${selectedMode === "도보" ? "selected" : ""}`}
-          onClick={() => setSelectedMode("도보")}
-        >
-          도보
-        </div>
-        <div
-          className={`셔틀 ${selectedMode === "셔틀" ? "selected" : ""}`}
-          onClick={() => setSelectedMode("셔틀")}
-        >
-          셔틀
-        </div>
-      </Select>
-
       <Wrapper>
         {selectedMode === "도보" ? (
           routeData ? (
             // JSON 데이터를 기반으로 동적 렌더링
             <SearchedInfo>
               <Searched>
-                <div className="time">총 소요시간: {totalTime} 분</div>
+                <div className="time">
+                  <Select>도보</Select> 총 소요시간:{" "}
+                  <span style={{ color: "yellow" }}>{totalTime} 분</span>
+                </div>
                 <Star onClick={toggleStar}>
                   <img
                     src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
@@ -275,7 +265,16 @@ const Search = () => {
                   </div>
                 )}
               </PathImage>
-
+              <ImagePopup onClick={() => setPopupImage(getPathImage())}>
+                <img
+                  src={magnifyingGlass}
+                  style={{
+                    width: "25px",
+                    height: "25px",
+                  }}
+                ></img>
+                <div>사진 확대하기</div>
+              </ImagePopup>
               <Divider></Divider>
               <Map>
                 {allPaths
@@ -339,15 +338,11 @@ const SearchContainer = styled.div`
   width: 100%;
   padding: 10px;
   display: flex;
-  img {
-    margin-right: 20px;
-    margin-left: 10px;
-    cursor: pointer;
-  }
+  align-items: center;
 `;
 
 const SelectLocation = styled.select`
-  width: 285px;
+  width: 350px;
   height: 40px;
   padding: 10px;
   border: none;
@@ -356,10 +351,12 @@ const SelectLocation = styled.select`
   color: #b5b5b5;
   font-size: 16px;
   margin-bottom: 7px;
+  display: flex;
+  align-items: center;
 `;
 
 const SelectArrival = styled.select`
-  width: 285px;
+  width: 350px;
   height: 40px;
   padding: 10px;
   border: none;
@@ -368,26 +365,15 @@ const SelectArrival = styled.select`
   color: #b5b5b5;
   font-size: 16px;
   margin-bottom: 7px;
+  display: flex;
+  align-items: center;
 `;
 
 const Select = styled.div`
-  width: 100%;
-  height: 38px;
   display: flex;
-
-  .selected {
-    font-weight: bold;
-    color: #0f3d2b;
-    border-bottom: solid #0f3d2b;
-  }
-
-  div {
-    cursor: pointer;
-    width: 50%;
-    text-align: center;
-    color: #8e8e8e;
-    border-bottom: solid #e4e4e4;
-  }
+  color: white;
+  margin-bottom: 5px;
+  font-size: 20px;
 `;
 
 const Wrapper = styled.div`
@@ -402,7 +388,7 @@ const SearchedInfo = styled.div`
     margin-left: 30px;
     margin-top: 30px;
     align-self: flex-start;
-    font-size: 15px;
+    font-size: 18px;
     color: white;
   }
 `;
@@ -476,4 +462,12 @@ const CloseButton = styled.button`
   padding: 5px 10px;
   cursor: pointer;
   font-size: 14px;
+`;
+
+const ImagePopup = styled.div`
+  display: flex;
+  color: white;
+  width: 36%;
+  margin-right: 10px;
+  cursor: pointer;
 `;
