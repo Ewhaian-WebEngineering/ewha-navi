@@ -1,7 +1,7 @@
 [
   {
-    "path_name": "이화 포스코관-학관",
-    "start_building": "이화 포스코관",
+    "path_name": "포스코관-학관",
+    "start_building": "포스코관",
     "end_building": "학관",
     "directions": [
       "포관 지하1층 문으로 나오기",
@@ -11,8 +11,8 @@
     "path_image": "포관-학관.png"
   },
   {
-    "path_name": "이화 포스코관-종합과학관",
-    "start_building": "이화 포스코관",
+    "path_name": "포스코관-종합과학관",
+    "start_building": "포스코관",
     "end_building": "종합과학관",
     "directions": [
       "포스코관 4층 출발",
@@ -52,8 +52,8 @@
     "path_image": "기숙사-음대.png"
   },
   {
-    "path_name": "이화 신세계관-생활환경관",
-    "start_building": "이화 신세계관",
+    "path_name": "신세계관-생활환경관",
+    "start_building": "신세계관",
     "end_building": "생활환경관",
     "directions": [
       "경영관 1층 출발",

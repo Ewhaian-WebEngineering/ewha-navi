@@ -36,8 +36,8 @@
     "path_image": "후문-기숙사.png"
   },
   {
-    "path_name": "이화 포스코관-아산공학관",
-    "start_building": "이화 포스코관",
+    "path_name": "포스코관-아산공학관",
+    "start_building": "포스코관",
     "end_building": "아산공학관",
     "directions": [
       "포스코관 지하 1층에서 4층",
@@ -47,8 +47,8 @@
     "path_image": "포관-공대.png"
   },
   {
-    "path_name": "이화 신세계관-중앙도서관",
-    "start_building": "이화 신세계관",
+    "path_name": "신세계관-중앙도서관",
+    "start_building": "신세계관",
     "end_building": "중앙도서관",
     "directions": [
       "수영장길",
