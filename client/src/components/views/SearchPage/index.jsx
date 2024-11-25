@@ -399,14 +399,14 @@ const SearchedInfo = styled.div`
 `;
 
 const Star = styled.div`
-  margin-right: 40px;
+  margin-right: 10px;
   transform: translateY(-10px);
   align-self: flex-end;
   cursor: pointer;
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
