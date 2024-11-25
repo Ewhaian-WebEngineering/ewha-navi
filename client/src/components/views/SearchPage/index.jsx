@@ -135,9 +135,43 @@ const Search = () => {
     }
   }, [location.state]);
 
-  const toggleStar = () => {
-    setIsStarred((prev) => !prev);
+  const [starredPaths, setStarredPaths] = useState(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+    return storedFavorites;
+  });
+
+  const findPathIndex = (departure, arrival) => {
+    return allPaths.findIndex(
+      path => 
+        path.start_building === departure && 
+        path.end_building === arrival
+    );
   };
+
+  const toggleStar = () => {
+    if (!departureLocation || !arrivalLocation) return;
+    
+    const pathIndex = findPathIndex(departureLocation, arrivalLocation);
+    if (pathIndex === -1) return;
+
+    const updatedFavorites = [...starredPaths];
+    if (updatedFavorites.includes(pathIndex)) {
+      updatedFavorites.splice(updatedFavorites.indexOf(pathIndex), 1);
+    } else {
+      updatedFavorites.push(pathIndex);
+    }
+    
+    setStarredPaths(updatedFavorites);
+    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
+    setIsStarred(!isStarred);
+  };
+
+  useEffect(() => {
+    if (departureLocation && arrivalLocation) {
+      const pathIndex = findPathIndex(departureLocation, arrivalLocation);
+      setIsStarred(starredPaths.includes(pathIndex));
+    }
+  }, [departureLocation, arrivalLocation, starredPaths]);
 
   const swapLocations = () => {
     const temp = departureLocation;
