@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import 화살표 from "../../images/Search/화살표.svg";
-import 즐겨찾기 from "../../images/Search/즐겨찾기.svg";
-import 즐겨찾기채워짐 from "../../images/Search/즐겨찾기채워짐.svg"; // 채워진 별 이미지 추가
 import paths from "./paths.json"; // 통합된 JSON 파일
 import Path from "./path.jsx";
 import paths1 from "./paths1.json";
@@ -11,6 +9,7 @@ import paths3 from "./paths3.json";
 import BuildName from "./BuildName";
 import { useLocation } from "react-router-dom";
 import magnifyingGlass from "../../images/Search/확대아이콘.png";
+import FilledStar from "../../images/PathListPage/FilledStar.svg";
 
 const allPaths = [...paths, ...paths1, ...paths2, ...paths3];
 
@@ -29,12 +28,12 @@ const Search = () => {
     "정문",
     "후문",
     "기숙사",
+    "신세계관",
     "아산공학관",
-    "이화 신세계관",
-    "이화 포스코관",
     "종합과학관",
     "중앙도서관",
     "체육관",
+    "포스코관",
     "학관",
   ];
 
@@ -43,21 +42,21 @@ const Search = () => {
     "정문-기숙사": 16,
     "후문-기숙사": 15,
     "정문-학생문화관": 8,
-    "이화 포스코관-아산공학관": 5,
-    "이화 신세계관-중앙도서관": 12,
+    "포스코관-아산공학관": 5,
+    "신세계관-중앙도서관": 12,
     "아산공학관-법학관": 12,
-    "아산공학관-이화 신세계관": 9,
-    "이화 포스코관-중앙도서관": 3,
+    "아산공학관-신세계관": 9,
+    "포스코관-중앙도서관": 3,
     "학관-ECC": 6,
-    "이화 신세계관-ECC": 5,
-    "이화 신세계관-이화 포스코관": 6,
+    "신세계관-ECC": 5,
+    "신세계관-포스코관": 6,
     "ECC-생활환경관": 6,
-    "이화 포스코관-학관": 2,
-    "이화 포스코관-종합과학관": 4,
+    "포스코관-학관": 2,
+    "포스코관-종합과학관": 4,
     "아산공학관-연구협력관": 4,
     "종합과학관-음악관": 12,
     "기숙사-음악관": 8,
-    "이화 신세계관-생활환경관": 5,
+    "신세계관-생활환경관": 5,
     "학관-아산공학관": 8,
     "아산공학관-학관": 7,
     "체육관-학관": 4,
@@ -72,14 +71,14 @@ const Search = () => {
         return ["기숙사", "학생문화관"];
       case "후문":
         return ["기숙사"];
-      case "이화 포스코관":
+      case "포스코관":
         return ["아산공학관", "종합과학관", "중앙도서관", "학관"];
       case "아산공학관":
-        return ["법학관", "연구협력관", "이화 신세계관", "학관"];
+        return ["법학관", "연구협력관", "신세계관", "학관"];
       case "중앙도서관":
         return ["ECC"];
-      case "이화 신세계관":
-        return ["ECC", "생활환경관", "이화 포스코관", "중앙도서관"];
+      case "신세계관":
+        return ["ECC", "생활환경관", "포스코관", "중앙도서관"];
       case "학관":
         return ["ECC", "아산공학관", "체육관"];
       case "ECC":
@@ -138,9 +137,43 @@ const Search = () => {
     }
   }, [location.state]);
 
-  const toggleStar = () => {
-    setIsStarred((prev) => !prev);
+  const [starredPaths, setStarredPaths] = useState(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+    return storedFavorites;
+  });
+
+  const findPathIndex = (departure, arrival) => {
+    return allPaths.findIndex(
+      path => 
+        path.start_building === departure && 
+        path.end_building === arrival
+    );
   };
+
+  const toggleStar = () => {
+    if (!departureLocation || !arrivalLocation) return;
+    
+    const pathIndex = findPathIndex(departureLocation, arrivalLocation);
+    if (pathIndex === -1) return;
+
+    const updatedFavorites = [...starredPaths];
+    if (updatedFavorites.includes(pathIndex)) {
+      updatedFavorites.splice(updatedFavorites.indexOf(pathIndex), 1);
+    } else {
+      updatedFavorites.push(pathIndex);
+    }
+    
+    setStarredPaths(updatedFavorites);
+    localStorage.setItem("favoritePaths", JSON.stringify(updatedFavorites));
+    setIsStarred(!isStarred);
+  };
+
+  useEffect(() => {
+    if (departureLocation && arrivalLocation) {
+      const pathIndex = findPathIndex(departureLocation, arrivalLocation);
+      setIsStarred(starredPaths.includes(pathIndex));
+    }
+  }, [departureLocation, arrivalLocation, starredPaths]);
 
   const swapLocations = () => {
     const temp = departureLocation;
@@ -197,7 +230,7 @@ const Search = () => {
       <Wrapper>
         {selectedMode === "도보" ? (
           routeData ? (
-            // JSON 데이터를 기반으로 동적 렌더링
+            // JSON 데이터를 기반으로 동 렌더링
             <SearchedInfo>
               <Searched>
                 <div className="time">
@@ -206,8 +239,14 @@ const Search = () => {
                 </div>
                 <Star onClick={toggleStar}>
                   <img
-                    src={isStarred ? 즐겨찾기채워짐 : 즐겨찾기}
+                    src={FilledStar}
                     alt="즐겨찾기"
+                    style={isStarred ? { 
+                      filter: 'invert(100%) sepia(100%) saturate(1000%) hue-rotate(0deg) brightness(100%) contrast(100%)',
+                      color: 'yellow'
+                    } : {
+                      filter: 'brightness(0) saturate(100%) invert(100%)'
+                    }}
                   />
                 </Star>
               </Searched>
@@ -360,10 +399,15 @@ const SearchedInfo = styled.div`
 `;
 
 const Star = styled.div`
-  margin-right: 40px;
+  margin-right: 10px;
   transform: translateY(-10px);
   align-self: flex-end;
   cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const Map = styled.div`
