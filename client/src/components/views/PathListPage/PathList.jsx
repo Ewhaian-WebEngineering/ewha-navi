@@ -258,7 +258,7 @@ const PathList = () => {
             isClicked={isViewButtonClicked}
             onClick={handleViewButtonClick}
           >
-            지름길 한 눈에 보기
+            학교 지도 보기
           </ViewButton>
         </ButtonContainer>
 
