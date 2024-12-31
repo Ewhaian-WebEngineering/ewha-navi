@@ -9,11 +9,11 @@ import styled from "styled-components";
 
 
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 
 const ReviewWriting = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const location = useLocation();
   const { roadName, rating } = location.state || {};
 
@@ -81,19 +81,12 @@ const ReviewWriting = () => {
       setUpdateUI(!updateUI);
   
       // navigate를 통해 업데이트 플래그 전달
-      navigate("/favorite", { state: { updated: true } });
+      // navigate("/favorite", { state: { updated: true } });
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("리뷰 제출에 실패했습니다.");
     }
   }
-
-
-
-
-
-
-
 
   
 
