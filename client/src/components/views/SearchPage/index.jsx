@@ -23,6 +23,10 @@ const Search = () => {
   const [popupImage, setPopupImage] = useState(null); // 팝업 이미지 상태
   const location = useLocation();
 
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  }, [selectedMode, isStarred]);
+
   const locations = [
     "ECC",
     "정문",

@@ -92,7 +92,8 @@ const PathDetails = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 0;
-  margin-left: 0;
+  margin-left: 10px;
+  width: 150px;
 `;
 
 const PathName = styled.div`
@@ -134,6 +135,8 @@ const Star = styled.div`
 
 const ReviewButton = styled.button`
   background-color: #0f3d2b;
+  display: flex;
+  justify-content: center;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -142,13 +145,16 @@ const ReviewButton = styled.button`
   cursor: pointer;
   margin-top: 30px;
   margin-bottom: 10px;
+  &:hover {
+    background-color: #45a049; /* 호버 시 색상 변경 */
+  }
 `;
 
 const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
   margin-left: 7px;
-  margin-top: 5px;
+  margin-top: 3px;
 `;
 
 const PathMapContainer = styled.div`
@@ -165,7 +171,8 @@ const PathList = () => {
   const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
   const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
   const [starredPaths, setStarredPaths] = useState(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
+    const storedFavorites =
+      JSON.parse(localStorage.getItem("favoritePaths")) || [];
     return storedFavorites;
   });
 
@@ -176,8 +183,6 @@ const PathList = () => {
   const handleListButtonClick = () => {
     setIsViewButtonClicked(false);
   };
-
-  
 
   const handleStarClick = (e, index) => {
     e.stopPropagation();
@@ -193,14 +198,14 @@ const PathList = () => {
 
   // 모든 경로 데이터 통합
   const allPathsData = [...paths, ...paths1, ...paths2, ...paths3];
-  
+
   // 경로 데이터 변환
   const pathsList = allPathsData.map((path, index) => ({
     id: index + 1,
     name: path.path_name,
     start: path.start_building,
     end: path.end_building,
-    rating: 0 // 초기 rating 값은 0으로 설정
+    rating: 0, // 초기 rating 값은 0으로 설정
   }));
 
   const handleReviewButtonClick = (e, path) => {
@@ -212,34 +217,34 @@ const PathList = () => {
         roadName: path.name,
         start: path.start,
         end: path.end,
-      }
+      },
     });
   };
   const [averageRatings, setAverageRatings] = useState({});
   useEffect(() => {
     const fetchAverageRatings = async () => {
-        try {
-            const roadNames = pathsList.map((path) => path.name); // 모든 roadName 추출
-            const response = await axios.post(
-                `${baseURL}/api/reviews/average-ratings`,
-                { roadNames }
-            );
-            setAverageRatings(response.data); // API에서 가져온 평균 별점을 상태에 저장
-        } catch (error) {
-            console.error("Error fetching average ratings:", error);
-        }
+      try {
+        const roadNames = pathsList.map((path) => path.name); // 모든 roadName 추출
+        const response = await axios.post(
+          `${baseURL}/api/reviews/average-ratings`,
+          { roadNames }
+        );
+        setAverageRatings(response.data); // API에서 가져온 평균 별점을 상태에 저장
+      } catch (error) {
+        console.error("Error fetching average ratings:", error);
+      }
     };
 
     fetchAverageRatings();
-}, []);
+  }, []);
 
   const handlePathClick = (path) => {
-    navigate('/search', {
+    navigate("/search", {
       state: {
         departure: path.start,
         arrival: path.end,
-        showPathDetails: true
-      }
+        showPathDetails: true,
+      },
     });
   };
 
@@ -265,24 +270,30 @@ const PathList = () => {
         {!isViewButtonClicked ? (
           <PathListContainer>
             {pathsList.map((path, index) => (
-              <PathCard 
-                key={path.id}
-                onClick={() => handlePathClick(path)}
-              >
-                <ImagePlaceholder src={path.name === "징공다리" ? WalkingBridge : ""} alt="path image" />
+              <PathCard key={path.id} onClick={() => handlePathClick(path)}>
+                <ImagePlaceholder
+                  src={path.name === "징공다리" ? WalkingBridge : ""}
+                  alt="path image"
+                />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
-                  <PathLocation>{path.start} - {path.end}</PathLocation>
+                  <PathLocation>
+                    {path.start} - {path.end}
+                  </PathLocation>
                   <Rating>★ {averageRatings[path.name] || "0"}</Rating>
                 </PathDetails>
                 <StarAndReviewContainer>
                   <Star onClick={(e) => handleStarClick(e, index)}>
                     <img
-                      src={starredPaths.includes(index) ? FilledStar : UnfilledStar}
+                      src={
+                        starredPaths.includes(index) ? FilledStar : UnfilledStar
+                      }
                       alt="즐겨찾기"
                     />
                   </Star>
-                  <ReviewButton onClick={(e) => handleReviewButtonClick(e, path)}>
+                  <ReviewButton
+                    onClick={(e) => handleReviewButtonClick(e, path)}
+                  >
                     리뷰 보기
                     <ArrowImage src={NextArrow} alt="arrow icon" />
                   </ReviewButton>
