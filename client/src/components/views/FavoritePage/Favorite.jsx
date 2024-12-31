@@ -131,6 +131,10 @@ const Favorite = () => {
     return storedFavorites;
   });
 
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  }, [starredPaths]);
+
   const [averageRatings, setAverageRatings] = useState({});
   const [allPaths, setAllPaths] = useState([
     ...paths.map((path) => ({
@@ -193,6 +197,8 @@ const Favorite = () => {
     navigate("/review-write", {
       state: {
         roadName: path.name,
+        start: path.start_building,
+        end: path.end_building,
         rating: averageRatings[path.name] || 0,
       },
     });

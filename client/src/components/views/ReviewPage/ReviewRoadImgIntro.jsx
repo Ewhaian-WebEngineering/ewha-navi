@@ -9,7 +9,7 @@ const ReviewRoadImageIntro = (props)=>{
     <GradationBox>
         <RoadInfoBox>
             <RoadTitle>{props.roadName}</RoadTitle>
-            <RoadStartEnd>({props.building[0]}) -  ({props.building[1]})</RoadStartEnd>
+            <RoadStartEnd>({props.start}) -  ({props.end})</RoadStartEnd>
         </RoadInfoBox>
         <RatingBox>
             <div><img src={SmallStarIcon} alt = "smallstar"/></div>

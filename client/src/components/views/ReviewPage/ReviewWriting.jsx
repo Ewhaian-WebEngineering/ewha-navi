@@ -15,7 +15,7 @@ import styled from "styled-components";
 const ReviewWriting = () => {
   //const navigate = useNavigate();
   const location = useLocation();
-  const { roadName, rating } = location.state || {};
+  const { roadName, rating, start, end } = location.state || {};
 
   const [ratingAverage, setRatingAverage] = useState(rating || 0);
   const [reviews, setReviews] = useState([]);
@@ -95,7 +95,7 @@ const ReviewWriting = () => {
   return (
     <>
       <ReviewWritingHeader title="지름길 리뷰" />
-      <ReviewRoadImgIntro roadName={roadName} building={["출발", "도착"]} rating={ratingAverage} />
+      <ReviewRoadImgIntro roadName={roadName} start={start} end={end} rating={ratingAverage} />
       <ReviewContainer>
         <div className="review-writing-box">
           <MakeReviewStar onChangeReviewNum={onChangeReviewNum} resetTrigger={resetStars} />
