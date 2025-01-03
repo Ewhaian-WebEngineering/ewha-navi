@@ -483,5 +483,7 @@ const ImagePopup = styled.div`
   color: white;
   width: 36%;
   margin-right: 10px;
+  margin-top: 10px; 
+  margin-bottom: 10px;
   cursor: pointer;
 `;
