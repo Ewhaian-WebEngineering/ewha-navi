@@ -6,6 +6,8 @@ import ReviewRoadImgIntro from "./ReviewRoadImgIntro";
 import MakeReviewStar from "./MakeReveiwStar";
 import ReviewDataBox from "./ReviewDataBox";
 import styled from "styled-components";
+import mainGate from '../../images/shortcuts/mainGate.png';
+import backGate from '../../images/shortcuts/backGate.png';
 
 
 
