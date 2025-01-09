@@ -27,6 +27,20 @@ const ReviewWriting = () => {
 
   const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
+  const imageMapping = {
+    "정문": "mainGate.png",
+    "후문": "backGate.png",
+    "포스코관": "POSCO.png",
+    "신세계관": "newHall.png",
+    "아산 공학관": "AsanEngineering.png",
+    "ECC": "ECC.png",
+    "종합과학관": "jongScience.png",
+    "기숙사": "Dormitory.png",
+    "학관": "hakgwan.png",
+    "체육관": "gym.png",
+    "중앙 도서관": "centralLibrary.png",
+  };
+
   useEffect(() => {
     if (!roadName) return;
 
@@ -95,7 +109,7 @@ const ReviewWriting = () => {
   return (
     <>
       <ReviewWritingHeader title="지름길 리뷰" />
-      <ReviewRoadImgIntro roadName={roadName} start={start} end={end} rating={ratingAverage} />
+      <ReviewRoadImgIntro roadName={roadName} start={start} end={end} rating={ratingAverage} imageSrc={imageMapping[roadName] || "defaultImage.png"} />
       <ReviewContainer>
         <div className="review-writing-box">
           <MakeReviewStar onChangeReviewNum={onChangeReviewNum} resetTrigger={resetStars} />
