@@ -8,6 +8,28 @@ const ReviewRoadImageIntro = (props)=>{
     return<>
     <GradationBox>
         <RoadInfoBox>
+            {/* 이미지 렌더링 추가 */}
+          <img 
+          src={props.imageSrc || "/images/shortcuts/defaultImage.png"} 
+          alt={`${props.roadName} 이미지`} 
+          style={{
+            width: "100px", // 이미지가 가로로 꽉 차도록 설정
+            height: "100px", // 비율 유지
+            objectFit: "cover", 
+            borderRadius: "10px", // 둥근 모서리 (선택사항)
+            marginBottom: "10px" // 간격
+          }}
+          />
+
+
+
+
+
+
+
+
+
+
             <RoadTitle>{props.roadName}</RoadTitle>
             <RoadStartEnd>({props.start}) -  ({props.end})</RoadStartEnd>
         </RoadInfoBox>

@@ -14,6 +14,8 @@ import paths1 from "../SearchPage/paths1.json";
 import paths2 from "../SearchPage/paths2.json";
 import paths3 from "../SearchPage/paths3.json";
 
+import mainGate from "../../images/shortcuts/mainGate.png";
+import backGate from "../../images/shortcuts/backGate.png";
 const Container = styled.div`
   padding: 16px;
   padding-bottom: 90px;
@@ -248,6 +250,45 @@ const PathList = () => {
     });
   };
 
+  const imageMapping = {
+    "정문-기숙사": mainGate,
+    "후문-기숙사": backGate,
+    "정문-학생문화관":mainGate,
+    "포스코관-아산공학관":mainGate,
+    "신세계관-중앙도서관":mainGate,
+    "아산공학관-법학관":mainGate,
+    "아산공학관-법학관":mainGate,
+    "아산공학관-신세계관":mainGate,
+    "포도길":mainGate,
+    "학관-ECC":mainGate,
+    "신세계관-ECC":mainGate,
+    "신세계관-ECC":mainGate,
+    "신세계관-포스코관":mainGate,
+    "ECC-생활환경관":mainGate,
+    "포스코관-학관":mainGate,
+    "포스코관-종합과학관":mainGate,
+    "아산공학관-연구협력관":mainGate,
+    "종합과학관-음악관":mainGate,
+    "기숙사-음악관":mainGate,
+    "신세계관-생활환경관":mainGate,
+    "아산공학관-학관":mainGate,
+    "학관-아산공학관":mainGate,
+    "체육관-학관":mainGate,
+    "학관-체육관":mainGate,
+    "ECC-중앙도서관":mainGate,
+    "중앙도서관-ECC":mainGate,
+
+    "포스코관": "POSCO.png",
+    "신세계관": "newHall.png",
+    "아산 공학관": "AsanEngineering.png",
+    "ECC": "ECC.png",
+    "종합과학관": "jongScience.png",
+    "기숙사": "Dormitory.png",
+    "학관": "hakgwan.png",
+    "체육관": "gym.png",
+    "중앙 도서관": "centralLibrary.png",
+  };
+
   return (
     <>
       <Header title="지름길 목록 / 리뷰" />
@@ -267,13 +308,23 @@ const PathList = () => {
           </ViewButton>
         </ButtonContainer>
 
+       
+
+
+
+
+
+
+
+
+
         {!isViewButtonClicked ? (
           <PathListContainer>
             {pathsList.map((path, index) => (
               <PathCard key={path.id} onClick={() => handlePathClick(path)}>
                 <ImagePlaceholder
-                  src={path.name === "징공다리" ? WalkingBridge : ""}
-                  alt="path image"
+                   src={imageMapping[path.name] || mainGate} 
+                   alt={`${path.name} image`}
                 />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
