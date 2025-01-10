@@ -16,6 +16,20 @@ import paths3 from "../SearchPage/paths3.json";
 
 import mainGate from "../../images/shortcuts/mainGate.png";
 import backGate from "../../images/shortcuts/backGate.png";
+import poscoAsan from "../../images/shortcuts/poscoAsan.png";
+import business from "../../images/shortcuts/business.png";
+import asan from "../../images/shortcuts/asan.png";
+import asanBusiness from "../../images/shortcuts/asanBusiness.png";
+import podo from "../../images/shortcuts/podo.png";
+import hakEcc from "../../images/shortcuts/hakEcc.png";
+
+
+
+
+
+
+
+
 const Container = styled.div`
   padding: 16px;
   padding-bottom: 90px;
@@ -254,15 +268,14 @@ const PathList = () => {
     "정문-기숙사": mainGate,
     "후문-기숙사": backGate,
     "정문-학생문화관":mainGate,
-    "포스코관-아산공학관":mainGate,
-    "신세계관-중앙도서관":mainGate,
-    "아산공학관-법학관":mainGate,
-    "아산공학관-법학관":mainGate,
-    "아산공학관-신세계관":mainGate,
-    "포도길":mainGate,
-    "학관-ECC":mainGate,
-    "신세계관-ECC":mainGate,
-    "신세계관-ECC":mainGate,
+    "포스코관-아산공학관":poscoAsan,
+    "신세계관-중앙도서관":business,
+    "아산공학관-법학관":asan,
+    "아산공학관-신세계관":asanBusiness,
+    "포도길":podo,
+    "학관-ECC":hakEcc,
+    "신세계관-ECC":business,
+    
     "신세계관-포스코관":mainGate,
     "ECC-생활환경관":mainGate,
     "포스코관-학관":mainGate,
