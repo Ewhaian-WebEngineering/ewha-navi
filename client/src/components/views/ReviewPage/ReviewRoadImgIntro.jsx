@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components";
 import SmallStarIcon from "../../utils/icons/SmallStarIcon.svg";
@@ -9,7 +8,7 @@ const ReviewRoadImageIntro = (props)=>{
     <GradationBox>
         <RoadInfoBox>
             {/* 이미지 렌더링 추가 */}
-          <img 
+          {/* <img 
           src={props.imageSrc || "/images/shortcuts/defaultImage.png"} 
           alt={`${props.roadName} 이미지`} 
           style={{
@@ -19,7 +18,7 @@ const ReviewRoadImageIntro = (props)=>{
             borderRadius: "10px", // 둥근 모서리 (선택사항)
             marginBottom: "10px" // 간격
           }}
-          />
+          /> */}
 
 
 
