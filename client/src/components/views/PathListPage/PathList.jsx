@@ -22,6 +22,16 @@ import asan from "../../images/shortcuts/asan.png";
 import asanBusiness from "../../images/shortcuts/asanBusiness.png";
 import podo from "../../images/shortcuts/podo.png";
 import hakEcc from "../../images/shortcuts/hakEcc.png";
+import ecc from "../../images/shortcuts/ecc.png";
+import posco from "../../images/shortcuts/posco.png";
+import jingong from "../../images/shortcuts/jingong.png";
+import libraryecc from "../../images/shortcuts/libraryecc.png";
+import dormitorymusic from "../../images/shortcuts/dormitorymusic.png";
+import jongScience from "../../images/shortcuts/jongScience.png";
+import hakAsan from "../../images/shortcuts/hakAsan.png";
+import asanHak from "../../images/shortcuts/asanHak.png";
+import gymHak from "../../images/shortcuts/gymHak.png";
+import hakGym from "../../images/shortcuts/hakGym.png";
 
 
 
@@ -276,20 +286,21 @@ const PathList = () => {
     "학관-ECC":hakEcc,
     "신세계관-ECC":business,
     
-    "신세계관-포스코관":mainGate,
-    "ECC-생활환경관":mainGate,
-    "포스코관-학관":mainGate,
-    "포스코관-종합과학관":mainGate,
-    "아산공학관-연구협력관":mainGate,
-    "종합과학관-음악관":mainGate,
-    "기숙사-음악관":mainGate,
-    "신세계관-생활환경관":mainGate,
-    "아산공학관-학관":mainGate,
-    "학관-아산공학관":mainGate,
-    "체육관-학관":mainGate,
-    "학관-체육관":mainGate,
-    "ECC-중앙도서관":mainGate,
-    "중앙도서관-ECC":mainGate,
+    "ECC-생활환경관":ecc,
+    "신세계관-포스코관":business,
+    "포스코관-학관":posco,
+    "포스코관-종합과학관":posco,
+    "아산공학관-연구협력관":jingong,
+    "중앙도서관-ECC":libraryecc,
+    "기숙사-음악관":dormitorymusic,
+    "종합과학관-음악관":jongScience,
+    "신세계관-생활환경관":business,
+    "ECC-중앙도서관":ecc,
+    "아산공학관-학관":asanHak,
+    "학관-아산공학관":hakAsan,
+
+    "체육관-학관":gymHak,
+    "학관-체육관":hakGym,
 
     "포스코관": "POSCO.png",
     "신세계관": "newHall.png",
