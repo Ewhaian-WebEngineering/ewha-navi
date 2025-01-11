@@ -100,7 +100,8 @@ const GradationBox = styled.div`
     max-width: 390px;
     margin-left: auto;
     margin-right: auto;
-    background: ${({ image }) => `url(${image}) no-repeat center center`};
+    background: ${({ image }) => `url(${image}) no-repeat center center`},
+                linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.7) 100%);
     background-size: cover;
     background-blend-mode: overlay;
 `;
