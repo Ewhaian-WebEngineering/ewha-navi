@@ -13,6 +13,33 @@ import paths1 from "../SearchPage/paths1.json";
 import paths2 from "../SearchPage/paths2.json";
 import paths3 from "../SearchPage/paths3.json";
 
+
+import mainGate from "../../images/shortcuts/mainGate.png";
+import backGate from "../../images/shortcuts/backGate.png";
+import poscoAsan from "../../images/shortcuts/poscoAsan.png";
+import business from "../../images/shortcuts/business.png";
+import asan from "../../images/shortcuts/asan.png";
+import asanBusiness from "../../images/shortcuts/asanBusiness.png";
+import podo from "../../images/shortcuts/podo.png";
+import hakEcc from "../../images/shortcuts/hakEcc.png";
+import ecc from "../../images/shortcuts/ecc.png";
+import posco from "../../images/shortcuts/posco.png";
+import jingong from "../../images/shortcuts/jingong.png";
+import libraryecc from "../../images/shortcuts/libraryecc.png";
+import dormitorymusic from "../../images/shortcuts/dormitorymusic.png";
+import jongScience from "../../images/shortcuts/jongScience.png";
+import hakAsan from "../../images/shortcuts/hakAsan.png";
+import asanHak from "../../images/shortcuts/asanHak.png";
+import gymHak from "../../images/shortcuts/gymHak.png";
+import hakGym from "../../images/shortcuts/hakGym.png";
+
+
+
+
+
+
+
+
 // Styled components
 const Container = styled.div`
   padding: 16px;
@@ -121,6 +148,58 @@ const PathMapContainer = styled.div`
   color: #0f3d2b;
   font-size: 16px;
 `;
+
+
+
+
+
+
+const imageMapping = {
+  "정문-기숙사": mainGate,
+  "후문-기숙사": backGate,
+  "정문-학생문화관":mainGate,
+  "포스코관-아산공학관":poscoAsan,
+  "신세계관-중앙도서관":business,
+  "아산공학관-법학관":asan,
+  "아산공학관-신세계관":asanBusiness,
+  "포도길":podo,
+  "학관-ECC":hakEcc,
+  "신세계관-ECC":business,
+  
+  "ECC-생활환경관":ecc,
+  "신세계관-포스코관":business,
+  "포스코관-학관":posco,
+  "포스코관-종합과학관":posco,
+  "아산공학관-연구협력관":jingong,
+  "중앙도서관-ECC":libraryecc,
+  "기숙사-음악관":dormitorymusic,
+  "종합과학관-음악관":jongScience,
+  "신세계관-생활환경관":business,
+  "ECC-중앙도서관":ecc,
+  "아산공학관-학관":asanHak,
+  "학관-아산공학관":hakAsan,
+
+  "체육관-학관":gymHak,
+  "학관-체육관":hakGym,
+
+  "포스코관": "POSCO.png",
+  "신세계관": "newHall.png",
+  "아산 공학관": "AsanEngineering.png",
+  "ECC": "ECC.png",
+  "종합과학관": "jongScience.png",
+  "기숙사": "Dormitory.png",
+  "학관": "hakgwan.png",
+  "체육관": "gym.png",
+  "중앙 도서관": "centralLibrary.png",
+};
+
+
+
+
+
+
+
+
 
 const Favorite = () => {
   const navigate = useNavigate();
@@ -235,8 +314,8 @@ const Favorite = () => {
             {favoritePaths.map((path, index) => (
               <PathCard key={path.id} onClick={() => handlePathClick(path)}>
                 <ImagePlaceholder
-                  src={path.name === "징공다리" ? WalkingBridge : ""}
-                  alt="path image"
+                  src={imageMapping[path.name] || mainGate} 
+                  alt={`${path.name} image`}
                 />
                 <PathDetails>
                   <PathName>{path.name}</PathName>
