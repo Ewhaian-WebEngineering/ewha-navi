@@ -81,7 +81,8 @@ const PathDetails = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 0;
-  margin-left: 0;
+  margin-left: 10px;
+  width: 150px;
 `;
 
 const PathName = styled.div`
@@ -123,6 +124,8 @@ const Star = styled.div`
 
 const ReviewButton = styled.button`
   background-color: #0f3d2b;
+  display: flex;
+  justify-content: center;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -131,13 +134,16 @@ const ReviewButton = styled.button`
   cursor: pointer;
   margin-top: 30px;
   margin-bottom: 10px;
+  &:hover {
+    background-color: #45a049; /* 호버 시 색상 변경 */
+  }
 `;
 
 const ArrowImage = styled.img`
   width: 10%;
   height: 100%;
   margin-left: 7px;
-  margin-top: 5px;
+  margin-top: 3px;
 `;
 
 const PathMapContainer = styled.div`
@@ -170,7 +176,7 @@ const imageMapping = {
   "신세계관-포스코관":business,
   "포스코관-학관":posco,
   "포스코관-종합과학관":posco,
-  "아산공학관-연구협력관":jingong,
+  "신공학관-연구협력관":jingong,
   "중앙도서관-ECC":libraryecc,
   "기숙사-음악관":dormitorymusic,
   "종합과학관-음악관":jongScience,
@@ -203,8 +209,7 @@ const imageMapping = {
 
 const Favorite = () => {
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-
+  
   const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favoritePaths")) || [];
     return storedFavorites;
@@ -255,7 +260,7 @@ const Favorite = () => {
       try {
         const roadNames = allPaths.map((path) => path.name);
         const response = await axios.post(
-          `${baseURL}/api/reviews/average-ratings`,
+          "/api/reviews/average-ratings",
           { roadNames }
         );
         setAverageRatings(response.data); 
@@ -265,7 +270,7 @@ const Favorite = () => {
     };
 
     fetchAverageRatings();
-  }, [allPaths, baseURL]);
+  }, [allPaths]);
 
   const favoritePaths = useMemo(() => {
     return starredPaths.map((index) => allPaths[index]).filter(Boolean);

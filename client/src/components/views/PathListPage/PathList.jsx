@@ -290,7 +290,7 @@ const PathList = () => {
     "신세계관-포스코관":business,
     "포스코관-학관":posco,
     "포스코관-종합과학관":posco,
-    "아산공학관-연구협력관":jingong,
+    "신공학관-연구협력관":jingong,
     "중앙도서관-ECC":libraryecc,
     "기숙사-음악관":dormitorymusic,
     "종합과학관-음악관":jongScience,

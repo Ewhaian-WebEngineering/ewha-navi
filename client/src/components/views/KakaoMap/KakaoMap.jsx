@@ -3,11 +3,13 @@ import styled from "styled-components";
 
 const MapContainer = styled.div`
   width: 100%;
-  height: 500px;
+  height: 500px; 
   border-radius: 8px;
+  display: block; 
 `;
 
 const KakaoMap = () => {
+  console.log(process.env.REACT_APP_KAKAO_API_KEY);
   useEffect(() => {
     // 카카오맵 API가 로드되었는지 확인
     if (!window.kakao) {
