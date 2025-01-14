@@ -27,7 +27,7 @@ const ReviewWriting = () => {
   const [updateUI, setUpdateUI] = useState(false);
   const [resetStars, setResetStars] = useState(0);
 
-  const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+  const baseURL = process.env.CLIENT_ORIGIN || "http://localhost:5000";
 
 
 
