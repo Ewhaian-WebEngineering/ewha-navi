@@ -194,7 +194,7 @@ const PathMapContainer = styled.div`
 
 const PathList = () => {
   const navigate = useNavigate();
-  const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
   const [isViewButtonClicked, setIsViewButtonClicked] = useState(false);
   const [starredPaths, setStarredPaths] = useState(() => {
     const storedFavorites =
@@ -252,7 +252,7 @@ const PathList = () => {
       try {
         const roadNames = pathsList.map((path) => path.name); // 모든 roadName 추출
         const response = await axios.post(
-          `${baseURL}/api/reviews/average-ratings`,
+          `/api/reviews/average-ratings`,
           { roadNames }
         );
         setAverageRatings(response.data); // API에서 가져온 평균 별점을 상태에 저장

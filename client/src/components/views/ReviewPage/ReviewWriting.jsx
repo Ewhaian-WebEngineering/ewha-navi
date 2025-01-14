@@ -27,16 +27,12 @@ const ReviewWriting = () => {
   const [updateUI, setUpdateUI] = useState(false);
   const [resetStars, setResetStars] = useState(0);
 
-  const baseURL = process.env.CLIENT_ORIGIN || "http://localhost:5000";
-
-
-
   useEffect(() => {
     if (!roadName) return;
 
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`${baseURL}/api/review-write/get`, {
+        const response = await axios.get(`/api/review-write/get`, {
           params: { roadName },
         });
     
@@ -58,7 +54,7 @@ const ReviewWriting = () => {
     };
 
     fetchReviews();
-  }, [roadName, updateUI, baseURL]);
+  }, [roadName, updateUI]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +65,7 @@ const ReviewWriting = () => {
     }
   
     try {
-      await axios.post(`${baseURL}/api/review-write/save`, {
+      await axios.post(`/api/review-write/save`, {
         roadName,
         rating: ratingNum,
         reviewText,
