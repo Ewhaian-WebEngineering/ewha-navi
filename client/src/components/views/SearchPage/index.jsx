@@ -354,7 +354,7 @@ const SearchContainer = styled.div`
 `;
 
 const SelectLocation = styled.select`
-  width: 350px;
+  width: 320px;
   height: 40px;
   padding: 10px;
   border: none;
@@ -368,7 +368,7 @@ const SelectLocation = styled.select`
 `;
 
 const SelectArrival = styled.select`
-  width: 350px;
+  width: 320px;
   height: 40px;
   padding: 10px;
   border: none;

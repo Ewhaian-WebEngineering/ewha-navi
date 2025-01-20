@@ -48,17 +48,16 @@ const NavBarContainer = styled.div`
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
+  flex-direction : row;
   align-items: center;
   z-index: 1000;
   height: 70px;
+  width : auto;
 `;
 
 const StyledLink = styled(Link)`
-  color: black;
-  font-size: 24px;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
   align-items: center;
 `;
 
@@ -72,7 +71,8 @@ const CenterButtonWrapper = styled.div`
   bottom: 30px; 
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1100; 
+  z-index: 1000;
+  
 `;
 
 const HomeImage = styled.img`
@@ -93,13 +93,16 @@ const HomeImage = styled.img`
 `;
 
 const LeftIconsContainer = styled.div`
-  display: flex;
-  gap: 40px; 
-  margin-right: 80px; 
+  display: flex; 
+  margin-right 80px; 
+  justify-content: space-between;
+  gap: 40px;
+  margin-right: 2.5rem;
 `;
 
 const RightIconsContainer = styled.div`
   display: flex;
-  gap: 40px;
   margin-left: 60px; 
+  gap: 40px;
+  
 `;
