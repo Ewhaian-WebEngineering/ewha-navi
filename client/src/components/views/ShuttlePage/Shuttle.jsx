@@ -65,8 +65,9 @@ const DirectionToggle = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin: 15px 0;
-  gap: 0;
+  margin-left: 20px;
+  margin-bottom:15px;
+  
 `;
 const UpwardButton = styled.button`
   background: ${({ isClicked }) =>
@@ -79,9 +80,11 @@ const UpwardButton = styled.button`
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
+  width: 100px;
+  height: 30px;
   font-weight: 100;
-  margin-left: 20px;
-  margin-top: -10px;
+  margin:0;
+  margin-right: 20px;
 `;
 
 const DownwardButton = styled.button`
@@ -92,12 +95,12 @@ const DownwardButton = styled.button`
   color: ${({ isClicked }) => (isClicked ? "white" : "#0F3D2B")};
   border: ${({ isClicked }) => (isClicked ? "none" : "none")};
   padding: 5px 15px;
+  width : 100px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 100;
-  margin-right: 250px;
-  margin-top:-10px;
+  margin:0;
 `;
 
 
