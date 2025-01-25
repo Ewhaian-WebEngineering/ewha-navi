@@ -34,12 +34,6 @@ import gymHak from "../../images/shortcuts/gymHak.png";
 import hakGym from "../../images/shortcuts/hakGym.png";
 
 
-
-
-
-
-
-
 const Container = styled.div`
   padding: 16px;
   padding-bottom: 90px;
@@ -68,6 +62,12 @@ const ListButton = styled.button`
   font-size: 14px;
   font-weight: 100;
   margin-left: 10px;
+  width: 160px;
+  white-space: nowrap;
+
+  @media (min-width: 320px) {
+    width: 180px;
+  }
 `;
 
 const ViewButton = styled.button`
@@ -83,6 +83,12 @@ const ViewButton = styled.button`
   font-size: 14px;
   font-weight: 100;
   margin-right: 90px;
+  width: 200px;
+  white-space: nowrap;
+
+  @media (min-width: 320px) {
+    width: 220px;
+  }
 `;
 
 const PathListContainer = styled.div`
@@ -163,6 +169,7 @@ const ReviewButton = styled.button`
   background-color: #0f3d2b;
   display: flex;
   justify-content: center;
+  align-items: center;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -171,8 +178,11 @@ const ReviewButton = styled.button`
   cursor: pointer;
   margin-top: 30px;
   margin-bottom: 10px;
+  white-space: nowrap;
+  width: auto;
+
   &:hover {
-    background-color: #45a049; /* 호버 시 색상 변경 */
+    background-color: #45a049;
   }
 `;
 
