@@ -44,8 +44,8 @@ const Container = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: 5px;
+  margin-bottom: 15px;
   gap: 5px;
 `;
 
@@ -117,6 +117,8 @@ const ImagePlaceholder = styled.img`
   background-color: #ddd;
   margin-left: 10px;
   border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
 `;
 
 const PathDetails = styled.div`

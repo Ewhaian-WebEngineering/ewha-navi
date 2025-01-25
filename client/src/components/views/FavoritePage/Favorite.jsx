@@ -74,6 +74,8 @@ const ImagePlaceholder = styled.img`
   background-color: #ddd;
   margin-left: 10px;
   border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
 `;
 
 const PathDetails = styled.div`
