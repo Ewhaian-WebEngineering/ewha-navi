@@ -9,7 +9,7 @@ const MapContainer = styled.div`
 `;
 
 const KakaoMap = () => {
-  console.log(process.env.REACT_APP_KAKAO_API_KEY);
+  
   useEffect(() => {
     // 카카오맵 API가 로드되었는지 확인
     if (!window.kakao) {
